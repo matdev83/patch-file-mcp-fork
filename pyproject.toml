@@ -1,0 +1,20 @@
+[project]
+name = "patch-file-mcp"
+version = "0.1.0"
+description = "An MCP Server to patch existing files"
+authors = [{ name = "PYNESYS LLC" }]
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+dependencies = ["fastmcp>=2.2.0, <3.0.0", "patch-ng>=1.18.0, <2.0.0"]
+
+[project.scripts]
+patch-file-mcp = "patch_file_mcp.server:main"
+
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
