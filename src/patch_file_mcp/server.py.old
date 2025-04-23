@@ -6,6 +6,7 @@ import re
 
 from fastmcp import FastMCP
 from pydantic.fields import Field
+from diff_match_patch import diff_match_patch
 
 
 mcp = FastMCP(
@@ -37,8 +38,9 @@ Second replacement
 ```
 
 This tool verifies that each search text appears exactly once in the file to ensure
-the correct section is modified. If a search text appears multiple times or isn't
-found, it will report an error.
+the correct section is modified. If a search text appears multiple times or isn't found,
+it will report an error. The tool also supports fuzzy matching as a fallback when there's
+no exact match, but this is only used if a single good match can be found.
 """
 )
 
@@ -52,7 +54,7 @@ def eprint(*args, **kwargs):
 def main():
     # Process command line arguments
     global allowed_directories
-    parser = argparse.ArgumentParser(description="Patch File MCP server")
+    parser = argparse.ArgumentParser(description="Project Memory MCP server")
     parser.add_argument(
         '--allowed-dir',
         action='append',
@@ -174,12 +176,18 @@ def patch_file(
     This tool verifies that each search text appears exactly once in the file to ensure
     the correct section is modified. If a search text appears multiple times or isn't
     found, it will report an error.
+
+    The tool also supports fuzzy matching as a fallback when there's no exact match,
+    but this is only used if a single good match can be found.
     """
     pp = Path(file_path).resolve()
     if not pp.exists() or not pp.is_file():
         raise FileNotFoundError(f"File {file_path} does not exist")
     if not any(str(pp).startswith(base) for base in allowed_directories):
         raise PermissionError(f"File {file_path} is not in allowed directories")
+
+    # Initialize diff_match_patch
+    dmp = diff_match_patch()
 
     # Read the current file content
     with open(pp, 'r', encoding='utf-8') as f:
@@ -215,9 +223,101 @@ def patch_file(
                                  "Please provide more context to identify the specific occurrence.")
 
             else:
-                # No match found
-                raise ValueError(f"Block {i+1}: Could not find the search text in the file. "
-                                 "Please ensure the search text exactly matches the content in the file.")
+                # No exact match - try fuzzy matching
+                eprint(f"Block {i+1}: No exact match found, trying fuzzy matching")
+
+                # Set fuzzy matching parameters
+                orig_threshold = dmp.Match_Threshold
+                orig_distance = dmp.Match_Distance
+                dmp.Match_Threshold = 0.7  # Higher value = more lenient matching (0.0-1.0)
+                dmp.Match_Distance = 1000  # Allow searching in a larger area
+
+                # Find potential matches for the search text
+                potential_matches = []
+
+                # Try to find the best match
+                match_index = dmp.match_main(current_content, search_text, 0)
+                if match_index != -1:
+                    # Calculate match score
+                    diffs = dmp.diff_main(search_text, current_content[match_index:match_index+len(search_text)])
+                    match_score = sum(len(text) for op, text in diffs if op == 0) / len(search_text)
+
+                    if match_score >= 0.7:  # At least 70% match
+                        potential_matches.append((match_index, match_score))
+
+                # If nothing found yet, try line-by-line matching
+                if not potential_matches:
+                    search_lines = search_text.splitlines()
+                    content_lines = current_content.splitlines()
+
+                    # Only proceed with line-by-line matching if we have lines to work with
+                    if len(search_lines) > 0 and len(content_lines) > 0:
+                        for i in range(len(content_lines) - len(search_lines) + 1):
+                            score = 0
+                            for j in range(len(search_lines)):
+                                if i + j < len(content_lines):
+                                    line_match = dmp.match_main(content_lines[i + j], search_lines[j], 0)
+                                    if line_match != -1:
+                                        score += 1
+
+                            if score >= max(1, len(search_lines) * 0.7):  # At least 70% of lines match
+                                # Calculate position in the original string
+                                pos = 0
+                                for k in range(i):
+                                    pos += len(content_lines[k]) + 1  # +1 for newline
+
+                                match_score = score / len(search_lines)
+                                potential_matches.append((pos, match_score))
+
+                # Restore original settings
+                dmp.Match_Threshold = orig_threshold
+                dmp.Match_Distance = orig_distance
+
+                # Check match results
+                if not potential_matches:
+                    raise ValueError(f"Block {i+1}: Could not find the search text in the file, "
+                                     "even with fuzzy matching")
+
+                # Sort by score (descending)
+                potential_matches.sort(key=lambda x: x[1], reverse=True)
+
+                # Check if there's a single clear best match
+                if len(potential_matches) == 1 or (
+                    len(potential_matches) > 1 and
+                    potential_matches[0][1] >= 0.9 and  # Very good match
+                    potential_matches[0][1] - potential_matches[1][1] >= 0.2  # Significantly better than next match
+                ):
+                    best_match_pos = potential_matches[0][0]
+
+                    # Find end of the matching text
+                    # Try to determine a reasonable end position
+                    # Ensure search_lines is defined for this scope
+                    if not 'search_lines' in locals():
+                        search_lines = search_text.splitlines()
+                        
+                    if len(search_lines) > 1:
+                        # Multi-line match: try to identify the end
+                        approx_length = sum(len(line) + 1 for line in search_lines) - 1
+                        best_match_end = best_match_pos + approx_length
+                    else:
+                        # Single line match: use length of search text
+                        best_match_end = best_match_pos + len(search_text)
+
+                    # Ensure we don't go beyond end of content
+                    best_match_end = min(best_match_end, len(current_content))
+
+                    # Get the matching text
+                    matched_text = current_content[best_match_pos:best_match_end]
+
+                    # Replace the text
+                    eprint(f"Block {i+1}: Found fuzzy match with score {potential_matches[0][1]:.2f}")
+                    current_content = current_content[:best_match_pos] + replace_text + current_content[best_match_end:]
+                    applied_blocks += 1
+
+                else:
+                    # Multiple potential matches with similar scores
+                    raise ValueError(f"Block {i+1}: Found {len(potential_matches)} potential fuzzy matches. "
+                                     "Please provide more context to identify the specific occurrence.")
 
         # Write the final content back to the file
         with open(pp, 'w', encoding='utf-8') as f:

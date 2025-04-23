@@ -7,7 +7,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 
-dependencies = ["fastmcp>=2.2.0, <3.0.0", "patch-ng>=1.18.0, <2.0.0"]
+dependencies = ["fastmcp>=2.2.0, <3.0.0"]
 
 [project.scripts]
 patch-file-mcp = "patch_file_mcp.server:main"
