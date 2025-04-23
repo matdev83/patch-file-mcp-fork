@@ -80,6 +80,45 @@ if __name__ == "__main__":
 # Tools
 #
 
+def validate_block_integrity(patch_content):
+    """
+    Validate the integrity of patch blocks before parsing.
+    Checks for balanced markers and correct sequence.
+    """
+    # Check marker balance
+    search_count = patch_content.count("<<<<<<< SEARCH")
+    separator_count = patch_content.count("=======")
+    replace_count = patch_content.count(">>>>>>> REPLACE")
+    
+    if not (search_count == separator_count == replace_count):
+        raise ValueError(
+            f"Malformed patch format: Unbalanced markers - "
+            f"{search_count} SEARCH, {separator_count} separator, {replace_count} REPLACE markers"
+        )
+
+    # Check marker sequence
+    markers = []
+    for line in patch_content.splitlines():
+        line = line.strip()
+        if line in ["<<<<<<< SEARCH", "=======", ">>>>>>> REPLACE"]:
+            markers.append(line)
+    
+    # Verify correct marker sequence (always SEARCH, SEPARATOR, REPLACE pattern)
+    for i in range(0, len(markers), 3):
+        if i+2 < len(markers):
+            if markers[i] != "<<<<<<< SEARCH" or markers[i+1] != "=======" or markers[i+2] != ">>>>>>> REPLACE":
+                raise ValueError(
+                    f"Malformed patch format: Incorrect marker sequence at position {i}: "
+                    f"Expected [SEARCH, SEPARATOR, REPLACE], got {markers[i:i+3]}"
+                )
+    
+    # Check for nested markers in each block
+    sections = patch_content.split("<<<<<<< SEARCH")
+    for i, section in enumerate(sections[1:], 1):  # Skip first empty section
+        if "<<<<<<< SEARCH" in section and section.find(">>>>>>> REPLACE") > section.find("<<<<<<< SEARCH"):
+            raise ValueError(f"Malformed patch format: Nested SEARCH marker in block {i}")
+
+
 def parse_search_replace_blocks(patch_content):
     """
     Parse multiple search-replace blocks from the patch content.
@@ -89,6 +128,9 @@ def parse_search_replace_blocks(patch_content):
     search_marker = "<<<<<<< SEARCH"
     separator = "======="
     replace_marker = ">>>>>>> REPLACE"
+    
+    # First validate patch integrity
+    validate_block_integrity(patch_content)
 
     # Use regex to extract all blocks
     pattern = f"{search_marker}\\n(.*?)\\n{separator}\\n(.*?)\\n{replace_marker}"
@@ -125,6 +167,13 @@ def parse_search_replace_blocks(patch_content):
 
                 search_text = "\n".join(lines[search_start:separator_idx])
                 replace_text = "\n".join(lines[separator_idx + 1:replace_end])
+                
+                # Check for markers in the search or replace text
+                if any(marker in search_text for marker in [search_marker, separator, replace_marker]):
+                    raise ValueError(f"Block {len(blocks)+1}: Search text contains patch markers")
+                if any(marker in replace_text for marker in [search_marker, separator, replace_marker]):
+                    raise ValueError(f"Block {len(blocks)+1}: Replace text contains patch markers")
+                
                 blocks.append((search_text, replace_text))
 
                 i = replace_end + 1
@@ -135,6 +184,13 @@ def parse_search_replace_blocks(patch_content):
             return blocks
         else:
             raise ValueError("Invalid patch format. Expected block format with SEARCH/REPLACE markers.")
+
+    # Check for markers in matched content
+    for i, (search_text, replace_text) in enumerate(matches):
+        if any(marker in search_text for marker in [search_marker, separator, replace_marker]):
+            raise ValueError(f"Block {i+1}: Search text contains patch markers")
+        if any(marker in replace_text for marker in [search_marker, separator, replace_marker]):
+            raise ValueError(f"Block {i+1}: Replace text contains patch markers")
 
     return matches
 
