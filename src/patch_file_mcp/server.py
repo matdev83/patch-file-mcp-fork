@@ -1,7 +1,6 @@
 #! /usr/bin/env python3
 import sys
 import argparse
-import re
 from pathlib import Path
 
 from fastmcp import FastMCP
@@ -72,24 +71,27 @@ def patch_file(
     if not any(str(pp).startswith(base) for base in allowed_directories):
         raise PermissionError(f"File {file_path} is not in allowed directories")
 
-    # Extract all hunks (sections starting with @@)
-    # First try to find all hunks in the patch content
-    hunks = re.findall(r'@@[^@]*(?:\n(?!@@)[^\n]*)*', patch_content)
+    # Extract just the hunk part (starting with @@)
+    lines = patch_content.splitlines()
+    hunk_start = -1
     
-    if not hunks:
-        # If no complete hunks found, check if the patch itself is a single hunk
-        if patch_content.strip().startswith("@@"):
-            hunks = [patch_content.strip()]
-        else:
-            raise RuntimeError(
-                "No valid patch hunks found. Make sure the patch contains @@ line markers.\n"
-                "You can use `write_file` tool to write the whole file content instead."
-            )
+    for i, line in enumerate(lines):
+        if line.startswith("@@"):
+            hunk_start = i
+            break
     
-    # Join all hunks and create a standardized patch with proper headers
-    hunks_content = '\n'.join(hunks)
+    if hunk_start == -1:
+        raise RuntimeError(
+            "No @@ line markers found in the patch content.\n"
+            "Make sure the patch follows the unified diff format with @@ line markers."
+        )
+    
+    # Use only the hunk part (remove any headers)
+    hunk_content = "\n".join(lines[hunk_start:])
+    
+    # Create a standardized patch with the correct filename
     filename = pp.name
-    standardized_patch = f"--- {filename}\n+++ {filename}\n{hunks_content}"
+    standardized_patch = f"--- {filename}\n+++ {filename}\n{hunk_content}"
     eprint(f"Created standardized patch for {filename}")
 
     # Ensure patch_content is properly encoded
