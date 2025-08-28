@@ -12,6 +12,8 @@ Patch File MCP provides a simple way to modify files by applying patches in bloc
 - Supports multiple patches to the same file in a single request
 - Ensures safety through exact text matching and uniqueness verification
 - Better alternative to the `edit_block` tool from `desktop-commander` for most file editing tasks
+- **Automatic code quality checks** for Python files (ruff, black, mypy) after successful patching
+- **Clean context window** with no unnecessary messages for non-Python files
 
 ## Installation
 
@@ -96,7 +98,7 @@ Patch File MCP provides one main tool:
 
 #### patch_file
 
-Update the file by applying a patch/edit to it using block format.
+Update the file by applying a patch/edit to it using block format with automatic code quality checks for Python files.
 
 ```python
 patch_file(file_path: str, patch_content: str)
@@ -131,12 +133,23 @@ Second replacement
 
 This tool verifies that each search text appears exactly once in the file to ensure the correct section is modified. If a search text appears multiple times or isn't found, it will report an error.
 
+**For Python files (.py)**: After successful patching, this tool automatically runs:
+- **Ruff**: Linting and auto-fixing (may run multiple times if Black reformats)
+- **Black**: Code formatting (may trigger additional Ruff checks)
+- **MyPy**: Type checking
+
+QA results are included in the response, showing any issues found or confirming clean code.
+
+**For non-Python files**: Only the patch success message is returned (no QA clutter).
+
 ## Example Workflow
 
 1. Begin a conversation with Claude about modifying a file in your project
 2. Claude generates a block format patch that makes the desired changes
 3. Claude uses `patch_file` to apply these changes to your file
-4. If the patch fails, Claude provides detailed error information to help you fix the issue
+4. **For Python files**: Automatic QA runs (Ruff → Black → MyPy) and results are included
+5. **For other files**: Clean success message is returned
+6. If the patch fails, Claude provides detailed error information to help you fix the issue
 
 
 ## Security Considerations
@@ -151,6 +164,38 @@ This tool verifies that each search text appears exactly once in the file to ens
 - **Multiple blocks in one operation**: Can apply several changes in a single call
 - **Safety checks**: Ensures the correct sections are modified through exact matching
 - **Detailed errors**: Provides clear feedback when patches can't be applied
+
+## Testing
+
+Patch File MCP includes a comprehensive test suite to ensure reliability and quality.
+
+### Running Tests
+
+```bash
+# Install test dependencies
+pip install -e .[test]
+
+# Run all tests
+python run_tests.py
+
+# Run with coverage
+pytest tests/ --cov=src/patch_file_mcp --cov-report=html
+
+# Run specific test categories
+pytest tests/ -m unit        # Unit tests only
+pytest tests/ -m integration # Integration tests only
+```
+
+### Test Coverage
+
+The test suite covers:
+- ✅ Virtual environment detection
+- ✅ QA pipeline execution (ruff, black, mypy)
+- ✅ File patching functionality
+- ✅ Error handling and edge cases
+- ✅ Cross-platform compatibility
+
+See [tests/README.md](tests/README.md) for detailed information about the test suite.
 
 ## Dependencies
 

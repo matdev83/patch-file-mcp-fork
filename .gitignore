@@ -64,6 +64,8 @@ coverage.xml
 
 # venv
 venv/
+.venv/
 
 # Project memory file
 MEMORY.md
+.ruff_cache/

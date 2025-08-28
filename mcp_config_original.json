@@ -1,0 +1,27 @@
+{
+    "mcpServers": {
+      "patch-file": {
+        "command": "uvx",
+        "args": ["patch-file-mcp", "--allowed-dir", "C:/Users/Mateusz/source/repos"],
+        "alwaysAllow": ["patch_file"]	  
+      },
+      "python-qa-mcp": {
+        "command": "C:\\Users\\Mateusz\\source\\repos\\python-qa-mcp-server\\.venv\\Scripts\\python.exe",
+        "args": [
+          "-m",
+          "python_qa_mcp_server",
+          "--allowed-dir",
+          "C:/Users/Mateusz/source/repos"
+        ],
+        "cwd": "C:\\Users\\Mateusz\\source\\repos\\python-qa-mcp-server",
+        "env": {
+          "MCP_USE_SDK": "1",
+          "MCP_LOG_LEVEL": "DEBUG"
+        },
+        "disabled": false,
+        "alwaysAllow": [
+          "run_python_qa"
+        ]
+      }
+    }
+  }
