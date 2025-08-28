@@ -2,6 +2,8 @@
 
 An MCP Server to patch existing files using block format. This allows AI agents (like Claude) to make precise changes to files in your projects.
 
+> **Note**: This is a fork of the original [PyneSys/patch-file-mcp](https://github.com/PyneSys/patch-file-mcp) repository, maintained by [@matdev83](https://github.com/matdev83).
+
 ## Overview
 
 Patch File MCP provides a simple way to modify files by applying patches in block format. The key benefits include:
@@ -52,8 +54,8 @@ Merge the following config with your existing config file (e.g. `claude_desktop_
 #### Clone the repository
 
 ```bash
-git clone https://github.com/your-username/patch-file-mcp.git
-cd patch-file-mcp
+git clone https://github.com/matdev83/patch-file-mcp-fork.git
+cd patch-file-mcp-fork
 python -m venv venv
 source venv/bin/activate
 pip install -e .
