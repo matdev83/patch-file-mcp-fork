@@ -139,9 +139,13 @@ def hello():
                     "ruff_status": "failed",
                     "black_status": None,
                     "mypy_status": None,
-                    "errors": [
-                        "Ruff found unfixable errors: syntax error. You need to perform code linting and QA by manually running `ruff`, `black` and `mypy` tools."
-                    ],
+                    "ruff_stdout": "",
+                    "ruff_stderr": "Ruff found unfixable errors: syntax error",
+                    "black_stdout": "",
+                    "black_stderr": "",
+                    "mypy_stdout": "",
+                    "mypy_stderr": "",
+                    "errors": [],
                     "warnings": [],
                 }
 
@@ -151,7 +155,8 @@ def hello():
                 # Verify
                 assert "Successfully applied 1 patch blocks" in result
                 assert "QA Results:" in result
-                assert "Ruff: failed" in result
+                assert "Ruff output:" in result
+                assert "Ruff found unfixable errors: syntax error" in result
                 assert "QA Errors:" in result
                 assert "unfixable errors" in result
                 assert (

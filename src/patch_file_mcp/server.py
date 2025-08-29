@@ -829,8 +829,10 @@ def run_python_qa_pipeline(file_path, python_exe):
     iteration = 0
     start_time = time.monotonic()
 
+    # Initialize qa_results
     qa_results = {
         "qa_performed": True,
+        "iterations_used": 0,
         "ruff_status": None,
         "black_status": None,
         "mypy_status": None,
@@ -843,6 +845,11 @@ def run_python_qa_pipeline(file_path, python_exe):
         "errors": [],
         "warnings": [],
     }
+
+    # Only run QA for Python files
+    if file_path.suffix != ".py":
+        qa_results["warnings"].append("QA skipped: not a Python file")
+        return qa_results
 
     # Determine which tools to run
     file_abs_lower = file_abs.lower()
@@ -867,6 +874,15 @@ def run_python_qa_pipeline(file_path, python_exe):
             )
             return qa_results
         iteration += 1
+        qa_results["iterations_used"] = iteration
+
+        # Handle None or empty python_exe
+        if not python_exe or python_exe.strip() == "":
+            qa_results["ruff_status"] = "failed"
+            qa_results["black_status"] = "failed"
+            qa_results["mypy_status"] = "failed"
+            qa_results["errors"].append("Invalid Python executable path")
+            return qa_results
 
         # Prefer venv binaries when available to avoid module resolution quirks
         py = Path(python_exe)
@@ -881,7 +897,15 @@ def run_python_qa_pipeline(file_path, python_exe):
         qa_env.setdefault("RUFF_LOG_LEVEL", "error")
 
         # Track modification time to detect Black changes
-        original_mod_time = get_file_modification_time(file_path)
+        try:
+            original_mod_time = get_file_modification_time(file_path)
+        except (OSError, FileNotFoundError):
+            # File doesn't exist or can't be accessed
+            qa_results["ruff_status"] = "failed"
+            qa_results["black_status"] = "failed"
+            qa_results["mypy_status"] = "failed"
+            qa_results["errors"].append(f"File not found or inaccessible: {file_path}")
+            return qa_results
         time.sleep(0.05)
 
         ruff_return_code = 0
@@ -890,9 +914,9 @@ def run_python_qa_pipeline(file_path, python_exe):
             if logger:
                 logger.info(f"QA: ruff start ({file_abs})")
             if ruff_bin.exists():
-                ruff_cmd = [str(ruff_bin), "check", "--fix", "--isolated", "--no-cache", file_abs]
+                ruff_cmd = [str(ruff_bin), "check", "--fix", "--isolated", "--no-cache", "--", file_abs]
             else:
-                ruff_cmd = [python_exe, "-m", "ruff", "check", "--fix", "--isolated", "--no-cache", file_abs]
+                ruff_cmd = [python_exe, "-m", "ruff", "check", "--fix", "--isolated", "--no-cache", "--", file_abs]
             success, stdout, stderr, ruff_return_code = run_command_with_timeout(
                 ruff_cmd, cwd=file_dir, timeout=QA_CMD_TIMEOUT, shell=False, env=qa_env
             )
@@ -918,9 +942,9 @@ def run_python_qa_pipeline(file_path, python_exe):
             if logger:
                 logger.info(f"QA: black start ({file_abs})")
             if black_bin.exists():
-                black_cmd = [str(black_bin), "--quiet", file_abs]
+                black_cmd = [str(black_bin), "--quiet", "--", file_abs]
             else:
-                black_cmd = [python_exe, "-m", "black", "--quiet", file_abs]
+                black_cmd = [python_exe, "-m", "black", "--quiet", "--", file_abs]
             success, stdout, stderr, black_return_code = run_command_with_timeout(
                 black_cmd, cwd=file_dir, timeout=QA_CMD_TIMEOUT, shell=False, env=qa_env
             )
@@ -931,7 +955,12 @@ def run_python_qa_pipeline(file_path, python_exe):
                 qa_results["black_stdout"] = stdout or ""
                 qa_results["black_stderr"] = stderr or ""
                 return qa_results
-            qa_results["black_status"] = "passed" if black_return_code == 0 else "warnings"
+            if black_return_code == 0:
+                qa_results["black_status"] = "passed"
+            else:
+                qa_results["black_status"] = "warnings"
+                if stderr:
+                    qa_results["warnings"].append(f"Black warnings: {stderr}")
 
             # If both ruff and black are enabled and black changed the file, iterate
             new_mod_time = get_file_modification_time(file_path)
@@ -961,9 +990,9 @@ def run_python_qa_pipeline(file_path, python_exe):
             return qa_results
 
         if mypy_bin.exists():
-            mypy_cmd = [str(mypy_bin), "--no-color-output", file_abs]
+            mypy_cmd = [str(mypy_bin), "--no-color-output", "--", file_abs]
         else:
-            mypy_cmd = [python_exe, "-m", "mypy", "--no-color-output", file_abs]
+            mypy_cmd = [python_exe, "-m", "mypy", "--no-color-output", "--", file_abs]
         success, stdout, stderr, return_code = run_command_with_timeout(
             mypy_cmd, cwd=file_dir, timeout=QA_CMD_TIMEOUT, shell=False, env=qa_env
         )

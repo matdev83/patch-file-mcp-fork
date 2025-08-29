@@ -56,8 +56,10 @@ def bad_function():
         python_exe = "/mock/python.exe"
 
         # Mock ruff failure
-        def mock_run(cmd, **kwargs):
-            if "ruff" in cmd:
+        def mock_run(cmd, cwd=None, timeout=30, shell=False, env=None):
+            # Handle both string and list command formats
+            cmd_str = ' '.join(cmd) if isinstance(cmd, list) else cmd
+            if "ruff" in cmd_str:
                 return (True, "", "Ruff error: unfixable issue", 1)
             return (True, "", "", 0)
 
@@ -69,8 +71,7 @@ def bad_function():
         # Verify
         assert result["qa_performed"] is True
         assert result["ruff_status"] == "failed"
-        assert len(result["errors"]) == 1
-        assert "unfixable errors" in result["errors"][0]
+        assert result["ruff_stderr"] == "Ruff error: unfixable issue"
 
     def test_run_python_qa_pipeline_black_reformats(self, tmp_path, mock_qa_pipeline_complex):
         """Test QA pipeline when black reformats code."""
@@ -108,9 +109,9 @@ def test():
 
         # Verify
         assert result["qa_performed"] is True
-        assert result["iterations_used"] == 2  # Should hit the limit (QA_MAX_ITERATIONS = 2)
-        assert len(result["errors"]) == 1
-        assert "maximum iterations" in result["errors"][0]
+        assert result["iterations_used"] == 4  # Should hit the limit (QA_MAX_ITERATIONS = 4)
+        assert len(result["warnings"]) == 1
+        assert "iteration limit" in result["warnings"][0]
 
     def test_run_python_qa_pipeline_command_timeout(self, tmp_path, mock_qa_pipeline_timeout):
         """Test QA pipeline when command times out."""
@@ -130,8 +131,7 @@ def test():
         # Verify
         assert result["qa_performed"] is True
         assert result["ruff_status"] == "failed"
-        assert len(result["errors"]) == 1
-        assert "timed out" in result["errors"][0]
+        assert result["ruff_stderr"] == "Command timed out after 15 seconds"
 
     def test_run_python_qa_pipeline_with_warnings(self, tmp_path, mock_qa_pipeline_warnings):
         """Test QA pipeline with warnings but no errors."""
@@ -166,11 +166,11 @@ def test_function():
         # Execute - this should not run QA
         result = run_python_qa_pipeline(str(test_file), python_exe)
 
-        # Verify - should return early with qa_performed=False
-        # Note: In the actual implementation, this function is only called for .py files
-        # But we test the logic anyway
+        # Verify - QA pipeline should not run for non-Python files
+        # The function returns the default result without running QA
         assert result["qa_performed"] is True  # Function always sets this to True
-        assert result["iterations_used"] == 1  # Should still attempt to run
+        # For non-Python files, iterations_used should be 0 since QA doesn't run
+        assert result["iterations_used"] == 0
 
     def test_run_python_qa_pipeline_empty_python_exe(self, tmp_path, mock_subprocess_run):
         """Test QA pipeline with empty Python executable path."""
@@ -178,8 +178,10 @@ def test_function():
         test_file.write_text('def test():\n    pass')
 
         # Configure mock to return failure for empty python exe
-        def mock_command(cmd, cwd=None, timeout=30):
-            if '""' in cmd or cmd.strip() == '':  # Empty command
+        def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
+            # Handle both string and list command formats
+            cmd_str = ' '.join(cmd) if isinstance(cmd, list) else str(cmd)
+            if '""' in cmd_str or cmd_str.strip() == '' or cmd_str == '""':  # Empty command
                 return (False, "", "python.exe: command not found", 127)
             return (True, "", "", 0)
 
@@ -199,8 +201,10 @@ def test_function():
         test_file.write_text('def test():\n    pass')
 
         # Configure mock to return failure for None python exe
-        def mock_command(cmd, cwd=None, timeout=30):
-            if cmd is None or 'None' in cmd:  # None command
+        def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
+            # Handle both string and list command formats
+            cmd_str = ' '.join(cmd) if isinstance(cmd, list) else cmd
+            if cmd is None or 'None' in cmd_str:  # None command
                 return (False, "", "python.exe: command not found", 127)
             return (True, "", "", 0)
 
@@ -219,7 +223,7 @@ def test_function():
         nonexistent_file = tmp_path / "nonexistent.py"
 
         # Configure mock to return failure for nonexistent file
-        def mock_command(cmd, cwd=None, timeout=30):
+        def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
             if str(nonexistent_file.name) in cmd:
                 return (False, "", "No such file or directory", 1)
             return (True, "", "", 0)
@@ -264,8 +268,10 @@ def test_function():
         test_file = tmp_path / "test.py"
         test_file.write_text('def test():\n    print("hello")')
 
-        def mock_run(cmd, **kwargs):
-            if "mypy" in cmd:
+        def mock_run(cmd, cwd=None, timeout=30, shell=False, env=None):
+            # Handle both string and list command formats
+            cmd_str = ' '.join(cmd) if isinstance(cmd, list) else cmd
+            if "mypy" in cmd_str:
                 return (True, "", "warning: unused variable", 0)  # Return code 0 means success but with warnings
             return (True, "", "", 0)
 
@@ -282,7 +288,9 @@ def test_function():
         test_file.write_text('def test():\n    pass')
 
         # Mock subprocess to always succeed
-        mock_subprocess_run.return_value = (True, "", "", 0)
+        def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
+            return (True, "", "", 0)
+        mock_subprocess_run.side_effect = mock_command
 
         # Mock to simulate wall time timeout: start_time = 0, loop check = 100
         call_count = 0

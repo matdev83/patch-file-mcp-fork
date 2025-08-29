@@ -91,7 +91,7 @@ def hello():
 def mock_subprocess_run():
     """Mock subprocess.run for testing."""
     with patch('patch_file_mcp.server.run_command_with_timeout') as mock_run:
-        def mock_command(cmd, cwd=None, timeout=30):
+        def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
             # Return success for all commands by default
             return (True, "", "", 0)
         mock_run.side_effect = mock_command
@@ -107,7 +107,7 @@ def mock_qa_pipeline_complex():
         call_count = {'ruff': 0, 'black': 0, 'mypy': 0}
         file_modified = True  # Start with file needing modification
 
-        def mock_command(cmd, cwd=None, timeout=30):
+        def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
             if 'ruff' in cmd and 'check' in cmd and '--fix' in cmd:
                 call_count['ruff'] += 1
                 return (True, "", "", 0)  # ruff succeeds
@@ -143,8 +143,10 @@ def mock_qa_pipeline_timeout():
     """Mock subprocess.run that simulates timeout."""
     import subprocess
     with patch('patch_file_mcp.server.run_command_with_timeout') as mock_run:
-        def mock_command(cmd, cwd=None, timeout=30):
-            if 'ruff' in cmd and 'check' in cmd and '--fix' in cmd:
+        def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
+            # Handle both string and list command formats
+            cmd_str = ' '.join(cmd) if isinstance(cmd, list) else cmd
+            if 'ruff' in cmd_str and 'check' in cmd_str and '--fix' in cmd_str:
                 return (False, "", f"Command timed out after {timeout} seconds", -1)
             return (True, "", "", 0)
         mock_run.side_effect = mock_command
@@ -157,13 +159,15 @@ def mock_qa_pipeline_warnings():
     with patch('patch_file_mcp.server.run_command_with_timeout') as mock_run, \
          patch('patch_file_mcp.server.get_file_modification_time') as mock_time:
 
-        def mock_command(cmd, cwd=None, timeout=30):
-            if 'ruff' in cmd and 'check' in cmd and '--fix' in cmd:
+        def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
+            # Handle both string and list command formats
+            cmd_str = ' '.join(cmd) if isinstance(cmd, list) else cmd
+            if 'ruff' in cmd_str and 'check' in cmd_str and '--fix' in cmd_str:
                 return (True, "", "", 0)  # ruff succeeds
-            elif 'black' in cmd:
+            elif 'black' in cmd_str:
                 # Simulate black with warnings (return code != 0)
                 return (True, "", "warning: some warning message", 1)
-            elif 'mypy' in cmd:
+            elif 'mypy' in cmd_str:
                 return (True, "", "", 0)  # mypy succeeds
             return (True, "", "", 0)
 
@@ -182,7 +186,7 @@ def mock_qa_pipeline_iteration_limit():
         # Always return different times to simulate continuous file modifications
         time_call_count = 0
 
-        def mock_command(cmd, cwd=None, timeout=30):
+        def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
             if 'ruff' in cmd and 'check' in cmd and '--fix' in cmd:
                 return (True, "", "", 0)  # ruff always succeeds
             elif 'black' in cmd:

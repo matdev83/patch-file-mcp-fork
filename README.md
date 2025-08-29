@@ -2,8 +2,6 @@
 
 An MCP Server to patch existing files using block format. This allows AI agents (like Claude) to make precise changes to files in your projects.
 
-> **Note**: This is a fork of the original [PyneSys/patch-file-mcp](https://github.com/PyneSys/patch-file-mcp) repository, maintained by [@matdev83](https://github.com/matdev83). This fork includes critical security enhancements not present in the original: mandatory `--allowed-dir` chroot-like sandboxing and administrative privilege protection.
-
 ## Overview
 
 Patch File MCP provides a secure and intelligent way to modify files using block format patches. The key benefits include:
@@ -20,6 +18,12 @@ Patch File MCP provides a secure and intelligent way to modify files using block
 - **Comprehensive logging**: File-only logging with configurable verbosity for debugging and audit trails
   - **Enhanced DEBUG logging**: Extremely detailed parameter logging when DEBUG level is enabled
 - Better alternative to the `edit_block` tool from `desktop-commander` for most file editing tasks
+
+## Why This Fork
+
+Modern agents frequently fail at char‑precise, in‑place string edits. This is especially visible with the Gemini 2.5 family, which is excellent overall but unreliable at exact file mutations when given free‑form instructions. After testing multiple edit encodings across models, a structured block‑based approach with explicit SEARCH/REPLACE markers provided the highest cross‑model success rate and dramatically improved edit reliability for Gemini while remaining friendly to other models.
+
+Because I work extensively in Python, I also found that running automated QA immediately after each successful Python edit catches errors at the moment they are introduced. This allows the agent to fix issues while the context window is still focused on the task, reducing round trips and avoiding context pollution that would otherwise include separate tool calls and their outputs. Automated QA (Ruff → Black → MyPy) improves quality, shortens feedback loops, and keeps the agent’s context clean.
 
 ## Latest Developments
 
@@ -91,37 +95,6 @@ This fork includes a critical security enhancement that prevents patch attempts 
 - **Reduced Clutter**: Streamlined responses for better AI agent context management
 
 ## Installation
-
-### Using uvx
-
-This method uses `uvx` (from the `uv` Python package manager) to run the server without permanent installation:
-
-#### Prerequisites
-
-Install `uvx` from [uv](https://docs.astral.sh/uv/installation/) if you don't have it already.
-
-#### Set up MCP Client (Claude Desktop, Cursor, etc.)
-
-Merge the following config with your existing config file (e.g. `claude_desktop_config.json`):
-
-```json
-{
-  "mcpServers": {
-    "patch-file": {
-      "command": "uvx",
-      "args": [
-        "patch-file-mcp",
-        "--allowed-dir", "/Users/your-username/projects",
-        "--allowed-dir", "/Users/your-username/Documents/code",
-        "--log-file", "/Users/your-username/logs/patch-file.log",
-        "--log-level", "INFO"
-      ]
-    }
-  }
-}
-```
-
-> **Note:** Replace `/Users/your-username` with the actual path to your own projects and code directories.
 
 ### Install from Source
 
@@ -523,6 +496,10 @@ Includes:
 - pytest (>=7.0.0)
 - pytest-cov (>=4.0.0)
 - pytest-mock (>=3.10.0)
+
+## Acknowledgements
+
+Special thanks to Adam Wallner (https://github.com/wallneradam) for the original patch-file MCP server this project is forked from. If GitHub mentions are supported for READMEs: @wallneradam — thanks for the inspiration and groundwork.
 
 ## License
 

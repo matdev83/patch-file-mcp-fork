@@ -66,6 +66,15 @@ coverage.xml
 venv/
 .venv/
 
-# Project memory file
-MEMORY.md
+# Various caches and logs
 .ruff_cache/
+logs/app.log
+*.log
+
+# Various agentic nonsense
+MEMORY.md
+AGENTS.md
+GEMINI.md
+QWEN.md
+.kiro/*
+.kiro*
