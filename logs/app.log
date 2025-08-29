@@ -1,0 +1,104 @@
+2025-08-29 13:28:16,840 - patch_file_mcp - INFO - main:338 - Starting Patch File MCP server
+2025-08-29 13:28:16,840 - patch_file_mcp - INFO - main:339 - Log file: logs/app.log
+2025-08-29 13:28:16,840 - patch_file_mcp - INFO - main:340 - Log level: INFO
+2025-08-29 13:28:16,841 - patch_file_mcp - INFO - validate_allowed_directories:242 - Validated allowed directory: C:\Users\Mateusz\source\repos
+2025-08-29 13:28:16,841 - patch_file_mcp - INFO - main:345 - Server started successfully with 1 allowed directories
+2025-08-29 13:28:16,841 - patch_file_mcp - INFO - main:349 - Allowed directory 1: C:\Users\Mateusz\source\repos
+2025-08-29 13:28:16,841 - patch_file_mcp - INFO - main:352 - Starting MCP server with stdio transport
+2025-08-29 13:29:21,443 - patch_file_mcp - INFO - patch_file:989 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py
+2025-08-29 13:29:21,447 - patch_file_mcp - INFO - find_venv_directory:577 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 13:29:21,447 - patch_file_mcp - INFO - run_python_qa_pipeline:815 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:29:21,463 - patch_file_mcp - INFO - run_python_qa_pipeline:836 - QA: ruff done rc=0
+2025-08-29 13:29:21,577 - patch_file_mcp - INFO - run_python_qa_pipeline:864 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:29:21,799 - patch_file_mcp - INFO - run_python_qa_pipeline:875 - QA: black done rc=0
+2025-08-29 13:29:21,799 - patch_file_mcp - INFO - run_python_qa_pipeline:815 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:29:21,814 - patch_file_mcp - INFO - run_python_qa_pipeline:836 - QA: ruff done rc=0
+2025-08-29 13:29:21,918 - patch_file_mcp - INFO - run_python_qa_pipeline:864 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:29:22,120 - patch_file_mcp - INFO - run_python_qa_pipeline:875 - QA: black done rc=0
+2025-08-29 13:29:22,120 - patch_file_mcp - INFO - patch_file:1229 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py | blocks=1 | qa=yes
+2025-08-29 13:47:02,428 - patch_file_mcp - INFO - main:365 - Starting Patch File MCP server
+2025-08-29 13:47:02,428 - patch_file_mcp - INFO - main:366 - Log file: logs/app.log
+2025-08-29 13:47:02,428 - patch_file_mcp - INFO - main:367 - Log level: INFO
+2025-08-29 13:47:02,429 - patch_file_mcp - INFO - validate_allowed_directories:248 - Validated allowed directory: C:\Users\Mateusz\source\repos
+2025-08-29 13:47:02,429 - patch_file_mcp - INFO - main:379 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, no_mypy_on_tests=False
+2025-08-29 13:47:02,429 - patch_file_mcp - INFO - main:384 - Server started successfully with 1 allowed directories
+2025-08-29 13:47:02,429 - patch_file_mcp - INFO - main:388 - Allowed directory 1: C:\Users\Mateusz\source\repos
+2025-08-29 13:47:02,429 - patch_file_mcp - INFO - main:391 - Starting MCP server with stdio transport
+2025-08-29 13:47:28,163 - patch_file_mcp - INFO - patch_file:1028 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py
+2025-08-29 13:47:28,166 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 13:47:28,232 - patch_file_mcp - INFO - run_python_qa_pipeline:891 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:47:28,252 - patch_file_mcp - INFO - run_python_qa_pipeline:901 - QA: ruff done rc=1
+2025-08-29 13:47:28,252 - patch_file_mcp - INFO - run_python_qa_pipeline:919 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:47:28,499 - patch_file_mcp - INFO - run_python_qa_pipeline:928 - QA: black done rc=123
+2025-08-29 13:47:28,499 - patch_file_mcp - INFO - run_python_qa_pipeline:955 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:47:28,691 - patch_file_mcp - INFO - run_python_qa_pipeline:972 - QA: mypy done rc=2
+2025-08-29 13:47:28,691 - patch_file_mcp - INFO - patch_file:1280 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py | blocks=1 | qa=yes
+2025-08-29 13:47:38,258 - patch_file_mcp - INFO - patch_file:1028 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py
+2025-08-29 13:47:38,263 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 13:47:38,323 - patch_file_mcp - INFO - run_python_qa_pipeline:891 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:47:38,341 - patch_file_mcp - INFO - run_python_qa_pipeline:901 - QA: ruff done rc=0
+2025-08-29 13:47:38,341 - patch_file_mcp - INFO - run_python_qa_pipeline:919 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:47:38,557 - patch_file_mcp - INFO - run_python_qa_pipeline:928 - QA: black done rc=0
+2025-08-29 13:47:38,617 - patch_file_mcp - INFO - run_python_qa_pipeline:891 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:47:38,636 - patch_file_mcp - INFO - run_python_qa_pipeline:901 - QA: ruff done rc=0
+2025-08-29 13:47:38,636 - patch_file_mcp - INFO - run_python_qa_pipeline:919 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:47:38,832 - patch_file_mcp - INFO - run_python_qa_pipeline:928 - QA: black done rc=0
+2025-08-29 13:47:38,832 - patch_file_mcp - INFO - run_python_qa_pipeline:955 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:47:39,217 - patch_file_mcp - INFO - run_python_qa_pipeline:972 - QA: mypy done rc=1
+2025-08-29 13:47:39,217 - patch_file_mcp - INFO - patch_file:1280 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py | blocks=1 | qa=yes
+2025-08-29 13:47:51,523 - patch_file_mcp - INFO - patch_file:1028 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py
+2025-08-29 13:47:51,524 - patch_file_mcp - ERROR - patch_file:1290 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py -> Malformed patch format: Incorrect marker sequence at position 0: Expected [SEARCH, SEPARATOR, REPLACE], got ['<<<<<<< SEARCH', '=======', '=======']
+2025-08-29 13:47:54,940 - patch_file_mcp - INFO - patch_file:1028 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py
+2025-08-29 13:47:54,941 - patch_file_mcp - ERROR - patch_file:1290 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py -> Malformed patch format: Incorrect marker sequence at position 0: Expected [SEARCH, SEPARATOR, REPLACE], got ['<<<<<<< SEARCH', '=======', '=======']
+2025-08-29 13:47:59,984 - patch_file_mcp - INFO - patch_file:1028 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py
+2025-08-29 13:47:59,985 - patch_file_mcp - ERROR - patch_file:1290 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py -> Malformed patch format: Incorrect marker sequence at position 0: Expected [SEARCH, SEPARATOR, REPLACE], got ['<<<<<<< SEARCH', '=======', '=======']
+2025-08-29 13:48:03,259 - patch_file_mcp - INFO - patch_file:1028 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py
+2025-08-29 13:48:03,263 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 13:48:03,328 - patch_file_mcp - INFO - run_python_qa_pipeline:891 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:48:03,344 - patch_file_mcp - INFO - run_python_qa_pipeline:901 - QA: ruff done rc=0
+2025-08-29 13:48:03,344 - patch_file_mcp - INFO - run_python_qa_pipeline:919 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:48:03,545 - patch_file_mcp - INFO - run_python_qa_pipeline:928 - QA: black done rc=0
+2025-08-29 13:48:03,545 - patch_file_mcp - INFO - run_python_qa_pipeline:955 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:48:03,893 - patch_file_mcp - INFO - run_python_qa_pipeline:972 - QA: mypy done rc=0
+2025-08-29 13:48:03,893 - patch_file_mcp - INFO - patch_file:1280 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py | blocks=1 | qa=yes
+2025-08-29 13:48:07,320 - patch_file_mcp - INFO - patch_file:1028 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py
+2025-08-29 13:48:07,325 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 13:48:07,384 - patch_file_mcp - INFO - run_python_qa_pipeline:891 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:48:07,401 - patch_file_mcp - INFO - run_python_qa_pipeline:901 - QA: ruff done rc=0
+2025-08-29 13:48:07,401 - patch_file_mcp - INFO - run_python_qa_pipeline:919 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:48:07,605 - patch_file_mcp - INFO - run_python_qa_pipeline:928 - QA: black done rc=0
+2025-08-29 13:48:07,662 - patch_file_mcp - INFO - run_python_qa_pipeline:891 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:48:07,679 - patch_file_mcp - INFO - run_python_qa_pipeline:901 - QA: ruff done rc=0
+2025-08-29 13:48:07,679 - patch_file_mcp - INFO - run_python_qa_pipeline:919 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:48:07,874 - patch_file_mcp - INFO - run_python_qa_pipeline:928 - QA: black done rc=0
+2025-08-29 13:48:07,875 - patch_file_mcp - INFO - run_python_qa_pipeline:955 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:48:08,229 - patch_file_mcp - INFO - run_python_qa_pipeline:972 - QA: mypy done rc=0
+2025-08-29 13:48:08,229 - patch_file_mcp - INFO - patch_file:1280 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py | blocks=1 | qa=yes
+2025-08-29 13:48:11,102 - patch_file_mcp - INFO - patch_file:1028 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py
+2025-08-29 13:48:11,103 - patch_file_mcp - ERROR - patch_file:1290 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 13:48:32,273 - patch_file_mcp - INFO - patch_file:1028 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py
+2025-08-29 13:48:32,276 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 13:48:32,331 - patch_file_mcp - INFO - run_python_qa_pipeline:891 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:48:32,349 - patch_file_mcp - INFO - run_python_qa_pipeline:901 - QA: ruff done rc=0
+2025-08-29 13:48:32,349 - patch_file_mcp - INFO - run_python_qa_pipeline:919 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:48:32,550 - patch_file_mcp - INFO - run_python_qa_pipeline:928 - QA: black done rc=0
+2025-08-29 13:48:32,610 - patch_file_mcp - INFO - run_python_qa_pipeline:891 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:48:32,627 - patch_file_mcp - INFO - run_python_qa_pipeline:901 - QA: ruff done rc=0
+2025-08-29 13:48:32,627 - patch_file_mcp - INFO - run_python_qa_pipeline:919 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:48:32,821 - patch_file_mcp - INFO - run_python_qa_pipeline:928 - QA: black done rc=0
+2025-08-29 13:48:32,822 - patch_file_mcp - INFO - run_python_qa_pipeline:955 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\fakamaka.py)
+2025-08-29 13:48:33,169 - patch_file_mcp - INFO - run_python_qa_pipeline:972 - QA: mypy done rc=0
+2025-08-29 13:48:33,169 - patch_file_mcp - INFO - patch_file:1280 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py | blocks=1 | qa=yes
+2025-08-29 13:48:38,448 - patch_file_mcp - INFO - patch_file:1028 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py
+2025-08-29 13:48:38,448 - patch_file_mcp - ERROR - patch_file:1290 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/fakamaka.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 13:49:44,737 - patch_file_mcp - ERROR - main:360 - Server cannot run with administrative/root privileges
+2025-08-29 13:49:44,737 - patch_file_mcp - ERROR - main:361 - This is a security measure to prevent potential system damage.
+2025-08-29 13:49:44,737 - patch_file_mcp - ERROR - main:362 - Please run this server as a regular user.
+2025-08-29 13:49:44,738 - patch_file_mcp - INFO - main:365 - Starting Patch File MCP server
+2025-08-29 13:49:44,738 - patch_file_mcp - INFO - main:366 - Log file: logs/app.log
+2025-08-29 13:49:44,738 - patch_file_mcp - INFO - main:367 - Log level: INFO
+2025-08-29 13:49:44,739 - patch_file_mcp - INFO - validate_allowed_directories:248 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-3860\test_server_exits_with_admin_p0\allowed
+2025-08-29 13:49:44,740 - patch_file_mcp - INFO - main:379 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, no_mypy_on_tests=False
+2025-08-29 13:49:44,740 - patch_file_mcp - INFO - main:384 - Server started successfully with 1 allowed directories
+2025-08-29 13:49:44,740 - patch_file_mcp - INFO - main:388 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-3860\test_server_exits_with_admin_p0\allowed
+2025-08-29 13:49:44,740 - patch_file_mcp - INFO - main:391 - Starting MCP server with stdio transport

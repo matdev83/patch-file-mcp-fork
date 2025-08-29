@@ -1,9 +1,18 @@
 {
     "mcpServers": {
       "patch-file": {
-        "command": "uvx",
-        "args": ["patch-file-mcp", "--allowed-dir", "C:/Users/Mateusz/source/repos"],
-        "alwaysAllow": ["patch_file"]	  
+        "command": "C:\\Users\\Mateusz\\source\\repos\\patch-file-mcp-fork\\.venv\\Scripts\\python.exe",
+        "args": [
+          "-m",
+          "patch_file_mcp.server",
+          "--allowed-dir",
+          "C:/Users/Mateusz/source/repos"
+        ],
+        "cwd": "C:\\Users\\Mateusz\\source\\repos\\patch-file-mcp-fork",
+        "env": {
+          "PYTHONPATH": "C:\\Users\\Mateusz\\source\\repos\\patch-file-mcp-fork\\src"
+        },
+        "alwaysAllow": ["patch_file"]
       },
       "python-qa-mcp": {
         "command": "C:\\Users\\Mateusz\\source\\repos\\python-qa-mcp-server\\.venv\\Scripts\\python.exe",
