@@ -1,0 +1,562 @@
+2025-08-29 14:48:51,118 - patch_file_mcp - INFO - main:365 - Starting Patch File MCP server
+2025-08-29 14:48:51,118 - patch_file_mcp - INFO - main:366 - Log file: logs/app.log
+2025-08-29 14:48:51,118 - patch_file_mcp - INFO - main:367 - Log level: INFO
+2025-08-29 14:48:51,119 - patch_file_mcp - INFO - validate_allowed_directories:248 - Validated allowed directory: C:\Users\Mateusz\source\repos
+2025-08-29 14:48:51,119 - patch_file_mcp - INFO - main:379 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, no_mypy_on_tests=False
+2025-08-29 14:48:51,119 - patch_file_mcp - INFO - main:384 - Server started successfully with 1 allowed directories
+2025-08-29 14:48:51,119 - patch_file_mcp - INFO - main:388 - Allowed directory 1: C:\Users\Mateusz\source\repos
+2025-08-29 14:48:51,119 - patch_file_mcp - INFO - main:391 - Starting MCP server with stdio transport
+2025-08-29 16:56:46,114 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 16:56:46,115 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 16:57:04,056 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 16:57:04,060 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 16:57:04,113 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 16:57:04,133 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 16:57:04,133 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 16:57:04,461 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 16:57:04,516 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 16:57:04,533 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 16:57:04,533 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 16:57:04,767 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 16:57:04,767 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 16:57:09,470 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 16:57:09,470 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 16:57:44,381 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 16:57:44,381 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 16:57:55,739 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 16:57:55,740 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 16:58:21,493 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 16:58:21,499 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 16:58:21,552 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 16:58:21,570 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 16:58:21,570 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 16:58:21,831 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 16:58:21,892 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 16:58:21,911 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 16:58:21,911 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 16:58:22,114 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 16:58:22,114 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 16:58:23,020 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 16:58:23,020 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 16:58:39,205 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 16:58:39,209 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 16:58:39,260 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 16:58:39,278 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 16:58:39,278 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 16:58:39,549 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 16:58:39,549 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 16:58:40,341 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 16:58:40,341 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 17:00:26,851 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/mypy.ini
+2025-08-29 17:00:26,853 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/mypy.ini | blocks=1 | qa=no
+2025-08-29 17:03:44,096 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/mypy.ini
+2025-08-29 17:03:44,098 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/mypy.ini | blocks=1 | qa=no
+2025-08-29 17:04:29,959 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:04:29,964 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:04:30,018 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:04:30,037 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 17:04:30,037 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:04:30,366 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:04:30,421 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:04:30,441 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 17:04:30,441 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:04:30,673 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:04:30,673 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:04:31,460 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:04:31,460 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py | blocks=10 | qa=yes
+2025-08-29 17:04:38,561 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:04:38,565 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:04:38,630 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:04:38,649 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:04:38,649 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:04:38,894 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:04:38,894 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:04:39,645 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:04:39,645 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 17:05:01,402 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/mypy.ini
+2025-08-29 17:05:01,404 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/mypy.ini | blocks=1 | qa=no
+2025-08-29 17:05:37,851 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:05:37,852 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py -> Block 2: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:05:59,265 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:05:59,267 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py -> Block 2: The search text appears 3 times in the file. Please provide more context to identify the specific occurrence.
+2025-08-29 17:06:09,605 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:06:09,607 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py -> Block 5: The search text appears 2 times in the file. Please provide more context to identify the specific occurrence.
+2025-08-29 17:06:21,627 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:06:21,628 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py -> Block 5: The search text appears 2 times in the file. Please provide more context to identify the specific occurrence.
+2025-08-29 17:06:27,531 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:06:27,535 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:06:27,589 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:06:27,610 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 17:06:27,610 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:06:27,942 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:06:27,992 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:06:28,008 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 17:06:28,008 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:06:28,234 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:06:28,234 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:06:29,015 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:06:29,015 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 17:06:35,322 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:06:35,326 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:06:35,382 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:06:35,400 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 17:06:35,400 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:06:35,665 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:06:35,665 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:06:36,437 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:06:36,437 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 17:06:41,912 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:06:41,913 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:06:57,671 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:06:57,671 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py -> Block 2: The search text appears 3 times in the file. Please provide more context to identify the specific occurrence.
+2025-08-29 17:07:04,194 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:07:04,199 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:07:04,255 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:07:04,273 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:07:04,274 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:07:04,532 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:07:04,532 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:07:05,291 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:07:05,291 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 17:07:11,978 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:07:11,982 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:07:12,034 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:07:12,053 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:07:12,053 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:07:12,311 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:07:12,311 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:07:13,108 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:07:13,108 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 17:07:19,060 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:07:19,064 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:07:19,115 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:07:19,133 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:07:19,134 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:07:19,394 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:07:19,394 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:07:20,161 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:07:20,161 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 17:07:26,236 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/mypy.ini
+2025-08-29 17:07:26,237 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/mypy.ini | blocks=1 | qa=no
+2025-08-29 17:07:53,334 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py
+2025-08-29 17:07:53,337 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:07:53,394 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:07:53,417 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:07:53,417 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:07:53,649 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:07:53,649 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:07:59,378 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:07:59,378 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py | blocks=1 | qa=yes
+2025-08-29 17:08:06,623 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py
+2025-08-29 17:08:06,628 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:08:06,684 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:08:06,701 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:08:06,701 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:08:06,922 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:08:06,922 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:08:07,964 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=0
+2025-08-29 17:08:07,964 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py | blocks=1 | qa=yes
+2025-08-29 17:08:15,573 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py
+2025-08-29 17:08:15,577 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:08:15,638 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:08:15,652 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:08:15,652 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:08:15,859 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:08:15,860 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:08:16,631 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:08:16,631 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/integration/test_custom_model_parameters.py | blocks=3 | qa=yes
+2025-08-29 17:08:25,196 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/mypy.ini
+2025-08-29 17:08:25,198 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/mypy.ini | blocks=1 | qa=no
+2025-08-29 17:08:54,867 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py
+2025-08-29 17:08:54,872 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:08:54,928 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:08:54,946 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:08:54,946 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:08:55,204 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:08:55,204 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:08:56,124 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:08:56,124 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py | blocks=1 | qa=yes
+2025-08-29 17:09:03,430 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py
+2025-08-29 17:09:03,435 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:09:03,496 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:03,513 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:09:03,513 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:03,750 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:09:03,806 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:03,821 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:09:03,822 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:04,035 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:09:04,036 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:04,940 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:09:04,940 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py | blocks=1 | qa=yes
+2025-08-29 17:09:11,764 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py
+2025-08-29 17:09:11,765 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:09:25,994 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py
+2025-08-29 17:09:25,999 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:09:26,051 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:26,069 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:09:26,069 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:26,302 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:09:26,361 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:26,378 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:09:26,378 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:26,589 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:09:26,589 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:27,489 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:09:27,489 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py | blocks=1 | qa=yes
+2025-08-29 17:09:34,859 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py
+2025-08-29 17:09:34,860 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:09:50,633 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py
+2025-08-29 17:09:50,637 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:09:50,689 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:50,708 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:09:50,708 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:50,950 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:09:51,015 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:51,033 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:09:51,033 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:51,250 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:09:51,250 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:09:52,191 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:09:52,191 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py | blocks=1 | qa=yes
+2025-08-29 17:10:02,072 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py
+2025-08-29 17:10:02,073 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:10:15,924 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py
+2025-08-29 17:10:15,927 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:10:15,982 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:10:15,999 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:10:15,999 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:10:16,233 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:10:16,234 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:10:17,164 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:10:17,164 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py | blocks=1 | qa=yes
+2025-08-29 17:10:24,305 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py
+2025-08-29 17:10:24,306 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:10:37,191 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py
+2025-08-29 17:10:37,192 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:/Users/Mateusz/source/repos/llm-interactive-proxy/tests/mocks/mock_http_client.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:11:31,274 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py
+2025-08-29 17:11:31,278 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:11:31,340 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:11:31,358 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:11:31,358 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:11:31,608 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:11:31,608 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:11:32,520 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:11:32,520 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py | blocks=2 | qa=yes
+2025-08-29 17:11:42,625 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py
+2025-08-29 17:11:42,630 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:11:42,695 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:11:42,712 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:11:42,712 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:11:42,949 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:11:42,949 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:11:43,835 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=0
+2025-08-29 17:11:43,835 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py | blocks=3 | qa=yes
+2025-08-29 17:12:07,770 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:12:07,776 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:12:07,830 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:12:07,851 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 17:12:07,851 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:12:08,095 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=123
+2025-08-29 17:12:08,095 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:12:08,299 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=2
+2025-08-29 17:12:08,300 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py | blocks=3 | qa=yes
+2025-08-29 17:12:13,541 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:12:13,546 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:12:13,609 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:12:13,627 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 17:12:13,628 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:12:13,928 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:12:13,981 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:12:14,000 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 17:12:14,000 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:12:14,218 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:12:14,218 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:12:18,191 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:12:18,191 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 17:12:33,068 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:12:33,070 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:13:07,181 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:13:07,183 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py -> Block 3: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:13:41,688 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:13:41,689 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py -> Block 3: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:13:49,665 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:13:49,669 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:13:49,731 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:13:49,754 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:13:49,754 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:13:50,001 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:13:50,056 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:13:50,074 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:13:50,074 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:13:50,289 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:13:50,289 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:13:51,499 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:13:51,499 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 17:14:00,684 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:14:00,688 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:14:00,746 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:14:00,768 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 17:14:00,768 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:14:01,030 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:14:01,030 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:14:02,121 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:14:02,121 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 17:14:25,314 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:14:25,315 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:14:42,189 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:14:42,190 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:15:41,095 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:15:41,096 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:15:49,719 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:15:49,720 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:17:07,400 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:17:07,401 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:17:47,047 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:17:47,048 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:21:52,857 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:21:52,861 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:21:52,919 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:21:52,937 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:21:52,937 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:21:53,292 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:21:53,353 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:21:53,370 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:21:53,370 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:21:53,585 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:21:53,586 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 17:21:54,715 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:21:54,715 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py | blocks=7 | qa=yes
+2025-08-29 17:22:15,886 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:22:15,887 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py -> Block 2: Replace text contains patch markers
+2025-08-29 17:22:55,711 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 17:22:55,712 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py -> Block 1: The search text appears 6 times in the file. Please provide more context to identify the specific occurrence.
+2025-08-29 17:24:49,976 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py
+2025-08-29 17:24:49,981 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:24:50,036 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py)
+2025-08-29 17:24:50,054 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 17:24:50,054 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py)
+2025-08-29 17:24:50,260 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:24:50,260 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py)
+2025-08-29 17:24:57,809 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:24:57,809 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py | blocks=1 | qa=yes
+2025-08-29 17:25:15,492 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\pyproject.toml
+2025-08-29 17:25:15,495 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\pyproject.toml | blocks=1 | qa=no
+2025-08-29 17:25:54,721 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py
+2025-08-29 17:25:54,726 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:25:54,785 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py)
+2025-08-29 17:25:54,804 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 17:25:54,804 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py)
+2025-08-29 17:25:55,150 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:25:55,204 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py)
+2025-08-29 17:25:55,222 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 17:25:55,222 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py)
+2025-08-29 17:25:55,428 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:25:55,428 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py)
+2025-08-29 17:25:56,688 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:25:56,688 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py | blocks=3 | qa=yes
+2025-08-29 17:28:03,809 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py
+2025-08-29 17:28:03,815 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:28:03,873 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py)
+2025-08-29 17:28:03,891 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:28:03,891 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py)
+2025-08-29 17:28:04,150 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:28:04,150 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py)
+2025-08-29 17:28:05,064 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:28:05,064 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py | blocks=3 | qa=yes
+2025-08-29 17:28:32,249 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\conftest.py
+2025-08-29 17:28:32,254 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:28:32,310 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\conftest.py)
+2025-08-29 17:28:32,331 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 17:28:32,331 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\conftest.py)
+2025-08-29 17:28:32,579 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:28:32,579 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\conftest.py)
+2025-08-29 17:28:41,598 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:28:41,598 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\conftest.py | blocks=1 | qa=yes
+2025-08-29 17:28:55,826 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py
+2025-08-29 17:28:55,831 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:28:55,890 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:28:55,908 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:28:55,908 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:28:56,149 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:28:56,200 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:28:56,218 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:28:56,219 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:28:56,419 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:28:56,419 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:28:57,315 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=0
+2025-08-29 17:28:57,315 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py | blocks=2 | qa=yes
+2025-08-29 17:29:14,461 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py
+2025-08-29 17:29:14,462 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:29:31,153 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py
+2025-08-29 17:29:31,157 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:29:31,212 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:29:31,229 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:29:31,229 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:29:31,423 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:29:31,475 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:29:31,491 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:29:31,491 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:29:31,688 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:29:31,688 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:29:32,083 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=0
+2025-08-29 17:29:32,084 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py | blocks=2 | qa=yes
+2025-08-29 17:48:04,362 - patch_file_mcp - INFO - main:365 - Starting Patch File MCP server
+2025-08-29 17:48:04,363 - patch_file_mcp - INFO - main:366 - Log file: logs/app.log
+2025-08-29 17:48:04,363 - patch_file_mcp - INFO - main:367 - Log level: INFO
+2025-08-29 17:48:04,363 - patch_file_mcp - INFO - validate_allowed_directories:248 - Validated allowed directory: C:\Users\Mateusz\source\repos
+2025-08-29 17:48:04,363 - patch_file_mcp - INFO - main:379 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, no_mypy_on_tests=True
+2025-08-29 17:48:04,363 - patch_file_mcp - INFO - main:384 - Server started successfully with 1 allowed directories
+2025-08-29 17:48:04,364 - patch_file_mcp - INFO - main:388 - Allowed directory 1: C:\Users\Mateusz\source\repos
+2025-08-29 17:48:04,364 - patch_file_mcp - INFO - main:391 - Starting MCP server with stdio transport
+2025-08-29 17:48:11,764 - patch_file_mcp - INFO - main:365 - Starting Patch File MCP server
+2025-08-29 17:48:11,764 - patch_file_mcp - INFO - main:366 - Log file: logs/app.log
+2025-08-29 17:48:11,764 - patch_file_mcp - INFO - main:367 - Log level: INFO
+2025-08-29 17:48:11,765 - patch_file_mcp - INFO - validate_allowed_directories:248 - Validated allowed directory: C:\Users\Mateusz\source\repos
+2025-08-29 17:48:11,765 - patch_file_mcp - INFO - main:379 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, no_mypy_on_tests=True
+2025-08-29 17:48:11,765 - patch_file_mcp - INFO - main:384 - Server started successfully with 1 allowed directories
+2025-08-29 17:48:11,766 - patch_file_mcp - INFO - main:388 - Allowed directory 1: C:\Users\Mateusz\source\repos
+2025-08-29 17:48:11,766 - patch_file_mcp - INFO - main:391 - Starting MCP server with stdio transport
+2025-08-29 17:49:23,338 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py
+2025-08-29 17:49:23,342 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:49:23,400 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:49:23,419 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:49:23,419 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:49:23,644 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:49:23,709 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:49:23,727 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:49:23,728 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py)
+2025-08-29 17:49:23,934 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:49:23,935 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py | blocks=1 | qa=yes
+2025-08-29 17:51:03,570 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py
+2025-08-29 17:51:03,571 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:51:33,281 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py
+2025-08-29 17:51:33,282 - patch_file_mcp - ERROR - patch_file:1319 - patch_file error: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\mocks\mock_http_client.py -> Block 1: Could not find the search text in the file. Please ensure the search text exactly matches the content in the file.
+2025-08-29 17:56:46,762 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\core\domain\chat.py
+2025-08-29 17:56:46,766 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:56:46,821 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\core\domain\chat.py)
+2025-08-29 17:56:46,842 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:56:46,842 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\core\domain\chat.py)
+2025-08-29 17:56:47,078 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:56:47,078 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\core\domain\chat.py)
+2025-08-29 17:56:51,604 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:56:51,604 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\core\domain\chat.py | blocks=1 | qa=yes
+2025-08-29 17:58:26,440 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\gemini.py
+2025-08-29 17:58:26,445 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:58:26,497 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\gemini.py)
+2025-08-29 17:58:26,517 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:58:26,517 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\gemini.py)
+2025-08-29 17:58:26,778 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:58:26,778 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\gemini.py)
+2025-08-29 17:58:27,962 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:58:27,963 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\gemini.py | blocks=1 | qa=yes
+2025-08-29 17:58:37,557 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py
+2025-08-29 17:58:37,562 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 17:58:37,619 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py)
+2025-08-29 17:58:37,638 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:58:37,638 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py)
+2025-08-29 17:58:38,023 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:58:38,084 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py)
+2025-08-29 17:58:38,102 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 17:58:38,102 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py)
+2025-08-29 17:58:38,295 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 17:58:38,295 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py)
+2025-08-29 17:58:39,183 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 17:58:39,183 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py | blocks=1 | qa=yes
+2025-08-29 17:59:38,925 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\mypy.ini
+2025-08-29 17:59:38,926 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\mypy.ini | blocks=1 | qa=no
+2025-08-29 18:07:17,365 - patch_file_mcp - ERROR - main:360 - Server cannot run with administrative/root privileges
+2025-08-29 18:07:17,365 - patch_file_mcp - ERROR - main:361 - This is a security measure to prevent potential system damage.
+2025-08-29 18:07:17,365 - patch_file_mcp - ERROR - main:362 - Please run this server as a regular user.
+2025-08-29 18:07:17,366 - patch_file_mcp - INFO - main:365 - Starting Patch File MCP server
+2025-08-29 18:07:17,366 - patch_file_mcp - INFO - main:366 - Log file: logs/app.log
+2025-08-29 18:07:17,366 - patch_file_mcp - INFO - main:367 - Log level: INFO
+2025-08-29 18:07:17,367 - patch_file_mcp - INFO - validate_allowed_directories:248 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-3905\test_server_exits_with_admin_p0\allowed
+2025-08-29 18:07:17,367 - patch_file_mcp - INFO - main:379 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True
+2025-08-29 18:07:17,367 - patch_file_mcp - INFO - main:384 - Server started successfully with 1 allowed directories
+2025-08-29 18:07:17,367 - patch_file_mcp - INFO - main:388 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-3905\test_server_exits_with_admin_p0\allowed
+2025-08-29 18:07:17,367 - patch_file_mcp - INFO - main:391 - Starting MCP server with stdio transport
+2025-08-29 18:09:55,325 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\core\domain\chat.py
+2025-08-29 18:09:55,329 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 18:09:55,382 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\core\domain\chat.py)
+2025-08-29 18:09:55,399 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 18:09:55,399 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\core\domain\chat.py)
+2025-08-29 18:09:55,664 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 18:09:55,665 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\core\domain\chat.py)
+2025-08-29 18:09:56,727 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 18:09:56,728 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\core\domain\chat.py | blocks=1 | qa=yes
+2025-08-29 18:10:23,228 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py
+2025-08-29 18:10:23,232 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 18:10:23,288 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py)
+2025-08-29 18:10:23,305 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 18:10:23,305 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py)
+2025-08-29 18:10:23,657 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 18:10:23,722 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py)
+2025-08-29 18:10:23,740 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=1
+2025-08-29 18:10:23,740 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py)
+2025-08-29 18:10:23,934 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 18:10:23,934 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py)
+2025-08-29 18:10:25,051 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 18:10:25,051 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\openai.py | blocks=1 | qa=yes
+2025-08-29 18:11:14,942 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\gemini.py
+2025-08-29 18:11:14,946 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 18:11:15,003 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\gemini.py)
+2025-08-29 18:11:15,021 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 18:11:15,021 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\gemini.py)
+2025-08-29 18:11:15,453 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 18:11:15,514 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\gemini.py)
+2025-08-29 18:11:15,531 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 18:11:15,531 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\gemini.py)
+2025-08-29 18:11:15,739 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 18:11:15,739 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\gemini.py)
+2025-08-29 18:11:16,855 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 18:11:16,855 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\gemini.py | blocks=1 | qa=yes
+2025-08-29 18:11:37,766 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py
+2025-08-29 18:11:37,770 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 18:11:37,826 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py)
+2025-08-29 18:11:37,845 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 18:11:37,845 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py)
+2025-08-29 18:11:38,255 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 18:11:38,306 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py)
+2025-08-29 18:11:38,326 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 18:11:38,326 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py)
+2025-08-29 18:11:38,522 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 18:11:38,522 - patch_file_mcp - INFO - run_python_qa_pipeline:984 - QA: mypy start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py)
+2025-08-29 18:11:39,421 - patch_file_mcp - INFO - run_python_qa_pipeline:1001 - QA: mypy done rc=1
+2025-08-29 18:11:39,421 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\src\connectors\anthropic.py | blocks=1 | qa=yes
+2025-08-29 18:12:14,528 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 18:12:14,532 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 18:12:14,582 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 18:12:14,604 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 18:12:14,604 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 18:12:14,940 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 18:12:14,941 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 18:12:34,497 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 18:12:34,501 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 18:12:34,552 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 18:12:34,569 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 18:12:34,569 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 18:12:34,922 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 18:12:34,986 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 18:12:35,004 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 18:12:35,004 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 18:12:35,228 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 18:12:35,229 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 18:12:51,780 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 18:12:51,783 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 18:12:51,841 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 18:12:51,857 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 18:12:51,857 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 18:12:52,130 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 18:12:52,131 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py | blocks=1 | qa=yes
+2025-08-29 18:13:08,772 - patch_file_mcp - INFO - patch_file:1057 - patch_file start: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py
+2025-08-29 18:13:08,778 - patch_file_mcp - INFO - find_venv_directory:616 - Found .venv at: C:\Users\Mateusz\source\repos\llm-interactive-proxy\.venv (different from MCP server venv)
+2025-08-29 18:13:08,832 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 18:13:08,850 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 18:13:08,850 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 18:13:09,254 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 18:13:09,312 - patch_file_mcp - INFO - run_python_qa_pipeline:915 - QA: ruff start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 18:13:09,330 - patch_file_mcp - INFO - run_python_qa_pipeline:925 - QA: ruff done rc=0
+2025-08-29 18:13:09,330 - patch_file_mcp - INFO - run_python_qa_pipeline:943 - QA: black start (c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py)
+2025-08-29 18:13:09,561 - patch_file_mcp - INFO - run_python_qa_pipeline:952 - QA: black done rc=0
+2025-08-29 18:13:09,561 - patch_file_mcp - INFO - patch_file:1309 - patch_file success: c:\Users\Mateusz\source\repos\llm-interactive-proxy\tests\integration\test_custom_model_parameters.py | blocks=1 | qa=yes
