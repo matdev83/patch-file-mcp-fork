@@ -95,7 +95,7 @@ QA_MAX_ITERATIONS = int(os.getenv("PATCH_MCP_QA_MAX_ITERATIONS", "4"))
 SKIP_RUFF = False
 SKIP_BLACK = False
 SKIP_MYPY = False
-SKIP_MYPY_ON_TESTS = False
+SKIP_MYPY_ON_TESTS = True
 
 
 def check_administrative_privileges():
@@ -344,9 +344,9 @@ Examples:
         help="Skip MyPy in the QA pipeline",
     )
     parser.add_argument(
-        "--no-mypy-on-tests",
+        "--run-mypy-on-tests",
         action="store_true",
-        help="Skip MyPy when the target file path contains 'tests' (overridden by --no-mypy)",
+        help="Run MyPy even when the target file path contains 'tests' (overridden by --no-mypy)",
     )
 
     args = parser.parse_args()
@@ -374,11 +374,11 @@ Examples:
     SKIP_RUFF = bool(args.no_ruff)
     SKIP_BLACK = bool(args.no_black)
     SKIP_MYPY = bool(args.no_mypy)
-    SKIP_MYPY_ON_TESTS = bool(args.no_mypy_on_tests)
+    SKIP_MYPY_ON_TESTS = not bool(args.run_mypy_on_tests)
 
     logger.info(
         f"QA config: timeout={QA_CMD_TIMEOUT}s, wall={QA_WALL_TIME}s, iterations={QA_MAX_ITERATIONS}, "
-        f"no_ruff={SKIP_RUFF}, no_black={SKIP_BLACK}, no_mypy={SKIP_MYPY}, no_mypy_on_tests={SKIP_MYPY_ON_TESTS}"
+        f"no_ruff={SKIP_RUFF}, no_black={SKIP_BLACK}, no_mypy={SKIP_MYPY}, skip_mypy_on_tests={SKIP_MYPY_ON_TESTS}"
     )
 
     logger.info(
@@ -855,7 +855,7 @@ def run_python_qa_pipeline(file_path, python_exe):
     file_abs_lower = file_abs.lower()
     do_ruff = not SKIP_RUFF
     do_black = not SKIP_BLACK
-    do_mypy = not SKIP_MYPY and not (SKIP_MYPY_ON_TESTS and "tests" in file_abs_lower)
+    do_mypy = not SKIP_MYPY and (not SKIP_MYPY_ON_TESTS or "tests" not in file_abs_lower)
 
     # Only iterate when both ruff and black are enabled
     effective_iterations = max_iterations if (do_ruff and do_black) else 1

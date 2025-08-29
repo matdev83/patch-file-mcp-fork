@@ -199,16 +199,16 @@ The server can run QA after successful edits to Python files. Use these flags to
 - `--no-ruff`: Skip Ruff checks and autofix.
 - `--no-black`: Skip Black formatting.
 - `--no-mypy`: Skip MyPy type checking entirely.
-- `--no-mypy-on-tests`: Skip MyPy only when the target file path contains `tests` (overridden by `--no-mypy`).
+- `--run-mypy-on-tests`: Run MyPy even when the target file path contains `tests` (overridden by `--no-mypy`).
 
-Defaults: all QA steps enabled. Example configurations:
+Defaults: Ruff, Black, and MyPy are enabled. MyPy is skipped on test files by default. Example configurations:
 
 ```bash
 # Run without Ruff
 patch-file-mcp --allowed-dir /path/to/projects --no-ruff
 
-# Run without MyPy for tests only
-patch-file-mcp --allowed-dir /path/to/projects --no-mypy-on-tests
+# Run MyPy on test files too
+patch-file-mcp --allowed-dir /path/to/projects --run-mypy-on-tests
 
 # Disable Black and MyPy entirely
 patch-file-mcp --allowed-dir /path/to/projects --no-black --no-mypy
