@@ -69,7 +69,7 @@ venv/
 # Various caches and logs
 .ruff_cache/
 logs/app.log
-*.log
+logs/*.log
 
 # Various agentic nonsense
 MEMORY.md
