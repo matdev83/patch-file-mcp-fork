@@ -9,15 +9,10 @@ Patch File MCP provides a secure and intelligent way to modify files using block
 - Makes targeted changes to specific parts of files without rewriting the entire content
 - Supports multiple patches to the same file in a single request
 - Ensures safety through exact text matching and uniqueness verification
-- **Fork-exclusive security**: Administrative privilege protection prevents running with root/admin access
-- **Mandatory sandboxing**: Chroot-like directory enforcement prevents unauthorized file access (fork enhancement)
-- **Enhanced security**: Robust path validation and sandboxing for allowed directories
-- **Cross-platform compatibility**: Handles Windows, MacOS, and Linux path formats seamlessly
-- **Automatic code quality**: Integrated QA pipeline (ruff, black, mypy) for Python files
-- **Smart context management**: Clean responses with no clutter for non-Python files
-- **Comprehensive logging**: File-only logging with configurable verbosity for debugging and audit trails
-  - **Enhanced DEBUG logging**: Extremely detailed parameter logging when DEBUG level is enabled
+- Cross-platform compatibility: Handles Windows, MacOS, and Linux path formats seamlessly
 - Better alternative to the `edit_block` tool from `desktop-commander` for most file editing tasks
+
+**This fork includes extensive enhancements** that transform the basic file patching functionality into a comprehensive, secure, and intelligent development tool. See the [Fork-Exclusive Features](#-fork-exclusive-features) section below for details on all enhancements.
 
 ## Why This Fork
 
@@ -25,74 +20,104 @@ Modern agents frequently fail at char‑precise, in‑place string edits. This i
 
 Because I work extensively in Python, I also found that running automated QA immediately after each successful Python edit catches errors at the moment they are introduced. This allows the agent to fix issues while the context window is still focused on the task, reducing round trips and avoiding context pollution that would otherwise include separate tool calls and their outputs. Automated QA (Ruff → Black → MyPy) improves quality, shortens feedback loops, and keeps the agent’s context clean.
 
-## Latest Developments
+## 🚀 Fork-Exclusive Features
 
-### 🔒 **Administrative Privilege Protection**
+This fork provides extensive enhancements that transform the basic file patching functionality into a comprehensive, secure, and intelligent development tool. All features listed below are **exclusive to this fork** and not present in the original patch-file-mcp server.
 
-This fork includes a critical security enhancement not present in the original patch-file-mcp server:
+### 🛡️ **Security Enhancements**
 
-- **Privilege Check at Startup**: Server automatically detects and refuses to run with administrative/root privileges
-- **OS-Agnostic Security**: Works across Windows (Administrator), Linux (root), and macOS (root)
-- **Fail-Safe Design**: If privilege detection fails, defaults to safe behavior (no elevated access)
+#### **Administrative Privilege Protection**
+- **OS-Agnostic Privilege Detection**: Automatically detects and refuses to run with administrative/root privileges on Windows (Administrator), Linux (root), and macOS (root)
+- **Early Exit Strategy**: Privilege check runs before any server initialization
+- **Fail-Safe Design**: Defaults to safe behavior if privilege detection fails
 - **Clear Error Messages**: Provides helpful guidance when administrative access is detected
 
-This prevents potential system damage by ensuring the server operates with minimal necessary permissions.
+#### **Mandatory Directory Sandboxing**
+- **Chroot-like Enforcement**: Creates impenetrable security boundaries preventing access outside specified directories
+- **Zero-Trust Model**: No implicit trust - all file operations must be within explicitly allowed directories
+- **Startup Validation**: Server validates directory existence and permissions before any operations
+- **Recursive Protection**: Subdirectories of allowed directories are accessible, but parent directories are not
 
-### 🚀 **Enhanced Path Security & Cross-Platform Support**
-
-The latest version includes significant improvements to path handling and security:
-
-- **Mandatory Directory Sandboxing**: Chroot-like enforcement requires `--allowed-dir` specification (fork enhancement)
-- **Universal Path Normalization**: Handles all path formats regardless of input method:
-  - Windows backslashes: `C:\path\to\file`
-  - Escaped backslashes: `C:\\path\\to\\file`
-  - Unix forward slashes: `C:/path/to/file`
-  - Mixed separators: `C:\path/to\file`
-  - All normalize to OS-native format automatically
-
-- **Robust Directory Validation**: Startup validation ensures:
-  - All allowed directories exist
-  - Read/write permissions are verified
-  - Server exits gracefully with clear error messages if validation fails
-
-- **Enhanced Sandboxing**: File access restricted to explicitly allowed directories with recursive subdirectory support
-
-### 🔧 **Automatic Python QA Pipeline**
-
-For Python files (.py), the server now automatically runs a comprehensive code quality pipeline:
-
-- **Ruff**: Linting and auto-fixing (may run multiple iterations if Black reformats)
-- **Black**: Code formatting with intelligent re-run detection
-- **MyPy**: Type checking with detailed error reporting
-
-Results are seamlessly integrated into the patch response, showing either clean code confirmation or specific issues to address.
-
-### 🛡️ **Binary File Extension Security**
-
-This fork includes a critical security enhancement that prevents patch attempts on binary files, protecting against data corruption and security issues:
-
-- **Comprehensive Binary File Detection**: Blocks patch operations on 50+ binary file extensions including:
-  - **Executables & Libraries**: `.exe`, `.dll`, `.so`, `.dylib`, `.lib`, `.a`, `.o`, `.obj`
-  - **Documents**: `.pdf`, `.doc`, `.docx`, `.xls`, `.xlsx`, `.ppt`, `.pptx`, `.odt`, `.ods`, `.odp`, `.rtf`
-  - **Media Files**: `.mp3`, `.mp4`, `.avi`, `.mkv`, `.mov`, `.wmv`, `.flv`, `.wav`, `.aac`, `.ogg`, `.wma`, `.flac`, `.m4a`, `.m4v`, `.jpg`, `.jpeg`, `.png`, `.gif`, `.bmp`, `.tiff`, `.tif`, `.webp`, `.svg`, `.ico`, `.raw`, `.psd`, `.ai`, `.eps`
-  - **Archives**: `.zip`, `.rar`, `.7z`, `.tar`, `.gz`, `.bz2`, `.xz`, `.cab`, `.iso`, `.dmg`, `.deb`, `.rpm`
-  - **System Files**: `.bin`, `.dat`, `.db`, `.sqlite`, `.mdb`, `.accdb`, `.reg`, `.sys`, `.drv`, `.ocx`, `.cpl`, `.scr`
-  - **Additional**: `.msi`, `.pkg`, `.app`, `.dmg`, `.appx`, `.snap`, `.ld`, `.elf`, `.coff`, `.pe`, `.mach-o`, `.class`, `.jar`, `.war`, `.ear`, `.swf`, `.fla`, `.xap`
-
-- **Case-Insensitive Detection**: Automatically handles extensions regardless of case (`.EXE`, `.exe`, `.Exe` all blocked)
-- **Text File Allowance**: Permits editing of all text-based files (`.txt`, `.py`, `.js`, `.html`, `.css`, `.json`, `.xml`, `.md`, `.yml`, `.yaml`, `.toml`, `.ini`, `.cfg`, `.log`, `.sh`, `.bat`, `.ps1`, etc.)
-- **Files Without Extensions**: Allows editing of files without extensions (treated as text files)
-- **Clear Error Messages**: Returns specific rejection message: `"Rejected: patch_file tool should only be used to edit text files. Editing of binary files is not supported"`
-- **Safe Input Handling**: Gracefully handles malformed paths and empty inputs (defaults to blocking for safety)
+#### **Binary File Protection**
+- **Comprehensive Extension Blocking**: Prevents patch operations on 50+ binary file types to avoid data corruption
+- **Case-Insensitive Detection**: Blocks binary files regardless of extension case (.EXE, .exe, .Exe all blocked)
+- **Safe Input Handling**: Gracefully handles malformed paths with safe defaults
 - **Audit Logging**: Logs all binary file rejection attempts for security monitoring
 
-**Security Impact**: Prevents accidental corruption of binary files and blocks potential security exploits that could manipulate binary data through text-based patch operations.
+### 🧠 **Intelligent Agent Steering**
 
-### 🧹 **Context Window Optimization**
+#### **Failed Edit Attempt Tracking**
+- **Smart Failure Detection**: Tracks consecutive failed file edit attempts with detailed metadata
+- **Progressive Awareness Messages**: Provides contextual guidance to prevent repetitive failures
+- **Automatic History Cleanup**: Failed edit history is completely cleared on successful file edits
+- **Memory-Efficient Storage**: In-memory only with automatic garbage collection
 
-- **Clean Non-Python Responses**: No unnecessary QA messages for text, markdown, JSON, etc.
-- **Focused Information**: Only relevant feedback based on file type and operation success
-- **Reduced Clutter**: Streamlined responses for better AI agent context management
+#### **Mypy Failure Suppression**
+- **Consecutive Failure Monitoring**: Tracks consecutive mypy failures per file independently of file edit status
+- **Intelligent Suppression**: After 3+ consecutive mypy failures, silently removes mypy information from tool output
+- **Focus Enhancement**: Helps agents avoid getting distracted by repeated mypy failures
+- **Automatic Reset**: Mypy failure count resets to 0 when mypy passes
+
+#### **Memory Management**
+- **Automatic Garbage Collection**: Every 100 tool calls, removes failed edit history older than 1 hour
+- **Memory Bounded Operation**: Prevents memory bloat from historical data accumulation
+- **Performance Optimized**: Garbage collection is lightweight and doesn't impact normal operation
+- **Cross-Feature Cleanup**: Cleans up both failed edit history and mypy failure counts
+
+### 🔧 **Usability & Quality Enhancements**
+
+#### **Automatic Python QA Pipeline**
+- **Integrated Code Quality**: Runs Ruff → Black → MyPy pipeline automatically after successful Python file edits
+- **Real-time Error Detection**: Catches errors immediately, allowing agents to fix issues while context is fresh
+- **Quality Assurance**: Ensures code quality standards are maintained throughout development
+- **Context Preservation**: Keeps agent context clean by handling QA within the same interaction
+
+#### **Enhanced Path Handling**
+- **Universal Path Normalization**: Handles all path formats regardless of input method
+- **Cross-Platform Compatibility**: Works identically on Windows, MacOS, and Linux
+- **Robust Input Processing**: Accepts Windows backslashes, Unix forward slashes, and mixed separators
+- **Consistent Security**: Security policies work identically across all supported path formats
+
+#### **Advanced Logging System**
+- **File-Only Output**: Logging never interferes with MCP protocol communication
+- **Configurable Verbosity**: Multiple log levels from DEBUG to CRITICAL
+- **Structured Format**: Timestamps, log levels, function names, and line numbers included
+- **Performance Optimized**: Guarded logging prevents unnecessary string formatting
+
+### 🎯 **Impact Summary**
+
+These fork-exclusive features provide:
+- **Security**: Administrative privilege protection, mandatory sandboxing, binary file protection
+- **Intelligence**: Failed edit tracking, mypy suppression, automatic QA pipeline
+- **Usability**: Enhanced path handling, advanced logging, memory management
+- **Productivity**: Helps AI agents work more effectively and avoid repetitive failures
+
+**Total**: 15+ major enhancements, all exclusive to this fork.
+
+## Latest Developments
+
+*This section tracks recent updates and improvements to the fork. For a complete list of all fork-exclusive features, see the [Fork-Exclusive Features](#-fork-exclusive-features) section above.*
+
+### 🎯 **Recent Feature Additions**
+
+#### **Agent Steering & Awareness System (Latest)**
+- **Failed Edit Attempt Tracking**: Intelligent monitoring of consecutive file edit failures with progressive guidance
+- **Mypy Failure Suppression**: Automatic suppression of mypy output after repeated failures to maintain agent focus
+- **Memory Management**: Automatic garbage collection system for optimal performance
+
+*These features work together to dramatically improve AI agent productivity and reduce repetitive failure cycles.*
+
+### 🔄 **Continuous Improvements**
+
+*This fork is actively maintained with ongoing enhancements. Recent updates focus on improving AI agent productivity and system reliability.*
+
+#### **Future Roadmap**
+- Enhanced error recovery mechanisms
+- Additional QA tool integrations
+- Performance optimizations for large file operations
+- Extended binary file type detection
+
+*All existing features are stable and production-ready. Check the [Fork-Exclusive Features](#-fork-exclusive-features) section for the complete list of enhancements.*
 
 ## Installation
 
@@ -366,69 +391,36 @@ QA note: If the file is Python, the response also includes a brief linter/format
 
 ## Security Considerations
 
-### 🔒 **Enhanced Security Features**
+*For comprehensive security information, see the [Fork-Exclusive Features](#-fork-exclusive-features) section above, which details all security enhancements including:*
 
-- **Administrative Privilege Protection**: Server refuses to start with root/admin privileges (fork-specific enhancement)
-- **Mandatory Chroot-like Sandboxing**: `--allowed-dir` creates security boundary preventing access outside specified directories (fork-exclusive)
-- **Zero-Trust Directory Restrictions**: Server cannot start without explicit directory permissions (fork enhancement)
-- **Startup Validation**: All allowed directories are validated for existence and permissions at server start
-- **Path Normalization**: All input paths are normalized to prevent format-based security bypasses
-- **Recursive Sandboxing**: Access is restricted to allowed directories and their subdirectories
-- **Cross-Platform Security**: Security policies work identically across Windows, MacOS, and Linux
+### 🔒 **Key Security Features**
 
-### 🛡️ **Administrative Privilege Protection**
+- **Administrative Privilege Protection**: Prevents running with elevated privileges
+- **Mandatory Directory Sandboxing**: Chroot-like enforcement of directory restrictions
+- **Binary File Protection**: Comprehensive blocking of 50+ binary file types
+- **Cross-Platform Path Security**: Consistent security policies across all platforms
+- **Startup Validation**: All security measures validated before server operation
+- **Audit Logging**: Comprehensive security event logging
 
-This fork-specific security feature prevents the server from running with elevated privileges:
+### 🛡️ **Security Philosophy**
 
-- **OS Detection**: Automatically detects administrative access on:
-  - **Windows**: Uses Windows API to check Administrator status
-  - **Linux/macOS**: Checks effective user ID for root access (uid 0)
-- **Early Exit**: Privilege check runs before any server initialization
-- **Error Handling**: Provides clear error messages and exits with code 1 if privileges detected
-- **Fail-Safe**: If privilege detection fails, defaults to safe behavior (assumes no privileges)
+This fork implements a **defense-in-depth** security approach with multiple layers of protection:
 
-**Security Impact**: Prevents potential system damage by ensuring operations run with minimal required permissions.
+1. **Prevention**: Administrative privilege detection and directory sandboxing prevent unauthorized access
+2. **Protection**: Binary file blocking prevents data corruption and security exploits
+3. **Detection**: Comprehensive logging provides audit trails for security monitoring
+4. **Recovery**: Graceful error handling and fail-safe behaviors ensure system stability
 
-### 🛡️ **Chroot-like Directory Sandboxing**
-
-This fork-exclusive security feature provides mandatory directory restrictions that act like a chroot jail:
-
-- **Mandatory Configuration**: Server **cannot start** without specifying at least one `--allowed-dir`
-- **Security Boundary**: Creates an impenetrable boundary preventing access outside allowed directories
-- **Zero-Trust Model**: No implicit trust - all file operations must be within explicitly allowed directories
-- **Recursive Protection**: Subdirectories of allowed directories are accessible, but parent directories are not
-- **Startup Enforcement**: Directory validation occurs before any server operations begin
-- **Fail-Safe Behavior**: Server exits with clear error if directories don't exist or lack permissions
-
-**Security Impact**: Provides chroot-equivalent protection without requiring actual chroot system calls, ensuring the server operates within a controlled file system sandbox.
-
-### 🛡️ **Binary File Protection**
-
-- **Comprehensive Extension Blocking**: Prevents patch operations on 50+ binary file types to avoid data corruption
-- **Case-Insensitive Detection**: Blocks binary files regardless of extension case (`.EXE`, `.exe`, `.Exe`)
-- **Text File Allowance**: Permits editing of all text-based file formats and files without extensions
-- **Clear Rejection Messages**: Provides specific error messages when binary files are targeted
-- **Safe Default Behavior**: Defaults to blocking for malformed inputs to ensure security
-
-### 🛡️ **File Operation Security**
-
-- **Exact Text Matching**: Search texts must appear exactly once to prevent ambiguous modifications
-- **File Existence Validation**: Files are verified to exist before any operations
-- **Permission Checking**: Write permissions are validated before file modifications
-- **Atomic Operations**: File changes are applied atomically to prevent corruption
-
-### 📊 **Error Handling & Reporting**
-
-- **Detailed Error Messages**: Clear feedback for configuration and runtime issues
-- **Graceful Degradation**: Server exits cleanly with helpful error messages on validation failures
-- **Input Validation**: All user inputs are validated and sanitized
-- **Audit Trail**: Comprehensive logging for security monitoring
+**Security Impact**: The combination of these features provides enterprise-grade security for AI-assisted file operations, preventing both accidental damage and malicious exploitation.
 
 ## Advantages over similar tools
 
 - **Multiple blocks in one operation**: Can apply several changes in a single call
 - **Safety checks**: Ensures the correct sections are modified through exact matching
 - **Detailed errors**: Provides clear feedback when patches can't be applied
+- **Intelligent agent steering**: Failed edit tracking and progressive awareness messages prevent repetitive failures
+- **Mypy failure suppression**: Automatically suppresses mypy output after repeated failures to maintain focus on main tasks
+- **Memory management**: Automatic garbage collection prevents memory bloat from historical tracking data
 - **Fork-exclusive privilege protection**: Prevents running with administrative/root access (not in original)
 - **Chroot-like sandboxing**: Mandatory `--allowed-dir` creates security boundary (not in original)
 - **Binary file protection**: Prevents patch operations on 50+ binary file types to avoid data corruption (fork-exclusive)
@@ -471,13 +463,17 @@ The test suite covers:
 - ✅ **Binary file extension security** - Comprehensive testing of 50+ binary file type blocking
 - ✅ **Binary file rejection integration** - Verifies patch_file properly rejects binary files
 - ✅ **Text file allowance verification** - Ensures text files still work after security implementation
+- ✅ **Failed edit tracking** - Tests awareness messages and history management
+- ✅ **Mypy failure suppression** - Tests consecutive failure tracking and silent suppression
+- ✅ **Memory management** - Tests garbage collection and cleanup mechanisms
+- ✅ **Agent steering features** - Tests intelligent guidance and focus enhancement
 - ✅ MCP configuration and integration testing
 - ✅ **STDOUT/STDERR logging isolation** - Ensures logging never leaks to console output
 - ✅ **File-only logging verification** - Confirms all logging goes to designated log files
 - ✅ **Guarded logging performance** - Validates logging level checks work correctly
 - ✅ **DEBUG logging output verification** - Confirms DEBUG logging produces actual log output
 
-**Test Results**: 78/78 passing tests (100% success rate) with comprehensive coverage reporting.
+**Test Results**: 139/139 passing tests (100% success rate) with comprehensive coverage reporting and 80%+ code coverage.
 
 See [tests/README.md](tests/README.md) for detailed information about the test suite.
 

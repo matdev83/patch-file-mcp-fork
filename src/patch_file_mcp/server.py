@@ -7,6 +7,10 @@ import time
 import logging
 from pathlib import Path
 import re
+import hashlib
+from datetime import datetime, timedelta
+from typing import Dict, List, Optional
+import difflib
 
 from fastmcp import FastMCP
 from pydantic.fields import Field
@@ -88,7 +92,7 @@ logger = None  # Global logger instance
 
 # QA execution limits and toggles
 QA_CMD_TIMEOUT = int(os.getenv("PATCH_MCP_QA_CMD_TIMEOUT", "15"))  # per-tool seconds
-QA_WALL_TIME = int(os.getenv("PATCH_MCP_QA_WALL_TIME", "20"))     # total QA time
+QA_WALL_TIME = int(os.getenv("PATCH_MCP_QA_WALL_TIME", "20"))  # total QA time
 QA_MAX_ITERATIONS = int(os.getenv("PATCH_MCP_QA_MAX_ITERATIONS", "4"))
 
 # QA feature flags (set via CLI)
@@ -96,6 +100,208 @@ SKIP_RUFF = False
 SKIP_BLACK = False
 SKIP_MYPY = False
 SKIP_MYPY_ON_TESTS = True
+
+# Failed edit tracking data structures
+FAILED_EDITS_HISTORY: Dict[str, List[Dict]] = {}  # filename -> list of failed attempts
+TOOL_CALL_COUNTER = 0  # Counter for tool calls to trigger garbage collection
+MYPY_FAILURE_COUNTS: Dict[str, int] = {}  # filename -> consecutive mypy failure count
+
+
+def create_patch_params_hash(file_path: str, patch_content: str) -> str:
+    """
+    Create a hash of patch parameters to uniquely identify similar failed attempts.
+
+    Args:
+        file_path: The file path being patched
+        patch_content: The patch content
+
+    Returns:
+        SHA256 hash of the parameters
+    """
+    params_str = f"{file_path}|{patch_content}"
+    return hashlib.sha256(params_str.encode("utf-8")).hexdigest()
+
+
+def track_failed_edit(
+    file_path: str, patch_content: str, failure_stage: str, error_message: str
+) -> None:
+    """
+    Track a failed file edit attempt.
+
+    Args:
+        file_path: The file path that failed to be patched
+        patch_content: The patch content that failed
+        failure_stage: The stage where the failure occurred
+        error_message: The error message from the failure
+    """
+    if file_path not in FAILED_EDITS_HISTORY:
+        FAILED_EDITS_HISTORY[file_path] = []
+
+    # Parse the patch content to count blocks
+    try:
+        blocks = parse_search_replace_blocks(patch_content)
+        block_count = len(blocks)
+    except Exception:
+        # If parsing fails, we still track it but with 0 blocks
+        block_count = 0
+
+    # Create parameter hash for tracking similar attempts
+    params_hash = create_patch_params_hash(file_path, patch_content)
+
+    failed_attempt = {
+        "datetime": datetime.now(),
+        "filename": file_path,
+        "block_count": block_count,
+        "failure_stage": failure_stage,
+        "error_message": error_message,
+        "params_hash": params_hash,
+    }
+
+    FAILED_EDITS_HISTORY[file_path].append(failed_attempt)
+
+    # Keep only the last 10 attempts per file to prevent memory bloat
+    if len(FAILED_EDITS_HISTORY[file_path]) > 10:
+        FAILED_EDITS_HISTORY[file_path] = FAILED_EDITS_HISTORY[file_path][-10:]
+
+    if logger:
+        logger.debug(
+            f"Tracked failed edit attempt: {file_path} | stage: {failure_stage} | blocks: {block_count}"
+        )
+
+
+def clear_failed_edit_history(file_path: str) -> None:
+    """
+    Clear the failed edit history for a file after successful patching.
+
+    Args:
+        file_path: The file path to clear history for
+    """
+    if file_path in FAILED_EDITS_HISTORY:
+        if logger:
+            logger.debug(
+                f"Clearing failed edit history for {file_path} (was {len(FAILED_EDITS_HISTORY[file_path])} attempts)"
+            )
+        FAILED_EDITS_HISTORY.pop(file_path, None)
+
+
+def garbage_collect_failed_edit_history() -> None:
+    """
+    Perform garbage collection on failed edit history.
+    Remove entries that are older than 1 hour.
+    """
+    current_time = datetime.now()
+    one_hour_ago = current_time - timedelta(hours=1)
+
+    files_to_remove = []
+    total_entries_before = sum(
+        len(entries) for entries in FAILED_EDITS_HISTORY.values()
+    )
+
+    for file_path, attempts in FAILED_EDITS_HISTORY.items():
+        # Keep only attempts from the last hour
+        recent_attempts = [
+            attempt for attempt in attempts if attempt["datetime"] >= one_hour_ago
+        ]
+
+        if not recent_attempts:
+            # No recent attempts, remove entire file entry
+            files_to_remove.append(file_path)
+        else:
+            # Update with only recent attempts
+            FAILED_EDITS_HISTORY[file_path] = recent_attempts
+
+    # Remove files with no recent attempts
+    for file_path in files_to_remove:
+        FAILED_EDITS_HISTORY.pop(file_path, None)
+        # Also clean up mypy failure counts for these files
+        MYPY_FAILURE_COUNTS.pop(file_path, None)
+
+    total_entries_after = sum(len(entries) for entries in FAILED_EDITS_HISTORY.values())
+
+    if logger and total_entries_before != total_entries_after:
+        logger.debug(
+            f"Garbage collection: removed {total_entries_before - total_entries_after} old entries, {len(files_to_remove)} files completely"
+        )
+
+
+def should_suppress_mypy_info(file_path: str) -> bool:
+    """
+    Check if mypy information should be suppressed for the given file.
+
+    Returns True if the file has had 3 or more consecutive mypy failures,
+    meaning mypy info should be excluded from tool output to help agents focus
+    on more important issues.
+
+    Args:
+        file_path: The file path to check
+
+    Returns:
+        bool: True if mypy info should be suppressed, False otherwise
+    """
+    return MYPY_FAILURE_COUNTS.get(file_path, 0) >= 3
+
+
+def update_mypy_failure_count(file_path: str, mypy_passed: bool) -> None:
+    """
+    Update the mypy failure count for a file based on the mypy result.
+
+    Args:
+        file_path: The file path being processed
+        mypy_passed: True if mypy passed, False if mypy failed
+    """
+    if mypy_passed:
+        # Reset counter on successful mypy
+        MYPY_FAILURE_COUNTS[file_path] = 0
+    else:
+        # Increment counter on mypy failure
+        MYPY_FAILURE_COUNTS[file_path] = MYPY_FAILURE_COUNTS.get(file_path, 0) + 1
+
+
+def get_failed_edit_info(file_path: str, patch_content: str) -> Optional[str]:
+    """
+    Get awareness message for failed edit attempts.
+
+    Args:
+        file_path: The file path being patched
+        patch_content: The patch content
+
+    Returns:
+        Awareness message if applicable, None otherwise
+    """
+    if file_path not in FAILED_EDITS_HISTORY:
+        return None
+
+    failed_attempts = FAILED_EDITS_HISTORY[file_path]
+    if not failed_attempts:
+        return None
+
+    # Count all failed attempts for this file
+    total_failed_count = len(failed_attempts)
+
+    # Parse current patch content to get block count
+    try:
+        blocks = parse_search_replace_blocks(patch_content)
+        current_block_count = len(blocks)
+    except Exception:
+        current_block_count = 1  # Default to 1 if parsing fails
+
+    # Format ordinal number correctly
+    if total_failed_count == 2:
+        ordinal = "2nd"
+    elif total_failed_count == 3:
+        ordinal = "3rd"
+    else:
+        ordinal = f"{total_failed_count}th"
+
+    # Conditions as outlined:
+    # After 2nd failed attempt: show basic message
+    # After 3+ failed attempts AND multiple blocks: show additional splitting suggestion
+    if total_failed_count >= 3 and current_block_count > 1:
+        return f"This was your {ordinal} consecutive failed edit attempt of this file.\n\nIt looks you are having problems with providing multiple diffs in one tool call. Please consider splitting this edit into a few smaller ones."
+    elif total_failed_count >= 2:
+        return f"This was your {ordinal} consecutive failed edit attempt of this file."
+
+    return None
 
 
 def check_administrative_privileges():
@@ -823,7 +1029,6 @@ def run_python_qa_pipeline(file_path, python_exe):
     """
     file_path = Path(file_path)
     file_dir = str(file_path.parent)
-    file_name = file_path.name
     file_abs = str(file_path)
     max_iterations = max(1, QA_MAX_ITERATIONS)
     iteration = 0
@@ -855,7 +1060,9 @@ def run_python_qa_pipeline(file_path, python_exe):
     file_abs_lower = file_abs.lower()
     do_ruff = not SKIP_RUFF
     do_black = not SKIP_BLACK
-    do_mypy = not SKIP_MYPY and (not SKIP_MYPY_ON_TESTS or "tests" not in file_abs_lower)
+    do_mypy = not SKIP_MYPY and (
+        not SKIP_MYPY_ON_TESTS or "tests" not in file_abs_lower
+    )
 
     # Only iterate when both ruff and black are enabled
     effective_iterations = max_iterations if (do_ruff and do_black) else 1
@@ -909,18 +1116,34 @@ def run_python_qa_pipeline(file_path, python_exe):
         time.sleep(0.05)
 
         ruff_return_code = 0
-        ruff_stderr = ""
         if do_ruff:
             if logger:
                 logger.info(f"QA: ruff start ({file_abs})")
             if ruff_bin.exists():
-                ruff_cmd = [str(ruff_bin), "check", "--fix", "--isolated", "--no-cache", "--", file_abs]
+                ruff_cmd = [
+                    str(ruff_bin),
+                    "check",
+                    "--fix",
+                    "--isolated",
+                    "--no-cache",
+                    "--",
+                    file_abs,
+                ]
             else:
-                ruff_cmd = [python_exe, "-m", "ruff", "check", "--fix", "--isolated", "--no-cache", "--", file_abs]
+                ruff_cmd = [
+                    python_exe,
+                    "-m",
+                    "ruff",
+                    "check",
+                    "--fix",
+                    "--isolated",
+                    "--no-cache",
+                    "--",
+                    file_abs,
+                ]
             success, stdout, stderr, ruff_return_code = run_command_with_timeout(
                 ruff_cmd, cwd=file_dir, timeout=QA_CMD_TIMEOUT, shell=False, env=qa_env
             )
-            ruff_stderr = stderr
             if logger:
                 logger.info(f"QA: ruff done rc={ruff_return_code}")
             if ruff_return_code == -1:
@@ -936,7 +1159,9 @@ def run_python_qa_pipeline(file_path, python_exe):
                     return qa_results
                 elif stderr:
                     qa_results["warnings"].append(f"Ruff warnings: {stderr}")
-            qa_results["ruff_status"] = "passed" if ruff_return_code == 0 else "warnings"
+            qa_results["ruff_status"] = (
+                "passed" if ruff_return_code == 0 else "warnings"
+            )
 
         if do_black:
             if logger:
@@ -1014,6 +1239,199 @@ def run_python_qa_pipeline(file_path, python_exe):
     return qa_results
 
 
+def normalize_text_for_fuzzy_matching(text: str) -> str:
+    """
+    Normalize text for fuzzy matching by:
+    - Stripping leading/trailing whitespace
+    - Normalizing line endings to \n
+    - Collapsing multiple consecutive whitespace characters to single spaces
+    - Converting tabs to spaces
+    """
+    # Normalize line endings
+    normalized = text.replace('\r\n', '\n').replace('\r', '\n')
+    
+    # Convert tabs to spaces and collapse multiple whitespace
+    normalized = re.sub(r'[ \t]+', ' ', normalized)
+    
+    # Strip leading/trailing whitespace from each line
+    lines = [line.strip() for line in normalized.split('\n')]
+    
+    # Remove empty lines at start and end, but preserve internal empty lines
+    while lines and not lines[0]:
+        lines.pop(0)
+    while lines and not lines[-1]:
+        lines.pop()
+    
+    return '\n'.join(lines)
+
+
+def find_fuzzy_matches(search_text: str, content: str) -> List[tuple]:
+    """
+    Find fuzzy matches for search_text in content using relaxed matching criteria.
+    
+    Returns a list of tuples: (start_line, end_line, matched_text, similarity_ratio)
+    """
+    # Normalize both texts for comparison
+    normalized_search = normalize_text_for_fuzzy_matching(search_text)
+    
+    if not normalized_search.strip():
+        return []
+    
+    content_lines = content.split('\n')
+    search_lines = normalized_search.split('\n')
+    num_search_lines = len(search_lines)
+    matches = []
+    
+    # Try to find matches with exact line count first, then with some flexibility
+    for line_tolerance in [0, 1, 2]:  # Try exact match, then +/- 1 line, then +/- 2 lines
+        for start_line in range(len(content_lines)):
+            # Try different end positions around the expected size
+            for line_offset in range(-line_tolerance, line_tolerance + 1):
+                end_line = start_line + num_search_lines - 1 + line_offset
+                
+                if end_line >= len(content_lines) or end_line < start_line:
+                    continue
+                
+                # Extract candidate text
+                candidate_lines = content_lines[start_line:end_line + 1]
+                candidate_text = '\n'.join(candidate_lines)
+                normalized_candidate = normalize_text_for_fuzzy_matching(candidate_text)
+                
+                # Calculate similarity using difflib
+                similarity = difflib.SequenceMatcher(None, normalized_search, normalized_candidate).ratio()
+                
+                # Consider it a fuzzy match if similarity is high enough
+                # Use higher threshold for better precision
+                if similarity >= 0.8:
+                    matches.append((start_line, end_line, candidate_text, similarity))
+    
+    if not matches:
+        return []
+    
+    # Sort by similarity (best matches first)
+    matches.sort(key=lambda x: x[3], reverse=True)
+    
+    # Remove overlapping matches, keeping only the best one
+    filtered_matches = []
+    for match in matches:
+        start, end, text, sim = match
+        # Check if this match overlaps with any existing match
+        overlaps = False
+        for existing_start, existing_end, _, _ in filtered_matches:
+            # Check for any overlap
+            if not (end < existing_start or start > existing_end):
+                overlaps = True
+                break
+        
+        if not overlaps:
+            filtered_matches.append(match)
+    
+    # If we have multiple non-overlapping matches, only return the best one
+    # to avoid ambiguity in hints
+    if len(filtered_matches) > 1:
+        # Check if the best match is significantly better than others
+        best_similarity = filtered_matches[0][3]
+        second_best_similarity = filtered_matches[1][3] if len(filtered_matches) > 1 else 0
+        
+        # Only return the best match if it's clearly better (5% difference)
+        if best_similarity - second_best_similarity >= 0.05:
+            return [filtered_matches[0]]
+        else:
+            # Too ambiguous, return empty to avoid confusing hints
+            return []
+    
+    return filtered_matches
+
+
+def generate_fuzzy_match_hint(search_text: str, content: str, file_path: str) -> Optional[str]:
+    """
+    Generate a helpful hint when exact search fails by finding fuzzy matches.
+    
+    Returns a hint string if exactly one fuzzy match is found, None otherwise.
+    
+    Safeguards:
+    - Skip if search text is too short (< 20 chars) - likely too many false matches
+    - Skip if search text is too long (> 2000 chars) - unlikely to be helpful for large blocks
+    - Skip if search text has too few lines (< 2) - single lines often match too broadly
+    - Skip if search text has too many lines (> 50) - large blocks are usually structurally different
+    """
+    try:
+        if logger:
+            logger.debug(f"Generating fuzzy match hint for search text in {file_path}")
+        
+        # Safeguard: Check search text length
+        search_text_stripped = search_text.strip()
+        if len(search_text_stripped) < 20:
+            if logger:
+                logger.debug(f"Search text too short ({len(search_text_stripped)} chars), skipping fuzzy matching")
+            return None
+        
+        if len(search_text_stripped) > 2000:
+            if logger:
+                logger.debug(f"Search text too long ({len(search_text_stripped)} chars), skipping fuzzy matching")
+            return None
+        
+        # Safeguard: Check number of lines
+        search_lines = search_text_stripped.split('\n')
+        num_lines = len([line for line in search_lines if line.strip()])  # Count non-empty lines
+        
+        if num_lines < 2:
+            if logger:
+                logger.debug(f"Search text has too few lines ({num_lines}), skipping fuzzy matching")
+            return None
+        
+        if num_lines > 50:
+            if logger:
+                logger.debug(f"Search text has too many lines ({num_lines}), skipping fuzzy matching")
+            return None
+        
+        fuzzy_matches = find_fuzzy_matches(search_text, content)
+        
+        if logger:
+            logger.debug(f"Found {len(fuzzy_matches)} fuzzy matches")
+        
+        # Only provide hint if we have exactly one match
+        if len(fuzzy_matches) == 1:
+            start_line, end_line, matched_text, similarity = fuzzy_matches[0]
+            
+            if logger:
+                logger.debug(f"Single fuzzy match found at lines {start_line+1}-{end_line+1} with {similarity:.2%} similarity")
+            
+            # Add context lines (3 before and 3 after)
+            content_lines = content.split('\n')
+            context_start = max(0, start_line - 3)
+            context_end = min(len(content_lines), end_line + 4)
+            
+            # Build the hint with line numbers
+            hint_lines = []
+            hint_lines.append("Hint: Found similar content with whitespace/formatting differences. Check the exact text around these lines:")
+            hint_lines.append("")
+            
+            for line_num in range(context_start, context_end):
+                line_content = content_lines[line_num] if line_num < len(content_lines) else ""
+                # Mark the actual match lines with arrows
+                if start_line <= line_num <= end_line:
+                    hint_lines.append(f"{line_num + 1:4d}: {line_content}  <-- likely match")
+                else:
+                    hint_lines.append(f"{line_num + 1:4d}: {line_content}")
+            
+            return '\n'.join(hint_lines)
+        
+        elif len(fuzzy_matches) > 1:
+            if logger:
+                logger.debug(f"Multiple fuzzy matches found ({len(fuzzy_matches)}), not providing hint")
+        else:
+            if logger:
+                logger.debug("No fuzzy matches found")
+        
+        return None
+        
+    except Exception as e:
+        if logger:
+            logger.warning(f"Error generating fuzzy match hint: {e}")
+        return None
+
+
 @mcp.tool()
 def patch_file(
     file_path: str = Field(description="The path to the file to patch"),
@@ -1052,6 +1470,16 @@ def patch_file(
     - Each SEARCH text must match exactly once; otherwise the tool errors.
     - If the file is Python, you will also receive a brief linter output in addition to patch status.
     """
+    # Increment tool call counter and trigger garbage collection every 100 calls
+    global TOOL_CALL_COUNTER
+    TOOL_CALL_COUNTER += 1
+    if TOOL_CALL_COUNTER % 100 == 0:
+        if logger:
+            logger.debug(
+                f"Tool call #{TOOL_CALL_COUNTER}: triggering garbage collection"
+            )
+        garbage_collect_failed_edit_history()
+
     # DEBUG: Log input parameters for precise debugging
     if logger:
         logger.info(f"patch_file start: {file_path}")
@@ -1063,6 +1491,13 @@ def patch_file(
         )
         logger.debug(f"Allowed directories: {allowed_directories}")
         logger.debug("=== END PATCH_FILE INPUT DEBUG ===")
+
+    # Check for failed edit awareness message
+    awareness_message = get_failed_edit_info(file_path, patch_content)
+    if awareness_message:
+        if logger:
+            logger.info(f"Failed edit awareness: {awareness_message}")
+        print(awareness_message)  # Print to stdout so it appears in the response
 
     # Self-correct hint: require absolute paths
     try:
@@ -1195,13 +1630,22 @@ def patch_file(
                 )
 
             else:
-                # No match found
+                # No match found - try fuzzy matching to provide helpful hints
                 if logger:
                     logger.debug(f"Block {i+1}: ERROR - No matches found in file")
-                raise ValueError(
+                
+                # Generate fuzzy match hint
+                fuzzy_hint = generate_fuzzy_match_hint(search_text, current_content, file_path)
+                
+                error_message = (
                     f"Block {i+1}: Could not find the search text in the file. "
                     "Please ensure the search text exactly matches the content in the file."
                 )
+                
+                if fuzzy_hint:
+                    error_message += f"\n\n{fuzzy_hint}"
+                
+                raise ValueError(error_message)
 
         # Write the final content back to the file
         if logger:
@@ -1253,32 +1697,93 @@ def patch_file(
                 if logger:
                     logger.debug(f"QA pipeline completed with results: {qa_results}")
 
+                # Update mypy failure count for steering logic
+                mypy_passed = qa_results.get("mypy_status") == "passed"
+                update_mypy_failure_count(file_path, mypy_passed)
+
+                # Check if mypy information should be suppressed
+                suppress_mypy = should_suppress_mypy_info(file_path)
+
                 # Format QA results for response
                 qa_summary = "\n\nQA Results:\n"
-                # Passed statuses only
-                if qa_results.get("ruff_status") == "passed":
-                    qa_summary += "- Ruff: passed\n"
-                if qa_results.get("black_status") == "passed":
-                    qa_summary += "- Black: passed\n"
-                if qa_results.get("mypy_status") == "passed":
+
+                # Passed and warnings statuses
+                ruff_status = qa_results.get("ruff_status")
+                if ruff_status in ["passed", "warnings"]:
+                    status_text = "passed" if ruff_status == "passed" else "completed successfully"
+                    qa_summary += f"- Ruff: {status_text}\n"
+
+                black_status = qa_results.get("black_status")
+                if black_status in ["passed", "warnings"]:
+                    status_text = "passed" if black_status == "passed" else "completed successfully"
+                    qa_summary += f"- Black: {status_text}\n"
+
+                mypy_status = qa_results.get("mypy_status")
+                if mypy_status == "passed" and not suppress_mypy:
                     qa_summary += "- MyPy: passed\n"
 
-                # Errors: include full command output per failed tool
-                failed = []
-                if qa_results.get("ruff_status") == "failed":
-                    failed.append(("Ruff", qa_results.get("ruff_stdout", ""), qa_results.get("ruff_stderr", "")))
-                if qa_results.get("black_status") == "failed":
-                    failed.append(("Black", qa_results.get("black_stdout", ""), qa_results.get("black_stderr", "")))
-                if qa_results.get("mypy_status") == "failed":
-                    failed.append(("MyPy", qa_results.get("mypy_stdout", ""), qa_results.get("mypy_stderr", "")))
+                # Collect tools with issues (warnings or failures) for detailed output
+                tools_with_output = []
 
-                if failed:
-                    qa_summary += "\nQA Errors:\n"
-                    for name, out, err in failed:
+                # Failed tools
+                if qa_results.get("ruff_status") == "failed":
+                    tools_with_output.append(
+                        (
+                            "Ruff",
+                            qa_results.get("ruff_stdout", ""),
+                            qa_results.get("ruff_stderr", ""),
+                            "failed"
+                        )
+                    )
+                if qa_results.get("black_status") == "failed":
+                    tools_with_output.append(
+                        (
+                            "Black",
+                            qa_results.get("black_stdout", ""),
+                            qa_results.get("black_stderr", ""),
+                            "failed"
+                        )
+                    )
+                if qa_results.get("mypy_status") == "failed" and not suppress_mypy:
+                    tools_with_output.append(
+                        (
+                            "MyPy",
+                            qa_results.get("mypy_stdout", ""),
+                            qa_results.get("mypy_stderr", ""),
+                            "failed"
+                        )
+                    )
+
+                # Tools with warnings
+                if qa_results.get("ruff_status") == "warnings":
+                    tools_with_output.append(
+                        (
+                            "Ruff",
+                            qa_results.get("ruff_stdout", ""),
+                            qa_results.get("ruff_stderr", ""),
+                            "completed with warnings"
+                        )
+                    )
+                if qa_results.get("black_status") == "warnings":
+                    tools_with_output.append(
+                        (
+                            "Black",
+                            qa_results.get("black_stdout", ""),
+                            qa_results.get("black_stderr", ""),
+                            "completed with warnings"
+                        )
+                    )
+
+                if tools_with_output:
+                    qa_summary += "\nQA Details:\n"
+                    for name, out, err, status in tools_with_output:
                         combined = "\n".join([s for s in [out, err] if s])
-                        combined = combined if combined else f"{name} failed with no output"
-                        qa_summary += f"- {name} output:\n{combined}\n"
-                    qa_summary += "\nYou need to perform code linting and QA by manually running ruff and black commands.\n"
+                        if combined:
+                            qa_summary += f"- {name} ({status}):\n{combined}\n"
+                        else:
+                            qa_summary += f"- {name}: {status} with no output\n"
+                    if any(status == "failed" for _, _, _, status in tools_with_output):
+                        qa_summary += "\nYou need to perform code linting and QA by manually running ruff and black commands.\n"
 
                 # Warnings
                 if qa_results.get("warnings"):
@@ -1305,6 +1810,9 @@ def patch_file(
                     f"File extension '{pp.suffix}' is not .py - skipping QA pipeline"
                 )
 
+        # Clear failed edit history on successful patch
+        clear_failed_edit_history(file_path)
+
         if logger:
             logger.info(
                 f"patch_file success: {file_path} | blocks={applied_blocks} | qa={'yes' if qa_performed else 'no'}"
@@ -1324,6 +1832,45 @@ def patch_file(
             import traceback
 
             logger.debug(f"Traceback: {traceback.format_exc()}")
+
+        # Track failed edit attempt
+        # Determine failure stage based on exception type and message
+        error_msg = str(e)
+        if (
+            "relative path" in error_msg.lower()
+            or "Invalid or relative path" in error_msg
+        ):
+            failure_stage = "path_validation"
+        elif (
+            "binary file" in error_msg.lower()
+            or "should only be used to edit text files" in error_msg
+        ):
+            failure_stage = "binary_file_check"
+        elif (
+            "not in allowed directories" in error_msg.lower()
+            or "is not in any of the allowed directories" in error_msg
+        ):
+            failure_stage = "directory_access"
+        elif "does not exist" in error_msg.lower() or "FileNotFoundError" in str(
+            type(e)
+        ):
+            failure_stage = "file_existence"
+        elif (
+            "search-replace blocks" in error_msg.lower()
+            or "patch markers" in error_msg.lower()
+            or "Invalid patch format" in error_msg
+        ):
+            failure_stage = "patch_parsing"
+        elif (
+            ("appears" in error_msg.lower() and "times" in error_msg.lower())
+            or "Could not find the search text" in error_msg
+            or "ambiguous" in error_msg.lower()
+        ):
+            failure_stage = "block_application"
+        else:
+            failure_stage = "general_error"
+
+        track_failed_edit(file_path, patch_content, failure_stage, error_msg)
 
         raise RuntimeError(f"Failed to apply patch: {str(e)}")
 
