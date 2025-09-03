@@ -72,6 +72,13 @@ This fork provides extensive enhancements that transform the basic file patching
 - **Quality Assurance**: Ensures code quality standards are maintained throughout development
 - **Context Preservation**: Keeps agent context clean by handling QA within the same interaction
 
+#### **🛡️ Git Versioning & Recovery System**
+- **Automatic Commit Tracking**: Creates git commits for all successful file edits with meaningful messages
+- **Error Recovery Protection**: Enables easy rollback from erroneous or problematic file edits
+- **Quality-Gated Commits**: Only commits files after successful QA validation passes
+- **Selective Staging**: Only stages and commits files that were actually modified by the patch_file tool
+- **CLI Control**: Enable/disable versioning with `--disable-versioning` flag (enabled by default)
+
 #### **Enhanced Path Handling**
 - **Universal Path Normalization**: Handles all path formats regardless of input method
 - **Cross-Platform Compatibility**: Works identically on Windows, MacOS, and Linux
@@ -89,6 +96,7 @@ This fork provides extensive enhancements that transform the basic file patching
 These fork-exclusive features provide:
 - **Security**: Administrative privilege protection, mandatory sandboxing, binary file protection
 - **Intelligence**: Failed edit tracking, mypy suppression, automatic QA pipeline
+- **Recovery**: Git versioning system enables easy rollback from erroneous edits
 - **Usability**: Enhanced path handling, advanced logging, memory management
 - **Productivity**: Helps AI agents work more effectively and avoid repetitive failures
 
@@ -100,7 +108,14 @@ These fork-exclusive features provide:
 
 ### 🎯 **Recent Feature Additions**
 
-#### **Agent Steering & Awareness System (Latest)**
+#### **🛡️ Git Versioning & Recovery System (Latest)**
+- **Automatic Commit Tracking**: Creates git commits for successful file edits with meaningful messages
+- **Error Recovery Protection**: Enables easy rollback from erroneous or problematic file edits
+- **Quality-Gated Commits**: Only commits files after successful QA validation passes
+- **Selective Staging**: Only stages and commits files actually modified by the patch_file tool
+- **CLI Control**: Enable/disable versioning with `--disable-versioning` flag (enabled by default)
+
+#### **Agent Steering & Awareness System**
 - **Failed Edit Attempt Tracking**: Intelligent monitoring of consecutive file edit failures with progressive guidance
 - **Mypy Failure Suppression**: Automatic suppression of mypy output after repeated failures to maintain agent focus
 - **Memory Management**: Automatic garbage collection system for optimal performance
@@ -252,6 +267,167 @@ Notes:
 ./server --allowed-dir C:\Projects --allowed-dir /home/user/docs --allowed-dir "D:\\Work Files"
 ```
 
+### `--disable-versioning` - **Git Versioning Control**
+
+Control the automatic git versioning feature that creates commits for successful file edits.
+
+**Important**: This is a **critical safety and recovery feature** that enables easy rollback from erroneous or problematic file edits introduced by AI agents.
+
+**Default**: `False` (versioning enabled)
+
+**When Enabled (Default Behavior):**
+- Creates git commits after successful file edits
+- Only commits files that were actually modified by the `patch_file` tool
+- Commits only occur after QA validation passes (for Python files)
+- Generates meaningful commit messages automatically
+- Provides commit hash in response for tracking
+
+**When Disabled:**
+- No automatic git commits are created
+- File edits are not tracked in git history
+- No recovery mechanism available for erroneous edits
+
+**Example Usage:**
+```bash
+# Enable versioning (default)
+patch-file-mcp --allowed-dir /path/to/projects
+
+# Disable versioning
+patch-file-mcp --allowed-dir /path/to/projects --disable-versioning
+```
+
+**Why This Feature is Important:**
+- **Error Recovery**: Easily rollback from AI-introduced bugs or incorrect changes
+- **Change Tracking**: Clear git history of all file modifications
+- **Quality Assurance**: Only successful, QA-validated edits are committed
+- **Selective Commits**: Only modified files are staged, not entire working directory
+
+## 🛡️ Git Versioning & Recovery
+
+This critical feature provides **automatic git versioning** for all successful file edits, enabling easy recovery from erroneous changes introduced by AI agents.
+
+### How It Works
+
+1. **Quality-Gated Commits**: File edits are only committed after successful QA validation
+2. **Selective Staging**: Only files modified by the `patch_file` tool are staged and committed
+3. **Automatic Messages**: Meaningful commit messages are generated based on the changes
+4. **Repository Detection**: Automatically finds and uses the git repository containing your project
+
+### Relationship with `.gitignore`
+
+The versioning system **respects your project's `.gitignore` file**:
+
+- **Staged Files**: Only files that would normally be tracked by git are staged
+- **Ignored Files**: Files listed in `.gitignore` are never staged or committed
+- **Clean Commits**: Ensures only relevant project files appear in version history
+- **Repository Integrity**: Maintains your existing git workflow and ignore patterns
+
+**Example**: If you have `*.log` in your `.gitignore`, log files will never be committed even if they're modified.
+
+### Recovery from Errors
+
+When versioning is enabled, you can easily recover from problematic edits using standard git commands:
+
+#### **View Recent Commits**
+```bash
+# Show recent commits made by the MCP server
+git log --oneline -10
+
+# Filter commits by the MCP server (if attribution is enabled)
+git log --oneline --grep="Update"
+```
+
+#### **Revert a Specific File**
+```bash
+# Revert a specific file to previous version
+git checkout HEAD~1 -- path/to/file.py
+
+# Or revert to a specific commit
+git checkout abc1234 -- path/to/file.py
+```
+
+#### **Revert Multiple Files**
+```bash
+# Revert entire commit (undoes all changes in that commit)
+git revert HEAD
+
+# Revert to a previous state
+git reset --hard HEAD~1
+```
+
+#### **View Changes Before Reverting**
+```bash
+# See what changed in the last commit
+git show HEAD
+
+# See changes in a specific file
+git show HEAD -- path/to/file.py
+
+# Compare current state with previous commit
+git diff HEAD~1
+```
+
+### Best Practices
+
+#### **For Development**
+- **Keep versioning enabled** (default) for maximum safety
+- **Review commits** before pushing to shared repositories
+- **Use meaningful commit messages** when manually committing related changes
+
+#### **For Production**
+- **Always enable versioning** to maintain change history
+- **Regular backups** of your git repository for additional safety
+- **Test recoveries** in development before relying on them in production
+
+#### **For Sensitive Projects**
+- **Audit commit history** regularly for unexpected changes
+- **Use git hooks** for additional validation if needed
+- **Consider branch protection** for important branches
+
+### Troubleshooting
+
+#### **Versioning Not Working**
+```bash
+# Check if you're in a git repository
+git status
+
+# Verify the MCP server can find the git repo
+# (Check server logs for git-related messages)
+```
+
+#### **Commits Not Appearing**
+```bash
+# Check git status for staged/uncommitted changes
+git status
+
+# View recent commits
+git log --oneline -5
+```
+
+#### **Unexpected Files Committed**
+```bash
+# Check your .gitignore file
+cat .gitignore
+
+# See what files are being tracked
+git ls-files
+```
+
+### Security Considerations
+
+- **Repository Access**: The server only accesses git repositories within allowed directories
+- **Clean History**: No temporary or sensitive files are committed
+- **Respect for .gitignore**: Your existing ignore patterns are honored
+- **No Force Pushes**: The system never performs force pushes or destructive operations
+
+### Performance Impact
+
+- **Minimal Overhead**: Git operations are fast and don't impact normal file editing
+- **Selective Processing**: Only modified files are processed
+- **Background Operation**: Commits happen after successful edits without blocking
+
+**Recommendation**: Keep versioning **enabled** for maximum safety and recovery capabilities.
+
 ## Logging
 
 This fork includes comprehensive logging capabilities for debugging, diagnostics, and audit purposes. All logging output is written exclusively to file, ensuring no output appears on STDOUT or STDERR.
@@ -385,8 +561,10 @@ QA note: If the file is Python, the response also includes a brief linter/format
 2. Claude generates a block format patch that makes the desired changes
 3. Claude uses `patch_file` to apply these changes to your file
 4. **For Python files**: Automatic QA runs (Ruff → Black → MyPy) and results are included
-5. **For other files**: Clean success message is returned
-6. If the patch fails, Claude provides detailed error information to help you fix the issue
+5. **Git versioning**: If enabled (default), successful edits are automatically committed with meaningful messages
+6. **For other files**: Clean success message is returned with commit confirmation
+7. If the patch fails, Claude provides detailed error information to help you fix the issue
+8. **Recovery available**: If needed, easily rollback using standard git commands (`git revert`, `git checkout`)
 
 
 ## Security Considerations
@@ -418,6 +596,7 @@ This fork implements a **defense-in-depth** security approach with multiple laye
 - **Multiple blocks in one operation**: Can apply several changes in a single call
 - **Safety checks**: Ensures the correct sections are modified through exact matching
 - **Detailed errors**: Provides clear feedback when patches can't be applied
+- **🛡️ Git versioning & recovery**: Automatic commits enable easy rollback from erroneous AI edits
 - **Intelligent agent steering**: Failed edit tracking and progressive awareness messages prevent repetitive failures
 - **Mypy failure suppression**: Automatically suppresses mypy output after repeated failures to maintain focus on main tasks
 - **Memory management**: Automatic garbage collection prevents memory bloat from historical tracking data
@@ -481,6 +660,7 @@ See [tests/README.md](tests/README.md) for detailed information about the test s
 
 ### Core Dependencies
 - fastmcp (>=2.2.0, <3.0.0)
+- GitPython (>=3.1.0) - Required for git versioning and recovery features
 
 ### Test Dependencies (Optional)
 For running the test suite, install with:
