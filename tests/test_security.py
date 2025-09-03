@@ -107,7 +107,6 @@ class TestSecurity:
             ),
             patch("sys.argv", test_argv),
             patch("sys.exit") as mock_exit,
-            patch("patch_file_mcp.server.mcp.run") as mock_mcp_run,
         ):
 
             # Call main function

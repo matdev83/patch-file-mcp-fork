@@ -1,9 +1,9 @@
 """
 Tests for virtual environment detection functionality.
 """
-import pytest
+
 from pathlib import Path
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 # Import the functions we want to test
 from patch_file_mcp.server import (
@@ -18,42 +18,42 @@ class TestVenvDetection:
 
     def test_get_current_python_executable(self):
         """Test getting current Python executable path."""
-        with patch('sys.executable', '/usr/bin/python3'):
+        with patch("sys.executable", "/usr/bin/python3"):
             result = get_current_python_executable()
-            assert result == '/usr/bin/python3'
+            assert result == "/usr/bin/python3"
 
     def test_is_same_venv_identical_paths(self):
         """Test venv comparison with identical paths."""
-        path1 = '/path/to/python.exe'
-        path2 = '/path/to/python.exe'
+        path1 = "/path/to/python.exe"
+        path2 = "/path/to/python.exe"
 
         assert is_same_venv(path1, path2) is True
 
     def test_is_same_venv_different_paths(self):
         """Test venv comparison with different paths."""
-        path1 = '/venv1/Scripts/python.exe'
-        path2 = '/venv2/Scripts/python.exe'
+        path1 = "/venv1/Scripts/python.exe"
+        path2 = "/venv2/Scripts/python.exe"
 
         assert is_same_venv(path1, path2) is False
 
     def test_is_same_venv_same_scripts_directory(self):
         """Test venv comparison with same Scripts directory."""
-        path1 = '/venv/Scripts/python.exe'
-        path2 = '/venv/Scripts/python.exe'
+        path1 = "/venv/Scripts/python.exe"
+        path2 = "/venv/Scripts/python.exe"
 
         assert is_same_venv(path1, path2) is True
 
     def test_is_same_venv_same_venv_root(self):
         """Test venv comparison with same venv root directory."""
-        path1 = '/project/.venv/Scripts/python.exe'
-        path2 = '/project/.venv/Scripts/python.exe'
+        path1 = "/project/.venv/Scripts/python.exe"
+        path2 = "/project/.venv/Scripts/python.exe"
 
         assert is_same_venv(path1, path2) is True
 
     def test_is_same_venv_none_paths(self):
         """Test venv comparison with None paths."""
-        assert is_same_venv(None, '/path/to/python.exe') is False
-        assert is_same_venv('/path/to/python.exe', None) is False
+        assert is_same_venv(None, "/path/to/python.exe") is False
+        assert is_same_venv("/path/to/python.exe", None) is False
         assert is_same_venv(None, None) is False
 
     def test_find_venv_directory_with_dot_venv(self, tmp_path, mock_venv_path):
@@ -70,7 +70,7 @@ class TestVenvDetection:
         python_exe = scripts_dir / "python.exe"
         python_exe.write_text("# Mock python")
 
-        with patch('sys.executable', str(python_exe)):
+        with patch("sys.executable", str(python_exe)):
             result = find_venv_directory(str(test_file))
 
             # Should not find the venv because it's the same as current executable
@@ -95,7 +95,7 @@ class TestVenvDetection:
         python_exe.write_text("# Mock python")
 
         # Mock current executable to be different
-        with patch('sys.executable', '/different/python.exe'):
+        with patch("sys.executable", "/different/python.exe"):
             result = find_venv_directory(str(test_file))
 
             assert result == str(python_exe)
@@ -121,7 +121,7 @@ class TestVenvDetection:
         test_file = sub_dir / "test.py"
         test_file.write_text("print('test')")
 
-        with patch('sys.executable', '/different/python.exe'):
+        with patch("sys.executable", "/different/python.exe"):
             result = find_venv_directory(str(test_file))
 
             assert result == str(python_exe)
@@ -149,7 +149,7 @@ class TestVenvDetection:
         python = scripts / "python.exe"
         python.write_text("# Regular venv python")
 
-        with patch('sys.executable', '/different/python.exe'):
+        with patch("sys.executable", "/different/python.exe"):
             result = find_venv_directory(str(test_file))
 
             # Should prefer .venv
@@ -161,12 +161,13 @@ class TestVenvDetection:
         test_file.write_text("print('test')")
 
         # Mock sys.executable to avoid finding system venvs
-        monkeypatch.setattr('sys.executable', '/completely/different/python.exe')
+        monkeypatch.setattr("sys.executable", "/completely/different/python.exe")
 
         # Also mock Path.exists to ensure no venvs are found
         original_exists = Path.exists
+
         def mock_exists(self):
-            if '.venv' in str(self) or 'venv' in str(self):
+            if ".venv" in str(self) or "venv" in str(self):
                 # Only allow the tmp_path to exist, not any parent directories
                 if str(tmp_path) in str(self):
                     return original_exists(self)
@@ -174,7 +175,7 @@ class TestVenvDetection:
                     return False
             return original_exists(self)
 
-        monkeypatch.setattr(Path, 'exists', mock_exists)
+        monkeypatch.setattr(Path, "exists", mock_exists)
 
         result = find_venv_directory(str(test_file))
 
@@ -199,7 +200,7 @@ class TestVenvDetection:
         python_exe = scripts_dir / "python.exe"
         python_exe.write_text("# Mock python")
 
-        with patch('sys.executable', '/different/python.exe'):
+        with patch("sys.executable", "/different/python.exe"):
             result = find_venv_directory(str(test_file))
 
             # Should not find the venv because it's too deep

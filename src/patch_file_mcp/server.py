@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 import sys
 import argparse
-import subprocess
+import subprocess  # nosec B404 - required for command execution
 import os
 import time
 import logging
@@ -14,6 +14,8 @@ import difflib
 
 from fastmcp import FastMCP
 from pydantic.fields import Field
+
+from .git_repo import GitRepo
 
 
 def setup_logging(log_file_path: str, log_level: str) -> logging.Logger:
@@ -100,6 +102,12 @@ SKIP_RUFF = False
 SKIP_BLACK = False
 SKIP_MYPY = False
 SKIP_MYPY_ON_TESTS = True
+
+# Versioning feature flag (set via CLI)
+DISABLE_VERSIONING = False  # Default: versioning enabled
+
+# Git repository instance for versioning
+git_repo = None
 
 # Failed edit tracking data structures
 FAILED_EDITS_HISTORY: Dict[str, List[Dict]] = {}  # filename -> list of failed attempts
@@ -554,6 +562,11 @@ Examples:
         action="store_true",
         help="Run MyPy even when the target file path contains 'tests' (overridden by --no-mypy)",
     )
+    parser.add_argument(
+        "--disable-versioning",
+        action="store_true",
+        help="Disable automatic git versioning/commits after successful file edits (default: False)",
+    )
 
     args = parser.parse_args()
 
@@ -575,6 +588,22 @@ Examples:
     # Validate allowed directories at startup
     allowed_directories = validate_allowed_directories(args.allowed_dirs)
 
+    # Initialize git repository for versioning (if enabled)
+    global git_repo
+    global DISABLE_VERSIONING
+    if not DISABLE_VERSIONING:
+        # Try to initialize git repo from the first allowed directory
+        if allowed_directories:
+            git_repo = GitRepo(allowed_directories[0], logger)
+            if git_repo.is_available():
+                logger.info(f"Git versioning enabled for repository: {git_repo.root}")
+            else:
+                logger.info("Git versioning disabled: no valid git repository found")
+        else:
+            logger.info("Git versioning disabled: no allowed directories configured")
+    else:
+        logger.info("Git versioning disabled by --disable-versioning flag")
+
     # Apply QA flags
     global SKIP_RUFF, SKIP_BLACK, SKIP_MYPY, SKIP_MYPY_ON_TESTS
     SKIP_RUFF = bool(args.no_ruff)
@@ -582,9 +611,13 @@ Examples:
     SKIP_MYPY = bool(args.no_mypy)
     SKIP_MYPY_ON_TESTS = not bool(args.run_mypy_on_tests)
 
+    # Apply versioning flag
+    DISABLE_VERSIONING = bool(args.disable_versioning)
+
     logger.info(
         f"QA config: timeout={QA_CMD_TIMEOUT}s, wall={QA_WALL_TIME}s, iterations={QA_MAX_ITERATIONS}, "
-        f"no_ruff={SKIP_RUFF}, no_black={SKIP_BLACK}, no_mypy={SKIP_MYPY}, skip_mypy_on_tests={SKIP_MYPY_ON_TESTS}"
+        f"no_ruff={SKIP_RUFF}, no_black={SKIP_BLACK}, no_mypy={SKIP_MYPY}, skip_mypy_on_tests={SKIP_MYPY_ON_TESTS}, "
+        f"disable_versioning={DISABLE_VERSIONING}"
     )
 
     logger.info(
@@ -1000,11 +1033,14 @@ def run_command_with_timeout(cmd, cwd=None, timeout=30, shell=False, env=None):
     """
     Run a command with a timeout and return the result.
     Returns a tuple: (success: bool, stdout: str, stderr: str, return_code: int)
+
+    Note: shell parameter is kept for compatibility but should only be used with False
+    for security reasons. All current usages use shell=False.
     """
     try:
         if logger:
             logger.debug(f"spawn cmd={cmd} cwd={cwd} timeout={timeout} shell={shell}")
-        result = subprocess.run(
+        result = subprocess.run(  # nosec B602 - shell parameter is controlled and defaults to False
             cmd,
             cwd=cwd,
             capture_output=True,
@@ -1870,9 +1906,32 @@ def patch_file(
         # Clear failed edit history on successful patch
         clear_failed_edit_history(file_path)
 
+        # Git versioning: commit successful changes if enabled
+        commit_result = None
+        if not DISABLE_VERSIONING and git_repo and git_repo.is_available():
+            if logger:
+                logger.debug(f"Attempting to commit successful changes to {file_path}")
+
+            # Generate commit message
+            commit_message = git_repo.get_commit_message([file_path])
+
+            # Commit the file
+            commit_result = git_repo.commit_files([file_path], commit_message)
+
+            if commit_result:
+                commit_hash, commit_msg = commit_result
+                patch_result += (
+                    f"\n\n✅ Version committed: {commit_hash} - {commit_msg}"
+                )
+                if logger:
+                    logger.info(f"Git commit successful: {commit_hash} for {file_path}")
+            else:
+                if logger:
+                    logger.warning(f"Git commit failed for {file_path}")
+
         if logger:
             logger.info(
-                f"patch_file success: {file_path} | blocks={applied_blocks} | qa={'yes' if qa_performed else 'no'}"
+                f"patch_file success: {file_path} | blocks={applied_blocks} | qa={'yes' if qa_performed else 'no'} | git={'yes' if commit_result else 'no'}"
             )
             logger.debug("=== PATCH_FILE SUCCESS ===")
             logger.debug(f"Returning patch result: {patch_result}")

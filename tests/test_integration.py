@@ -1,10 +1,9 @@
 """
 Integration tests for the patch-file-mcp functionality.
 """
+
 import pytest
-from pathlib import Path
 import time
-import tempfile
 import os
 
 # Import the functions we want to test
@@ -40,7 +39,7 @@ class TestIntegration:
 
     def test_run_command_with_timeout_success(self):
         """Test successful command execution."""
-        if os.name == 'nt':  # Windows
+        if os.name == "nt":  # Windows
             success, stdout, stderr, returncode = run_command_with_timeout(
                 'echo "test"', shell=True
             )
@@ -57,16 +56,14 @@ class TestIntegration:
         # Mock subprocess.run to return a failure
         from unittest.mock import patch, MagicMock
 
-        with patch('patch_file_mcp.server.subprocess.run') as mock_run:
+        with patch("patch_file_mcp.server.subprocess.run") as mock_run:
             mock_result = MagicMock()
             mock_result.returncode = 1
             mock_result.stdout = ""
             mock_result.stderr = "Command failed"
             mock_run.return_value = mock_result
 
-            success, stdout, stderr, returncode = run_command_with_timeout(
-                'false'
-            )
+            success, stdout, stderr, returncode = run_command_with_timeout("false")
 
         assert success is False
         assert returncode == 1
@@ -77,11 +74,11 @@ class TestIntegration:
         from unittest.mock import patch
         import subprocess
 
-        with patch('patch_file_mcp.server.subprocess.run') as mock_run:
-            mock_run.side_effect = subprocess.TimeoutExpired('sleep 10', 1)
+        with patch("patch_file_mcp.server.subprocess.run") as mock_run:
+            mock_run.side_effect = subprocess.TimeoutExpired("sleep 10", 1)
 
             success, stdout, stderr, returncode = run_command_with_timeout(
-                'sleep 10', timeout=1
+                "sleep 10", timeout=1
             )
 
         assert success is False

@@ -1,16 +1,18 @@
 """
 Pytest configuration and shared fixtures for patch-file-mcp tests.
 """
+
 import pytest
 import sys
 from pathlib import Path
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 # Mock fastmcp to avoid import errors during testing
 from unittest.mock import MagicMock
+
 
 # Create a mock FastMCP class that doesn't interfere with function execution
 class MockFastMCP:
@@ -23,16 +25,17 @@ class MockFastMCP:
             return lambda f: f
         return func
 
-    def run(self):
+    def run(self, **kwargs):
         pass
+
 
 # Mock the modules
 fastmcp_mock = MagicMock()
 fastmcp_mock.FastMCP = MockFastMCP
-sys.modules['fastmcp'] = fastmcp_mock
-sys.modules['fastmcp.fields'] = MagicMock()
-sys.modules['pydantic'] = MagicMock()
-sys.modules['pydantic.fields'] = MagicMock()
+sys.modules["fastmcp"] = fastmcp_mock
+sys.modules["fastmcp.fields"] = MagicMock()
+sys.modules["pydantic"] = MagicMock()
+sys.modules["pydantic.fields"] = MagicMock()
 
 
 @pytest.fixture
@@ -90,10 +93,12 @@ def hello():
 @pytest.fixture
 def mock_subprocess_run():
     """Mock subprocess.run for testing."""
-    with patch('patch_file_mcp.server.run_command_with_timeout') as mock_run:
+    with patch("patch_file_mcp.server.run_command_with_timeout") as mock_run:
+
         def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
             # Return success for all commands by default
             return (True, "", "", 0)
+
         mock_run.side_effect = mock_command
         yield mock_run
 
@@ -101,27 +106,29 @@ def mock_subprocess_run():
 @pytest.fixture
 def mock_qa_pipeline_complex():
     """Mock subprocess.run with complex QA pipeline behavior."""
-    with patch('patch_file_mcp.server.run_command_with_timeout') as mock_run, \
-         patch('patch_file_mcp.server.get_file_modification_time') as mock_time:
+    with (
+        patch("patch_file_mcp.server.run_command_with_timeout") as mock_run,
+        patch("patch_file_mcp.server.get_file_modification_time") as mock_time,
+    ):
 
-        call_count = {'ruff': 0, 'black': 0, 'mypy': 0}
+        call_count = {"ruff": 0, "black": 0, "mypy": 0}
         file_modified = True  # Start with file needing modification
 
         def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
-            if 'ruff' in cmd and 'check' in cmd and '--fix' in cmd:
-                call_count['ruff'] += 1
+            if "ruff" in cmd and "check" in cmd and "--fix" in cmd:
+                call_count["ruff"] += 1
                 return (True, "", "", 0)  # ruff succeeds
 
-            elif 'black' in cmd:
-                call_count['black'] += 1
+            elif "black" in cmd:
+                call_count["black"] += 1
                 # First black call should simulate file modification
                 nonlocal file_modified
-                if call_count['black'] == 1:
+                if call_count["black"] == 1:
                     file_modified = False  # File was modified
                 return (True, "", "", 0)  # black succeeds
 
-            elif 'mypy' in cmd:
-                call_count['mypy'] += 1
+            elif "mypy" in cmd:
+                call_count["mypy"] += 1
                 return (True, "", "", 0)  # mypy succeeds
 
             return (True, "", "", 0)
@@ -141,14 +148,16 @@ def mock_qa_pipeline_complex():
 @pytest.fixture
 def mock_qa_pipeline_timeout():
     """Mock subprocess.run that simulates timeout."""
-    import subprocess
-    with patch('patch_file_mcp.server.run_command_with_timeout') as mock_run:
+
+    with patch("patch_file_mcp.server.run_command_with_timeout") as mock_run:
+
         def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
             # Handle both string and list command formats
-            cmd_str = ' '.join(cmd) if isinstance(cmd, list) else cmd
-            if 'ruff' in cmd_str and 'check' in cmd_str and '--fix' in cmd_str:
+            cmd_str = " ".join(cmd) if isinstance(cmd, list) else cmd
+            if "ruff" in cmd_str and "check" in cmd_str and "--fix" in cmd_str:
                 return (False, "", f"Command timed out after {timeout} seconds", -1)
             return (True, "", "", 0)
+
         mock_run.side_effect = mock_command
         yield mock_run
 
@@ -156,18 +165,20 @@ def mock_qa_pipeline_timeout():
 @pytest.fixture
 def mock_qa_pipeline_warnings():
     """Mock subprocess.run that simulates warnings."""
-    with patch('patch_file_mcp.server.run_command_with_timeout') as mock_run, \
-         patch('patch_file_mcp.server.get_file_modification_time') as mock_time:
+    with (
+        patch("patch_file_mcp.server.run_command_with_timeout") as mock_run,
+        patch("patch_file_mcp.server.get_file_modification_time") as mock_time,
+    ):
 
         def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
             # Handle both string and list command formats
-            cmd_str = ' '.join(cmd) if isinstance(cmd, list) else cmd
-            if 'ruff' in cmd_str and 'check' in cmd_str and '--fix' in cmd_str:
+            cmd_str = " ".join(cmd) if isinstance(cmd, list) else cmd
+            if "ruff" in cmd_str and "check" in cmd_str and "--fix" in cmd_str:
                 return (True, "", "", 0)  # ruff succeeds
-            elif 'black' in cmd_str:
+            elif "black" in cmd_str:
                 # Simulate black with warnings (return code != 0)
                 return (True, "", "warning: some warning message", 1)
-            elif 'mypy' in cmd_str:
+            elif "mypy" in cmd_str:
                 return (True, "", "", 0)  # mypy succeeds
             return (True, "", "", 0)
 
@@ -180,19 +191,21 @@ def mock_qa_pipeline_warnings():
 @pytest.fixture
 def mock_qa_pipeline_iteration_limit():
     """Mock subprocess.run that simulates infinite reformatting loop."""
-    with patch('patch_file_mcp.server.run_command_with_timeout') as mock_run, \
-         patch('patch_file_mcp.server.get_file_modification_time') as mock_time:
+    with (
+        patch("patch_file_mcp.server.run_command_with_timeout") as mock_run,
+        patch("patch_file_mcp.server.get_file_modification_time") as mock_time,
+    ):
 
         # Always return different times to simulate continuous file modifications
         time_call_count = 0
 
         def mock_command(cmd, cwd=None, timeout=30, shell=False, env=None):
-            if 'ruff' in cmd and 'check' in cmd and '--fix' in cmd:
+            if "ruff" in cmd and "check" in cmd and "--fix" in cmd:
                 return (True, "", "", 0)  # ruff always succeeds
-            elif 'black' in cmd:
+            elif "black" in cmd:
                 # Black always succeeds and modifies file
                 return (True, "", "", 0)
-            elif 'mypy' in cmd:
+            elif "mypy" in cmd:
                 return (True, "", "", 0)  # mypy succeeds
             return (True, "", "", 0)
 
@@ -211,13 +224,10 @@ def mock_qa_pipeline_iteration_limit():
 @pytest.fixture
 def mock_path_exists():
     """Mock Path.exists for testing."""
-    with patch('pathlib.Path.exists') as mock_exists:
+    with patch("pathlib.Path.exists") as mock_exists:
         mock_exists.return_value = True
         yield mock_exists
 
 
-@pytest.fixture(autouse=True)
-def mock_sys_executable():
-    """Mock sys.executable to return a consistent path."""
-    with patch('sys.executable', '/mock/python.exe'):
-        yield
+# Removed autouse fixture that was mocking sys.executable
+# This was causing subprocess calls to fail in quality tests

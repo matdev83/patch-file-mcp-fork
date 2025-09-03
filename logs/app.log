@@ -4132,3 +4132,160 @@ Hint: Found similar content with whitespace/formatting differences. Check the ex
 2025-09-03 10:59:59,421 - patch_file_mcp - INFO - main:590 - Server started successfully with 1 allowed directories
 2025-09-03 10:59:59,421 - patch_file_mcp - INFO - main:594 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4377\test_server_exits_with_admin_p0\allowed
 2025-09-03 10:59:59,421 - patch_file_mcp - INFO - main:597 - Starting MCP server with stdio transport
+2025-09-03 11:17:10,637 - patch_file_mcp - ERROR - main:579 - Server cannot run with administrative/root privileges
+2025-09-03 11:17:10,638 - patch_file_mcp - ERROR - main:580 - This is a security measure to prevent potential system damage.
+2025-09-03 11:17:10,638 - patch_file_mcp - ERROR - main:581 - Please run this server as a regular user.
+2025-09-03 11:17:10,638 - patch_file_mcp - INFO - main:584 - Starting Patch File MCP server
+2025-09-03 11:17:10,638 - patch_file_mcp - INFO - main:585 - Log file: logs/app.log
+2025-09-03 11:17:10,638 - patch_file_mcp - INFO - main:586 - Log level: INFO
+2025-09-03 11:17:10,639 - patch_file_mcp - INFO - validate_allowed_directories:462 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4379\test_server_exits_with_admin_p0\allowed
+2025-09-03 11:17:10,641 - patch_file_mcp - INFO - main:601 - Git versioning disabled: no valid git repository found
+2025-09-03 11:17:10,641 - patch_file_mcp - INFO - main:617 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True, disable_versioning=False
+2025-09-03 11:17:10,641 - patch_file_mcp - INFO - main:623 - Server started successfully with 1 allowed directories
+2025-09-03 11:17:10,641 - patch_file_mcp - INFO - main:627 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4379\test_server_exits_with_admin_p0\allowed
+2025-09-03 11:17:10,641 - patch_file_mcp - INFO - main:630 - Starting MCP server with stdio transport
+2025-09-03 11:18:28,773 - patch_file_mcp - ERROR - main:579 - Server cannot run with administrative/root privileges
+2025-09-03 11:18:28,774 - patch_file_mcp - ERROR - main:580 - This is a security measure to prevent potential system damage.
+2025-09-03 11:18:28,774 - patch_file_mcp - ERROR - main:581 - Please run this server as a regular user.
+2025-09-03 11:18:28,775 - patch_file_mcp - INFO - main:584 - Starting Patch File MCP server
+2025-09-03 11:18:28,775 - patch_file_mcp - INFO - main:585 - Log file: logs/app.log
+2025-09-03 11:18:28,775 - patch_file_mcp - INFO - main:586 - Log level: INFO
+2025-09-03 11:18:28,777 - patch_file_mcp - INFO - validate_allowed_directories:462 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4381\test_server_exits_with_admin_p0\allowed
+2025-09-03 11:18:28,780 - patch_file_mcp - INFO - main:601 - Git versioning disabled: no valid git repository found
+2025-09-03 11:18:28,780 - patch_file_mcp - INFO - main:617 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True, disable_versioning=False
+2025-09-03 11:18:28,781 - patch_file_mcp - INFO - main:623 - Server started successfully with 1 allowed directories
+2025-09-03 11:18:28,781 - patch_file_mcp - INFO - main:627 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4381\test_server_exits_with_admin_p0\allowed
+2025-09-03 11:18:28,781 - patch_file_mcp - INFO - main:630 - Starting MCP server with stdio transport
+2025-09-03 11:23:09,470 - patch_file_mcp - ERROR - main:579 - Server cannot run with administrative/root privileges
+2025-09-03 11:23:09,471 - patch_file_mcp - ERROR - main:580 - This is a security measure to prevent potential system damage.
+2025-09-03 11:23:09,471 - patch_file_mcp - ERROR - main:581 - Please run this server as a regular user.
+2025-09-03 11:23:09,472 - patch_file_mcp - INFO - main:584 - Starting Patch File MCP server
+2025-09-03 11:23:09,472 - patch_file_mcp - INFO - main:585 - Log file: logs/app.log
+2025-09-03 11:23:09,472 - patch_file_mcp - INFO - main:586 - Log level: INFO
+2025-09-03 11:23:09,473 - patch_file_mcp - INFO - validate_allowed_directories:462 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4383\test_server_exits_with_admin_p0\allowed
+2025-09-03 11:23:09,476 - patch_file_mcp - INFO - main:601 - Git versioning disabled: no valid git repository found
+2025-09-03 11:23:09,476 - patch_file_mcp - INFO - main:617 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True, disable_versioning=False
+2025-09-03 11:23:09,476 - patch_file_mcp - INFO - main:623 - Server started successfully with 1 allowed directories
+2025-09-03 11:23:09,477 - patch_file_mcp - INFO - main:627 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4383\test_server_exits_with_admin_p0\allowed
+2025-09-03 11:23:09,477 - patch_file_mcp - INFO - main:630 - Starting MCP server with stdio transport
+2025-09-03 12:09:35,264 - patch_file_mcp - ERROR - main:579 - Server cannot run with administrative/root privileges
+2025-09-03 12:09:35,265 - patch_file_mcp - ERROR - main:580 - This is a security measure to prevent potential system damage.
+2025-09-03 12:09:35,265 - patch_file_mcp - ERROR - main:581 - Please run this server as a regular user.
+2025-09-03 12:09:35,266 - patch_file_mcp - INFO - main:584 - Starting Patch File MCP server
+2025-09-03 12:09:35,266 - patch_file_mcp - INFO - main:585 - Log file: logs/app.log
+2025-09-03 12:09:35,266 - patch_file_mcp - INFO - main:586 - Log level: INFO
+2025-09-03 12:09:35,268 - patch_file_mcp - INFO - validate_allowed_directories:462 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4389\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:09:35,271 - patch_file_mcp - INFO - main:601 - Git versioning disabled: no valid git repository found
+2025-09-03 12:09:35,271 - patch_file_mcp - INFO - main:617 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True, disable_versioning=False
+2025-09-03 12:09:35,271 - patch_file_mcp - INFO - main:623 - Server started successfully with 1 allowed directories
+2025-09-03 12:09:35,271 - patch_file_mcp - INFO - main:627 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4389\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:09:35,271 - patch_file_mcp - INFO - main:630 - Starting MCP server with stdio transport
+2025-09-03 12:42:40,187 - patch_file_mcp - ERROR - main:579 - Server cannot run with administrative/root privileges
+2025-09-03 12:42:40,188 - patch_file_mcp - ERROR - main:580 - This is a security measure to prevent potential system damage.
+2025-09-03 12:42:40,188 - patch_file_mcp - ERROR - main:581 - Please run this server as a regular user.
+2025-09-03 12:42:40,188 - patch_file_mcp - INFO - main:584 - Starting Patch File MCP server
+2025-09-03 12:42:40,188 - patch_file_mcp - INFO - main:585 - Log file: logs/app.log
+2025-09-03 12:42:40,188 - patch_file_mcp - INFO - main:586 - Log level: INFO
+2025-09-03 12:42:40,189 - patch_file_mcp - INFO - validate_allowed_directories:462 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4398\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:42:40,191 - patch_file_mcp - INFO - main:601 - Git versioning disabled: no valid git repository found
+2025-09-03 12:42:40,191 - patch_file_mcp - INFO - main:617 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True, disable_versioning=False
+2025-09-03 12:42:40,191 - patch_file_mcp - INFO - main:623 - Server started successfully with 1 allowed directories
+2025-09-03 12:42:40,192 - patch_file_mcp - INFO - main:627 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4398\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:42:40,192 - patch_file_mcp - INFO - main:630 - Starting MCP server with stdio transport
+2025-09-03 12:44:15,089 - patch_file_mcp - INFO - main:584 - Starting Patch File MCP server
+2025-09-03 12:44:15,141 - patch_file_mcp - INFO - main:585 - Log file: logs/app.log
+2025-09-03 12:44:15,141 - patch_file_mcp - INFO - main:586 - Log level: INFO
+2025-09-03 12:44:15,143 - patch_file_mcp - INFO - validate_allowed_directories:462 - Validated allowed directory: C:\Users\Mateusz\source\repos
+2025-09-03 12:44:15,144 - patch_file_mcp - INFO - main:601 - Git versioning disabled: no valid git repository found
+2025-09-03 12:44:15,145 - patch_file_mcp - INFO - main:617 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True, disable_versioning=False
+2025-09-03 12:44:15,145 - patch_file_mcp - INFO - main:623 - Server started successfully with 1 allowed directories
+2025-09-03 12:44:15,145 - patch_file_mcp - INFO - main:627 - Allowed directory 1: C:\Users\Mateusz\source\repos
+2025-09-03 12:44:15,145 - patch_file_mcp - INFO - main:630 - Starting MCP server with stdio transport
+2025-09-03 12:45:16,334 - patch_file_mcp - ERROR - main:579 - Server cannot run with administrative/root privileges
+2025-09-03 12:45:16,334 - patch_file_mcp - ERROR - main:580 - This is a security measure to prevent potential system damage.
+2025-09-03 12:45:16,334 - patch_file_mcp - ERROR - main:581 - Please run this server as a regular user.
+2025-09-03 12:45:16,335 - patch_file_mcp - INFO - main:584 - Starting Patch File MCP server
+2025-09-03 12:45:16,335 - patch_file_mcp - INFO - main:585 - Log file: logs/app.log
+2025-09-03 12:45:16,335 - patch_file_mcp - INFO - main:586 - Log level: INFO
+2025-09-03 12:45:16,336 - patch_file_mcp - INFO - validate_allowed_directories:462 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4399\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:45:16,338 - patch_file_mcp - INFO - main:601 - Git versioning disabled: no valid git repository found
+2025-09-03 12:45:16,339 - patch_file_mcp - INFO - main:617 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True, disable_versioning=False
+2025-09-03 12:45:16,339 - patch_file_mcp - INFO - main:623 - Server started successfully with 1 allowed directories
+2025-09-03 12:45:16,339 - patch_file_mcp - INFO - main:627 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4399\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:45:16,339 - patch_file_mcp - INFO - main:630 - Starting MCP server with stdio transport
+2025-09-03 12:49:07,379 - patch_file_mcp - INFO - patch_file:1548 - patch_file start: C:\Users\Mateusz\source\repos\llm-interactive-proxy\pytest.ini
+2025-09-03 12:49:07,382 - patch_file_mcp - INFO - patch_file:1930 - patch_file success: C:\Users\Mateusz\source\repos\llm-interactive-proxy\pytest.ini | blocks=1 | qa=no | git=no
+2025-09-03 12:49:27,395 - patch_file_mcp - INFO - patch_file:1548 - patch_file start: C:\Users\Mateusz\source\repos\llm-interactive-proxy\pyproject.toml
+2025-09-03 12:49:27,397 - patch_file_mcp - INFO - patch_file:1930 - patch_file success: C:\Users\Mateusz\source\repos\llm-interactive-proxy\pyproject.toml | blocks=1 | qa=no | git=no
+2025-09-03 12:49:59,690 - patch_file_mcp - ERROR - main:579 - Server cannot run with administrative/root privileges
+2025-09-03 12:49:59,691 - patch_file_mcp - ERROR - main:580 - This is a security measure to prevent potential system damage.
+2025-09-03 12:49:59,691 - patch_file_mcp - ERROR - main:581 - Please run this server as a regular user.
+2025-09-03 12:49:59,691 - patch_file_mcp - INFO - main:584 - Starting Patch File MCP server
+2025-09-03 12:49:59,691 - patch_file_mcp - INFO - main:585 - Log file: logs/app.log
+2025-09-03 12:49:59,691 - patch_file_mcp - INFO - main:586 - Log level: INFO
+2025-09-03 12:49:59,692 - patch_file_mcp - INFO - validate_allowed_directories:462 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4402\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:49:59,695 - patch_file_mcp - INFO - main:601 - Git versioning disabled: no valid git repository found
+2025-09-03 12:49:59,695 - patch_file_mcp - INFO - main:617 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True, disable_versioning=False
+2025-09-03 12:49:59,695 - patch_file_mcp - INFO - main:623 - Server started successfully with 1 allowed directories
+2025-09-03 12:49:59,695 - patch_file_mcp - INFO - main:627 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4402\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:49:59,695 - patch_file_mcp - INFO - main:630 - Starting MCP server with stdio transport
+2025-09-03 12:51:13,950 - patch_file_mcp - ERROR - main:579 - Server cannot run with administrative/root privileges
+2025-09-03 12:51:13,950 - patch_file_mcp - ERROR - main:580 - This is a security measure to prevent potential system damage.
+2025-09-03 12:51:13,951 - patch_file_mcp - ERROR - main:581 - Please run this server as a regular user.
+2025-09-03 12:51:13,951 - patch_file_mcp - INFO - main:584 - Starting Patch File MCP server
+2025-09-03 12:51:13,951 - patch_file_mcp - INFO - main:585 - Log file: logs/app.log
+2025-09-03 12:51:13,951 - patch_file_mcp - INFO - main:586 - Log level: INFO
+2025-09-03 12:51:13,952 - patch_file_mcp - INFO - validate_allowed_directories:462 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4403\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:51:13,954 - patch_file_mcp - INFO - main:601 - Git versioning disabled: no valid git repository found
+2025-09-03 12:51:13,955 - patch_file_mcp - INFO - main:617 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True, disable_versioning=False
+2025-09-03 12:51:13,955 - patch_file_mcp - INFO - main:623 - Server started successfully with 1 allowed directories
+2025-09-03 12:51:13,955 - patch_file_mcp - INFO - main:627 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4403\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:51:13,955 - patch_file_mcp - INFO - main:630 - Starting MCP server with stdio transport
+2025-09-03 12:55:47,448 - patch_file_mcp - ERROR - main:579 - Server cannot run with administrative/root privileges
+2025-09-03 12:55:47,448 - patch_file_mcp - ERROR - main:580 - This is a security measure to prevent potential system damage.
+2025-09-03 12:55:47,449 - patch_file_mcp - ERROR - main:581 - Please run this server as a regular user.
+2025-09-03 12:55:47,449 - patch_file_mcp - INFO - main:584 - Starting Patch File MCP server
+2025-09-03 12:55:47,449 - patch_file_mcp - INFO - main:585 - Log file: logs/app.log
+2025-09-03 12:55:47,449 - patch_file_mcp - INFO - main:586 - Log level: INFO
+2025-09-03 12:55:47,450 - patch_file_mcp - INFO - validate_allowed_directories:462 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4409\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:55:47,452 - patch_file_mcp - INFO - main:601 - Git versioning disabled: no valid git repository found
+2025-09-03 12:55:47,453 - patch_file_mcp - INFO - main:617 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True, disable_versioning=False
+2025-09-03 12:55:47,453 - patch_file_mcp - INFO - main:623 - Server started successfully with 1 allowed directories
+2025-09-03 12:55:47,453 - patch_file_mcp - INFO - main:627 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4409\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:55:47,453 - patch_file_mcp - INFO - main:630 - Starting MCP server with stdio transport
+2025-09-03 12:56:52,259 - patch_file_mcp - ERROR - main:579 - Server cannot run with administrative/root privileges
+2025-09-03 12:56:52,259 - patch_file_mcp - ERROR - main:580 - This is a security measure to prevent potential system damage.
+2025-09-03 12:56:52,259 - patch_file_mcp - ERROR - main:581 - Please run this server as a regular user.
+2025-09-03 12:56:52,260 - patch_file_mcp - INFO - main:584 - Starting Patch File MCP server
+2025-09-03 12:56:52,260 - patch_file_mcp - INFO - main:585 - Log file: logs/app.log
+2025-09-03 12:56:52,260 - patch_file_mcp - INFO - main:586 - Log level: INFO
+2025-09-03 12:56:52,261 - patch_file_mcp - INFO - validate_allowed_directories:462 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4410\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:56:52,263 - patch_file_mcp - INFO - main:601 - Git versioning disabled: no valid git repository found
+2025-09-03 12:56:52,263 - patch_file_mcp - INFO - main:617 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True, disable_versioning=False
+2025-09-03 12:56:52,263 - patch_file_mcp - INFO - main:623 - Server started successfully with 1 allowed directories
+2025-09-03 12:56:52,264 - patch_file_mcp - INFO - main:627 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4410\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:56:52,264 - patch_file_mcp - INFO - main:630 - Starting MCP server with stdio transport
+2025-09-03 12:57:05,912 - patch_file_mcp - ERROR - main:579 - Server cannot run with administrative/root privileges
+2025-09-03 12:57:05,913 - patch_file_mcp - ERROR - main:580 - This is a security measure to prevent potential system damage.
+2025-09-03 12:57:05,913 - patch_file_mcp - ERROR - main:581 - Please run this server as a regular user.
+2025-09-03 12:57:05,913 - patch_file_mcp - INFO - main:584 - Starting Patch File MCP server
+2025-09-03 12:57:05,913 - patch_file_mcp - INFO - main:585 - Log file: logs/app.log
+2025-09-03 12:57:05,913 - patch_file_mcp - INFO - main:586 - Log level: INFO
+2025-09-03 12:57:05,914 - patch_file_mcp - INFO - validate_allowed_directories:462 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4411\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:57:05,916 - patch_file_mcp - INFO - main:601 - Git versioning disabled: no valid git repository found
+2025-09-03 12:57:05,917 - patch_file_mcp - INFO - main:617 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True, disable_versioning=False
+2025-09-03 12:57:05,917 - patch_file_mcp - INFO - main:623 - Server started successfully with 1 allowed directories
+2025-09-03 12:57:05,917 - patch_file_mcp - INFO - main:627 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4411\test_server_exits_with_admin_p0\allowed
+2025-09-03 12:57:05,917 - patch_file_mcp - INFO - main:630 - Starting MCP server with stdio transport
+2025-09-03 14:48:14,251 - patch_file_mcp - ERROR - main:579 - Server cannot run with administrative/root privileges
+2025-09-03 14:48:14,252 - patch_file_mcp - ERROR - main:580 - This is a security measure to prevent potential system damage.
+2025-09-03 14:48:14,252 - patch_file_mcp - ERROR - main:581 - Please run this server as a regular user.
+2025-09-03 14:48:14,252 - patch_file_mcp - INFO - main:584 - Starting Patch File MCP server
+2025-09-03 14:48:14,253 - patch_file_mcp - INFO - main:585 - Log file: logs/app.log
+2025-09-03 14:48:14,253 - patch_file_mcp - INFO - main:586 - Log level: INFO
+2025-09-03 14:48:14,254 - patch_file_mcp - INFO - validate_allowed_directories:462 - Validated allowed directory: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4421\test_server_exits_with_admin_p0\allowed
+2025-09-03 14:48:14,257 - patch_file_mcp - INFO - main:601 - Git versioning disabled: no valid git repository found
+2025-09-03 14:48:14,257 - patch_file_mcp - INFO - main:617 - QA config: timeout=15s, wall=20s, iterations=4, no_ruff=False, no_black=False, no_mypy=False, skip_mypy_on_tests=True, disable_versioning=False
+2025-09-03 14:48:14,258 - patch_file_mcp - INFO - main:623 - Server started successfully with 1 allowed directories
+2025-09-03 14:48:14,258 - patch_file_mcp - INFO - main:627 - Allowed directory 1: C:\Users\Mateusz\AppData\Local\Temp\pytest-of-Mateusz\pytest-4421\test_server_exits_with_admin_p0\allowed
+2025-09-03 14:48:14,258 - patch_file_mcp - INFO - main:630 - Starting MCP server with stdio transport

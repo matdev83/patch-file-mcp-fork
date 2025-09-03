@@ -292,7 +292,8 @@ class TestStdioLogging:
 
         # Setup DEBUG logging FIRST (this creates the logger)
         import sys
-        server_module = sys.modules['patch_file_mcp.server']
+
+        server_module = sys.modules["patch_file_mcp.server"]
         logger = setup_logging(str(log_file), "DEBUG")
         server_module.logger = logger
 

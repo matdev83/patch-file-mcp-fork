@@ -1,8 +1,8 @@
 """
 Comprehensive tests for path normalization functionality.
 """
+
 import pytest
-import os
 from pathlib import Path
 from unittest.mock import patch
 
@@ -19,7 +19,7 @@ class TestPathNormalization:
         test_file.parent.mkdir(exist_ok=True)
         test_file.write_text("content")
 
-        unix_path = str(test_file).replace('\\', '/')
+        unix_path = str(test_file).replace("\\", "/")
         normalized = normalize_path(unix_path)
         assert normalized == test_file.resolve()
 
@@ -29,7 +29,7 @@ class TestPathNormalization:
         test_file.parent.mkdir(exist_ok=True)
         test_file.write_text("content")
 
-        windows_path = str(test_file).replace('/', '\\')
+        windows_path = str(test_file).replace("/", "\\")
         normalized = normalize_path(windows_path)
         assert normalized == test_file.resolve()
 
@@ -40,7 +40,7 @@ class TestPathNormalization:
         test_file.write_text("content")
 
         # Simulate command line escaped path
-        escaped_path = str(test_file).replace('/', '\\\\')
+        escaped_path = str(test_file).replace("/", "\\\\")
         normalized = normalize_path(escaped_path)
         assert normalized == test_file.resolve()
 
@@ -51,7 +51,9 @@ class TestPathNormalization:
         test_file.write_text("content")
 
         # Create mixed separator path
-        mixed_path = str(test_file).replace('level1', 'level1\\').replace('level2', 'level2/')
+        mixed_path = (
+            str(test_file).replace("level1", "level1\\").replace("level2", "level2/")
+        )
         normalized = normalize_path(mixed_path)
         assert normalized == test_file.resolve()
 
@@ -60,7 +62,7 @@ class TestPathNormalization:
         test_file = tmp_path / "test.txt"
         test_file.write_text("content")
 
-        double_slash_path = str(test_file).replace('/', '\\\\')
+        double_slash_path = str(test_file).replace("/", "\\\\")
         normalized = normalize_path(double_slash_path)
         assert normalized == test_file.resolve()
 
@@ -95,9 +97,9 @@ class TestPathNormalization:
         # Test different input formats that should all resolve to the same path
         formats_to_test = [
             str(test_file),  # Native format
-            str(test_file).replace('/', '\\'),  # Windows style
-            str(test_file).replace('/', '\\\\'),  # Escaped Windows
-            str(test_file).replace('\\', '/'),  # Unix style
+            str(test_file).replace("/", "\\"),  # Windows style
+            str(test_file).replace("/", "\\\\"),  # Escaped Windows
+            str(test_file).replace("\\", "/"),  # Unix style
         ]
 
         # All should resolve to the same absolute path
@@ -116,8 +118,8 @@ class TestPathNormalization:
 
         # Test with different separator formats
         path_with_spaces = str(test_file)
-        windows_format = path_with_spaces.replace('/', '\\')
-        escaped_format = path_with_spaces.replace('/', '\\\\')
+        windows_format = path_with_spaces.replace("/", "\\")
+        escaped_format = path_with_spaces.replace("/", "\\\\")
 
         # All should work
         normalized1 = normalize_path(path_with_spaces)
@@ -179,7 +181,9 @@ class TestPathNormalization:
         with patch("pathlib.Path.resolve") as mock_resolve:
             mock_resolve.side_effect = RuntimeError("Runtime error during resolution")
 
-            with pytest.raises(ValueError, match="Invalid path.*Runtime error during resolution"):
+            with pytest.raises(
+                ValueError, match="Invalid path.*Runtime error during resolution"
+            ):
                 normalize_path("/some/path")
 
 
@@ -222,7 +226,7 @@ class TestDirectoryAccessValidation:
                 raise PermissionError("Permission denied")
             return []
 
-        monkeypatch.setattr('pathlib.Path.iterdir', mock_iterdir)
+        monkeypatch.setattr("pathlib.Path.iterdir", mock_iterdir)
 
         is_valid, error_msg = validate_directory_access(test_dir)
 
@@ -238,12 +242,13 @@ class TestDirectoryAccessValidation:
 
         # Mock write_text to raise PermissionError
         original_write_text = Path.write_text
+
         def mock_write_text(self, content, **kwargs):
             if str(test_dir) in str(self):
                 raise PermissionError("Permission denied")
             return original_write_text(self, content, **kwargs)
 
-        monkeypatch.setattr('pathlib.Path.write_text', mock_write_text)
+        monkeypatch.setattr("pathlib.Path.write_text", mock_write_text)
 
         is_valid, error_msg = validate_directory_access(test_dir)
 
