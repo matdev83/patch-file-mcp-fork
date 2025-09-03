@@ -1248,71 +1248,77 @@ def normalize_text_for_fuzzy_matching(text: str) -> str:
     - Converting tabs to spaces
     """
     # Normalize line endings
-    normalized = text.replace('\r\n', '\n').replace('\r', '\n')
-    
+    normalized = text.replace("\r\n", "\n").replace("\r", "\n")
+
     # Convert tabs to spaces and collapse multiple whitespace
-    normalized = re.sub(r'[ \t]+', ' ', normalized)
-    
+    normalized = re.sub(r"[ \t]+", " ", normalized)
+
     # Strip leading/trailing whitespace from each line
-    lines = [line.strip() for line in normalized.split('\n')]
-    
+    lines = [line.strip() for line in normalized.split("\n")]
+
     # Remove empty lines at start and end, but preserve internal empty lines
     while lines and not lines[0]:
         lines.pop(0)
     while lines and not lines[-1]:
         lines.pop()
-    
-    return '\n'.join(lines)
+
+    return "\n".join(lines)
 
 
 def find_fuzzy_matches(search_text: str, content: str) -> List[tuple]:
     """
     Find fuzzy matches for search_text in content using relaxed matching criteria.
-    
+
     Returns a list of tuples: (start_line, end_line, matched_text, similarity_ratio)
     """
     # Normalize both texts for comparison
     normalized_search = normalize_text_for_fuzzy_matching(search_text)
-    
+
     if not normalized_search.strip():
         return []
-    
-    content_lines = content.split('\n')
-    search_lines = normalized_search.split('\n')
+
+    content_lines = content.split("\n")
+    search_lines = normalized_search.split("\n")
     num_search_lines = len(search_lines)
     matches = []
-    
+
     # Try to find matches with exact line count first, then with some flexibility
-    for line_tolerance in [0, 1, 2]:  # Try exact match, then +/- 1 line, then +/- 2 lines
+    for line_tolerance in [
+        0,
+        1,
+        2,
+    ]:  # Try exact match, then +/- 1 line, then +/- 2 lines
         for start_line in range(len(content_lines)):
             # Try different end positions around the expected size
             for line_offset in range(-line_tolerance, line_tolerance + 1):
                 end_line = start_line + num_search_lines - 1 + line_offset
-                
+
                 if end_line >= len(content_lines) or end_line < start_line:
                     continue
-                
+
                 # Extract candidate text
-                candidate_lines = content_lines[start_line:end_line + 1]
-                candidate_text = '\n'.join(candidate_lines)
+                candidate_lines = content_lines[start_line : end_line + 1]
+                candidate_text = "\n".join(candidate_lines)
                 normalized_candidate = normalize_text_for_fuzzy_matching(candidate_text)
-                
+
                 # Calculate similarity using difflib
-                similarity = difflib.SequenceMatcher(None, normalized_search, normalized_candidate).ratio()
-                
+                similarity = difflib.SequenceMatcher(
+                    None, normalized_search, normalized_candidate
+                ).ratio()
+
                 # Consider it a fuzzy match if similarity is high enough
                 # Use higher threshold for better precision
                 if similarity >= 0.8:
                     matches.append((start_line, end_line, candidate_text, similarity))
-    
+
     if not matches:
         return []
-    
+
     # Sort by similarity (best matches first)
     matches.sort(key=lambda x: x[3], reverse=True)
-    
+
     # Remove overlapping matches, keeping only the best one
-    filtered_matches = []
+    filtered_matches: List[tuple] = []
     for match in matches:
         start, end, text, sim = match
         # Check if this match overlaps with any existing match
@@ -1322,33 +1328,37 @@ def find_fuzzy_matches(search_text: str, content: str) -> List[tuple]:
             if not (end < existing_start or start > existing_end):
                 overlaps = True
                 break
-        
+
         if not overlaps:
             filtered_matches.append(match)
-    
+
     # If we have multiple non-overlapping matches, only return the best one
     # to avoid ambiguity in hints
     if len(filtered_matches) > 1:
         # Check if the best match is significantly better than others
         best_similarity = filtered_matches[0][3]
-        second_best_similarity = filtered_matches[1][3] if len(filtered_matches) > 1 else 0
-        
+        second_best_similarity = (
+            filtered_matches[1][3] if len(filtered_matches) > 1 else 0
+        )
+
         # Only return the best match if it's clearly better (5% difference)
         if best_similarity - second_best_similarity >= 0.05:
             return [filtered_matches[0]]
         else:
             # Too ambiguous, return empty to avoid confusing hints
             return []
-    
+
     return filtered_matches
 
 
-def generate_fuzzy_match_hint(search_text: str, content: str, file_path: str) -> Optional[str]:
+def generate_fuzzy_match_hint(
+    search_text: str, content: str, file_path: str
+) -> Optional[str]:
     """
     Generate a helpful hint when exact search fails by finding fuzzy matches.
-    
+
     Returns a hint string if exactly one fuzzy match is found, None otherwise.
-    
+
     Safeguards:
     - Skip if search text is too short (< 20 chars) - likely too many false matches
     - Skip if search text is too long (> 2000 chars) - unlikely to be helpful for large blocks
@@ -1358,74 +1368,94 @@ def generate_fuzzy_match_hint(search_text: str, content: str, file_path: str) ->
     try:
         if logger:
             logger.debug(f"Generating fuzzy match hint for search text in {file_path}")
-        
+
         # Safeguard: Check search text length
         search_text_stripped = search_text.strip()
         if len(search_text_stripped) < 20:
             if logger:
-                logger.debug(f"Search text too short ({len(search_text_stripped)} chars), skipping fuzzy matching")
+                logger.debug(
+                    f"Search text too short ({len(search_text_stripped)} chars), skipping fuzzy matching"
+                )
             return None
-        
+
         if len(search_text_stripped) > 2000:
             if logger:
-                logger.debug(f"Search text too long ({len(search_text_stripped)} chars), skipping fuzzy matching")
+                logger.debug(
+                    f"Search text too long ({len(search_text_stripped)} chars), skipping fuzzy matching"
+                )
             return None
-        
+
         # Safeguard: Check number of lines
-        search_lines = search_text_stripped.split('\n')
-        num_lines = len([line for line in search_lines if line.strip()])  # Count non-empty lines
-        
+        search_lines = search_text_stripped.split("\n")
+        num_lines = len(
+            [line for line in search_lines if line.strip()]
+        )  # Count non-empty lines
+
         if num_lines < 2:
             if logger:
-                logger.debug(f"Search text has too few lines ({num_lines}), skipping fuzzy matching")
+                logger.debug(
+                    f"Search text has too few lines ({num_lines}), skipping fuzzy matching"
+                )
             return None
-        
+
         if num_lines > 50:
             if logger:
-                logger.debug(f"Search text has too many lines ({num_lines}), skipping fuzzy matching")
+                logger.debug(
+                    f"Search text has too many lines ({num_lines}), skipping fuzzy matching"
+                )
             return None
-        
+
         fuzzy_matches = find_fuzzy_matches(search_text, content)
-        
+
         if logger:
             logger.debug(f"Found {len(fuzzy_matches)} fuzzy matches")
-        
+
         # Only provide hint if we have exactly one match
         if len(fuzzy_matches) == 1:
             start_line, end_line, matched_text, similarity = fuzzy_matches[0]
-            
+
             if logger:
-                logger.debug(f"Single fuzzy match found at lines {start_line+1}-{end_line+1} with {similarity:.2%} similarity")
-            
+                logger.debug(
+                    f"Single fuzzy match found at lines {start_line+1}-{end_line+1} with {similarity:.2%} similarity"
+                )
+
             # Add context lines (3 before and 3 after)
-            content_lines = content.split('\n')
+            content_lines = content.split("\n")
             context_start = max(0, start_line - 3)
             context_end = min(len(content_lines), end_line + 4)
-            
+
             # Build the hint with line numbers
             hint_lines = []
-            hint_lines.append("Hint: Found similar content with whitespace/formatting differences. Check the exact text around these lines:")
+            hint_lines.append(
+                "Hint: Found similar content with whitespace/formatting differences. Check the exact text around these lines:"
+            )
             hint_lines.append("")
-            
+
             for line_num in range(context_start, context_end):
-                line_content = content_lines[line_num] if line_num < len(content_lines) else ""
+                line_content = (
+                    content_lines[line_num] if line_num < len(content_lines) else ""
+                )
                 # Mark the actual match lines with arrows
                 if start_line <= line_num <= end_line:
-                    hint_lines.append(f"{line_num + 1:4d}: {line_content}  <-- likely match")
+                    hint_lines.append(
+                        f"{line_num + 1:4d}: {line_content}  <-- likely match"
+                    )
                 else:
                     hint_lines.append(f"{line_num + 1:4d}: {line_content}")
-            
-            return '\n'.join(hint_lines)
-        
+
+            return "\n".join(hint_lines)
+
         elif len(fuzzy_matches) > 1:
             if logger:
-                logger.debug(f"Multiple fuzzy matches found ({len(fuzzy_matches)}), not providing hint")
+                logger.debug(
+                    f"Multiple fuzzy matches found ({len(fuzzy_matches)}), not providing hint"
+                )
         else:
             if logger:
                 logger.debug("No fuzzy matches found")
-        
+
         return None
-        
+
     except Exception as e:
         if logger:
             logger.warning(f"Error generating fuzzy match hint: {e}")
@@ -1626,25 +1656,27 @@ def patch_file(
                     )
                 raise ValueError(
                     f"Block {i+1}: The search text appears {count} times in the file. "
-                    "Please provide more context to identify the specific occurrence."
+                    "Please provide more context to identify the specific occurrence or split your patch into multiple smaller patches."
                 )
 
             else:
                 # No match found - try fuzzy matching to provide helpful hints
                 if logger:
                     logger.debug(f"Block {i+1}: ERROR - No matches found in file")
-                
+
                 # Generate fuzzy match hint
-                fuzzy_hint = generate_fuzzy_match_hint(search_text, current_content, file_path)
-                
+                fuzzy_hint = generate_fuzzy_match_hint(
+                    search_text, current_content, file_path
+                )
+
                 error_message = (
                     f"Block {i+1}: Could not find the search text in the file. "
                     "Please ensure the search text exactly matches the content in the file."
                 )
-                
+
                 if fuzzy_hint:
                     error_message += f"\n\n{fuzzy_hint}"
-                
+
                 raise ValueError(error_message)
 
         # Write the final content back to the file
@@ -1705,90 +1737,115 @@ def patch_file(
                 suppress_mypy = should_suppress_mypy_info(file_path)
 
                 # Format QA results for response
-                qa_summary = "\n\nQA Results:\n"
+                qa_summary = "\n\nQA Results:\n\n"
 
-                # Passed and warnings statuses
+                # Get statuses for all tools
                 ruff_status = qa_results.get("ruff_status")
-                if ruff_status in ["passed", "warnings"]:
-                    status_text = "passed" if ruff_status == "passed" else "completed successfully"
-                    qa_summary += f"- Ruff: {status_text}\n"
-
                 black_status = qa_results.get("black_status")
-                if black_status in ["passed", "warnings"]:
-                    status_text = "passed" if black_status == "passed" else "completed successfully"
-                    qa_summary += f"- Black: {status_text}\n"
-
                 mypy_status = qa_results.get("mypy_status")
-                if mypy_status == "passed" and not suppress_mypy:
-                    qa_summary += "- MyPy: passed\n"
 
-                # Collect tools with issues (warnings or failures) for detailed output
-                tools_with_output = []
+                # Add status summary for each tool in a standardized format
+                if not SKIP_RUFF:
+                    status_text = (
+                        "✅ Success"
+                        if ruff_status == "passed"
+                        else "⚠️ Warning" if ruff_status == "warnings" else "❌ Failed"
+                    )
+                    qa_summary += f"Ruff: {status_text}\n"
 
-                # Failed tools
-                if qa_results.get("ruff_status") == "failed":
-                    tools_with_output.append(
+                if not SKIP_BLACK:
+                    status_text = (
+                        "✅ Success"
+                        if black_status == "passed"
+                        else "⚠️ Warning" if black_status == "warnings" else "❌ Failed"
+                    )
+                    qa_summary += f"Black: {status_text}\n"
+
+                if not SKIP_MYPY and not suppress_mypy:
+                    status_text = (
+                        "✅ Success"
+                        if mypy_status == "passed"
+                        else "❌ Failed" if mypy_status == "failed" else "⚠️ Not run"
+                    )
+                    qa_summary += f"MyPy: {status_text}\n"
+
+                # List for failed tools that need detailed output
+                failed_tools = []
+
+                # Add detailed output only for failed tools
+                if ruff_status == "failed":
+                    failed_tools.append(
                         (
                             "Ruff",
                             qa_results.get("ruff_stdout", ""),
                             qa_results.get("ruff_stderr", ""),
-                            "failed"
                         )
                     )
-                if qa_results.get("black_status") == "failed":
-                    tools_with_output.append(
+
+                if black_status == "failed":
+                    failed_tools.append(
                         (
                             "Black",
                             qa_results.get("black_stdout", ""),
                             qa_results.get("black_stderr", ""),
-                            "failed"
                         )
                     )
-                if qa_results.get("mypy_status") == "failed" and not suppress_mypy:
-                    tools_with_output.append(
+
+                if mypy_status == "failed" and not suppress_mypy:
+                    failed_tools.append(
                         (
                             "MyPy",
                             qa_results.get("mypy_stdout", ""),
                             qa_results.get("mypy_stderr", ""),
-                            "failed"
                         )
                     )
 
-                # Tools with warnings
-                if qa_results.get("ruff_status") == "warnings":
-                    tools_with_output.append(
-                        (
-                            "Ruff",
-                            qa_results.get("ruff_stdout", ""),
-                            qa_results.get("ruff_stderr", ""),
-                            "completed with warnings"
-                        )
-                    )
-                if qa_results.get("black_status") == "warnings":
-                    tools_with_output.append(
-                        (
-                            "Black",
-                            qa_results.get("black_stdout", ""),
-                            qa_results.get("black_stderr", ""),
-                            "completed with warnings"
-                        )
-                    )
+                # Add detailed error output for failed tools
+                if failed_tools:
+                    qa_summary += "\nError Details:\n"
+                    for name, stdout, stderr in failed_tools:
+                        # Only include non-empty output
+                        combined_output = []
+                        if stdout.strip():
+                            combined_output.append(stdout.strip())
+                        if stderr.strip():
+                            combined_output.append(stderr.strip())
 
-                if tools_with_output:
-                    qa_summary += "\nQA Details:\n"
-                    for name, out, err, status in tools_with_output:
-                        combined = "\n".join([s for s in [out, err] if s])
-                        if combined:
-                            qa_summary += f"- {name} ({status}):\n{combined}\n"
+                        if combined_output:
+                            qa_summary += f"\n{name} (failed):\n"
+                            qa_summary += "\n".join(combined_output)
+                            qa_summary += "\n"
                         else:
-                            qa_summary += f"- {name}: {status} with no output\n"
-                    if any(status == "failed" for _, _, _, status in tools_with_output):
-                        qa_summary += "\nYou need to perform code linting and QA by manually running ruff and black commands.\n"
+                            qa_summary += f"\n{name} (failed with no output)\n"
 
-                # Warnings
-                if qa_results.get("warnings"):
-                    qa_summary += "\nQA Warnings:\n"
-                    for warning in qa_results["warnings"]:
+                # Add manual QA guidance if any tool failed
+                if any(
+                    status == "failed"
+                    for status in [ruff_status, black_status, mypy_status]
+                ):
+                    if failed_tools:  # Only show this if we have actual failures
+                        qa_summary += "\nPlease fix the issues and run the following commands manually:\n"
+                        cmd_path = (
+                            "./.venv/Scripts/python.exe"
+                            if os.name == "nt"
+                            else "./.venv/bin/python"
+                        )
+
+                        # Only show commands for failed tools
+                        if ruff_status == "failed":
+                            qa_summary += (
+                                f"{cmd_path} -m ruff check --fix {file_path}\n"
+                            )
+                        if black_status == "failed":
+                            qa_summary += f"{cmd_path} -m black {file_path}\n"
+                        if mypy_status == "failed" and not suppress_mypy:
+                            qa_summary += f"{cmd_path} -m mypy {file_path}\n"
+
+                # Include any additional warnings
+                warnings = qa_results.get("warnings", [])
+                if warnings:
+                    qa_summary += "\nAdditional Information:\n"
+                    for warning in warnings:
                         qa_summary += f"- {warning}\n"
 
                 patch_result += qa_summary
@@ -1798,7 +1855,7 @@ def patch_file(
                         f"QA summary added to patch result (length: {len(qa_summary)} chars)"
                     )
             else:
-                no_venv_msg = "\n\nQA Warning: No virtual environment (.venv or venv) found. Skipping Python QA checks. You need to perform code linting and QA by manually running `ruff`, `black` and `mypy` tools."
+                no_venv_msg = "\n\nQA Results:\n\n⚠️ No virtual environment (.venv or venv) found. QA checks skipped.\n\nPlease run QA checks manually using your preferred Python environment:\n- ruff check --fix {file_path}\n- black {file_path}\n- mypy {file_path}"
                 patch_result += no_venv_msg
                 if logger:
                     logger.debug(

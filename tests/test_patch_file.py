@@ -61,9 +61,9 @@ def hello():
                 # Verify
                 assert "Successfully applied 1 patch blocks" in result
                 assert "QA Results:" in result
-                assert "Ruff: passed" in result
-                assert "Black: passed" in result
-                assert "MyPy: passed" in result
+                assert "Ruff: ✅" in result
+                assert "Black: ✅" in result
+                assert "MyPy: ✅" in result
 
                 # Verify file was actually modified
                 content = test_file.read_text()
@@ -119,11 +119,9 @@ def hello():
 
                 # Verify
                 assert "Successfully applied 1 patch blocks" in result
-                assert "QA Warning: No virtual environment" in result
-                assert (
-                    "You need to perform code linting and QA by manually running"
-                    in result
-                )
+                assert "QA Results:" in result
+                assert "No virtual environment" in result
+                assert "Please run QA checks manually" in result
 
     def test_patch_file_qa_errors(self, tmp_path):
         """Test patching Python file when QA has errors."""
@@ -166,12 +164,12 @@ def hello():
                 # Verify
                 assert "Successfully applied 1 patch blocks" in result
                 assert "QA Results:" in result
+                assert "Ruff: ❌" in result
+                assert "Error Details:" in result
                 assert "Ruff (failed):" in result
                 assert "Ruff found unfixable errors: syntax error" in result
-                assert "QA Details:" in result
-                assert "unfixable errors" in result
                 assert (
-                    "You need to perform code linting and QA by manually running"
+                    "Please fix the issues and run the following commands manually"
                     in result
                 )
 
@@ -289,7 +287,9 @@ def nonexistent():
         """Test patch_file generates fuzzy matching hints for whitespace differences."""
         # Setup
         test_file = tmp_path / "test.py"
-        test_file.write_text("def hello():\n    print('Hello, World!')\n    return True\n")
+        test_file.write_text(
+            "def hello():\n    print('Hello, World!')\n    return True\n"
+        )
 
         with patch("patch_file_mcp.server.allowed_directories", [str(tmp_path)]):
             # Create patch content with different indentation (2 spaces instead of 4)
@@ -306,21 +306,28 @@ def hello():
             # Test that it raises RuntimeError with fuzzy hint
             with pytest.raises(RuntimeError) as exc_info:
                 patch_file(str(test_file), patch_content)
-            
+
             error_message = str(exc_info.value)
-            
+
             # Verify the error contains the fuzzy matching hint
             assert "Could not find the search text" in error_message
-            assert "Hint: Found similar content with whitespace/formatting differences" in error_message
+            assert (
+                "Hint: Found similar content with whitespace/formatting differences"
+                in error_message
+            )
             assert "1:" in error_message  # Should include line numbers
-            assert "print('Hello, World!')" in error_message  # Should show the actual content
+            assert (
+                "print('Hello, World!')" in error_message
+            )  # Should show the actual content
             assert "<-- likely match" in error_message  # Should mark the matching lines
 
     def test_patch_file_fuzzy_matching_no_hint_for_nonexistent(self, tmp_path):
         """Test patch_file does not generate fuzzy hints for completely non-existent code."""
         # Setup
         test_file = tmp_path / "test.py"
-        test_file.write_text("def hello():\n    print('Hello, World!')\n    return True\n")
+        test_file.write_text(
+            "def hello():\n    print('Hello, World!')\n    return True\n"
+        )
 
         with patch("patch_file_mcp.server.allowed_directories", [str(tmp_path)]):
             # Create patch content for completely non-existent function
@@ -335,18 +342,23 @@ def nonexistent_function():
             # Test that it raises RuntimeError without fuzzy hint
             with pytest.raises(RuntimeError) as exc_info:
                 patch_file(str(test_file), patch_content)
-            
+
             error_message = str(exc_info.value)
-            
+
             # Verify the error does NOT contain a fuzzy matching hint
             assert "Could not find the search text" in error_message
-            assert "Hint: Found similar content with whitespace/formatting differences" not in error_message
+            assert (
+                "Hint: Found similar content with whitespace/formatting differences"
+                not in error_message
+            )
 
     def test_patch_file_fuzzy_matching_safeguards(self, tmp_path):
         """Test that fuzzy matching safeguards prevent hints for inappropriate search strings."""
         # Setup
         test_file = tmp_path / "test.py"
-        test_file.write_text("def hello():\n    print('Hello, World!')\n    return True\n")
+        test_file.write_text(
+            "def hello():\n    print('Hello, World!')\n    return True\n"
+        )
 
         with patch("patch_file_mcp.server.allowed_directories", [str(tmp_path)]):
             # Test 1: Too short search text (< 20 chars) - should not generate hint
@@ -360,10 +372,13 @@ def hi():
 
             with pytest.raises(RuntimeError) as exc_info:
                 patch_file(str(test_file), patch_content_short)
-            
+
             error_message = str(exc_info.value)
             assert "Could not find the search text" in error_message
-            assert "Hint: Found similar content with whitespace/formatting differences" not in error_message
+            assert (
+                "Hint: Found similar content with whitespace/formatting differences"
+                not in error_message
+            )
 
             # Test 2: Single line search text (< 2 lines) - should not generate hint
             patch_content_single_line = """<<<<<<< SEARCH
@@ -374,10 +389,13 @@ def hello_universe():
 
             with pytest.raises(RuntimeError) as exc_info:
                 patch_file(str(test_file), patch_content_single_line)
-            
+
             error_message = str(exc_info.value)
             assert "Could not find the search text" in error_message
-            assert "Hint: Found similar content with whitespace/formatting differences" not in error_message
+            assert (
+                "Hint: Found similar content with whitespace/formatting differences"
+                not in error_message
+            )
 
             # Test 3: Valid multi-line search text (should generate hint if similar match found)
             patch_content_valid = """<<<<<<< SEARCH
@@ -392,10 +410,13 @@ def hello():
 
             with pytest.raises(RuntimeError) as exc_info:
                 patch_file(str(test_file), patch_content_valid)
-            
+
             error_message = str(exc_info.value)
             assert "Could not find the search text" in error_message
-            assert "Hint: Found similar content with whitespace/formatting differences" in error_message
+            assert (
+                "Hint: Found similar content with whitespace/formatting differences"
+                in error_message
+            )
 
     def test_patch_file_ambiguous_match(self, tmp_path):
         """Test patching when search text appears multiple times."""
@@ -624,8 +645,9 @@ modified
 
         # Mock open for writing to raise OSError
         original_open = open
+
         def mock_open_write(filename, mode, **kwargs):
-            if 'w' in mode:
+            if "w" in mode:
                 raise OSError("Write permission denied")
             return original_open(filename, mode, **kwargs)
 
@@ -637,7 +659,9 @@ content
 modified
 >>>>>>> REPLACE"""
 
-                with pytest.raises(RuntimeError, match="Failed to apply patch.*Write permission denied"):
+                with pytest.raises(
+                    RuntimeError, match="Failed to apply patch.*Write permission denied"
+                ):
                     patch_file(str(test_file), patch_content)
 
     def test_patch_file_with_empty_patch_content(self, tmp_path):
@@ -723,7 +747,9 @@ new content
 >>>>>>> REPLACE"""
 
         # Track a failed edit
-        track_failed_edit(file_path, patch_content, "test_failure", "Test error message")
+        track_failed_edit(
+            file_path, patch_content, "test_failure", "Test error message"
+        )
 
         # Verify tracking
         assert file_path in FAILED_EDITS_HISTORY
@@ -974,36 +1000,36 @@ new content
     def test_garbage_collection_removes_old_entries(self):
         """Test that garbage collection removes entries older than 1 hour."""
         file_path = "/path/to/test.py"
-        patch_content = """<<<<<<< SEARCH
-old content
-=======
-new content
->>>>>>> REPLACE"""
+        # No need for patch content in this test
 
         # Create attempts with different timestamps
         old_datetime = datetime.now() - timedelta(hours=2)  # 2 hours ago
         recent_datetime = datetime.now() - timedelta(minutes=30)  # 30 minutes ago
 
         # Add old attempt
-        FAILED_EDITS_HISTORY[file_path] = [{
-            "datetime": old_datetime,
-            "filename": file_path,
-            "block_count": 1,
-            "failure_stage": "test_failure",
-            "error_message": "Old error",
-            "params_hash": "hash1"
-        }]
+        FAILED_EDITS_HISTORY[file_path] = [
+            {
+                "datetime": old_datetime,
+                "filename": file_path,
+                "block_count": 1,
+                "failure_stage": "test_failure",
+                "error_message": "Old error",
+                "params_hash": "hash1",
+            }
+        ]
 
         # Add another file with recent attempts
         recent_file = "/path/to/recent.py"
-        FAILED_EDITS_HISTORY[recent_file] = [{
-            "datetime": recent_datetime,
-            "filename": recent_file,
-            "block_count": 1,
-            "failure_stage": "test_failure",
-            "error_message": "Recent error",
-            "params_hash": "hash2"
-        }]
+        FAILED_EDITS_HISTORY[recent_file] = [
+            {
+                "datetime": recent_datetime,
+                "filename": recent_file,
+                "block_count": 1,
+                "failure_stage": "test_failure",
+                "error_message": "Recent error",
+                "params_hash": "hash2",
+            }
+        ]
 
         # Verify we have entries
         assert len(FAILED_EDITS_HISTORY) == 2
@@ -1033,7 +1059,7 @@ new content
                 "block_count": 1,
                 "failure_stage": "old_failure",
                 "error_message": "Old error",
-                "params_hash": "hash1"
+                "params_hash": "hash1",
             },
             {
                 "datetime": recent_datetime,
@@ -1041,8 +1067,8 @@ new content
                 "block_count": 1,
                 "failure_stage": "recent_failure",
                 "error_message": "Recent error",
-                "params_hash": "hash2"
-            }
+                "params_hash": "hash2",
+            },
         ]
 
         # Run garbage collection
@@ -1096,14 +1122,16 @@ new2
 
         # Mock old entries
         old_datetime = datetime.now() - timedelta(hours=2)
-        FAILED_EDITS_HISTORY[str(file_path)] = [{
-            "datetime": old_datetime,
-            "filename": str(file_path),
-            "block_count": 1,
-            "failure_stage": "old_failure",
-            "error_message": "Old error",
-            "params_hash": "hash1"
-        }]
+        FAILED_EDITS_HISTORY[str(file_path)] = [
+            {
+                "datetime": old_datetime,
+                "filename": str(file_path),
+                "block_count": 1,
+                "failure_stage": "old_failure",
+                "error_message": "Old error",
+                "params_hash": "hash1",
+            }
+        ]
 
         # Mock allowed directories and call patch_file (should trigger GC on 100th call)
         with patch("patch_file_mcp.server.allowed_directories", [str(tmp_path)]):
@@ -1331,7 +1359,7 @@ def hello():
                 assert "QA Results:" in result
 
                 # Verify mypy info is included (suppression was reset)
-                assert "MyPy: passed" in result
+                assert "MyPy: ✅" in result
 
                 # Verify counter was reset
                 assert MYPY_FAILURE_COUNTS.get(str(file_path), 0) == 0
