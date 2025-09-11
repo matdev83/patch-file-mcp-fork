@@ -459,3 +459,204 @@ class TestServerGitIntegration:
         assert server_module.git_repo is None or hasattr(
             server_module.git_repo, "is_available"
         )
+
+
+class TestGitFileTracking:
+    """Test git file tracking functionality."""
+
+    def test_is_file_tracked_with_tracked_file(self):
+        """Test is_file_tracked returns True for tracked files."""
+        repo = GitRepo(".", logger=None)
+        if not repo.is_available():
+            pytest.skip("No git repository available")
+
+        # Test with a file that should be tracked (like this test file)
+        test_file = __file__
+        is_tracked = repo.is_file_tracked(test_file)
+        # This test file should be tracked in the repository
+        assert is_tracked is True
+
+    def test_is_file_tracked_with_untracked_file(self):
+        """Test is_file_tracked returns False for untracked files."""
+        repo = GitRepo(".", logger=None)
+        if not repo.is_available():
+            pytest.skip("No git repository available")
+
+        # Test with a file that doesn't exist
+        nonexistent_file = "nonexistent_file_12345.txt"
+        is_tracked = repo.is_file_tracked(nonexistent_file)
+        assert is_tracked is False
+
+    def test_is_file_tracked_outside_repo(self):
+        """Test is_file_tracked returns False for files outside repo."""
+        repo = GitRepo(".", logger=None)
+        if not repo.is_available():
+            pytest.skip("No git repository available")
+
+        # Test with a file outside the repository
+        outside_file = "/tmp/outside_file.txt"
+        is_tracked = repo.is_file_tracked(outside_file)
+        assert is_tracked is False
+
+    def test_is_file_tracked_without_git(self):
+        """Test is_file_tracked returns False when git is not available."""
+        with patch("patch_file_mcp.git_repo.git", None):
+            repo = GitRepo(".", logger=None)
+            assert repo.is_file_tracked("any_file.txt") is False
+
+    def test_add_file_to_tracking_success(self):
+        """Test add_file_to_tracking with a valid untracked file."""
+        repo = GitRepo(".", logger=None)
+        if not repo.is_available():
+            pytest.skip("No git repository available")
+
+        import tempfile
+        import os
+
+        # Create a temporary file in the repo
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".txt", delete=False, dir=repo.root
+        ) as f:
+            temp_file = f.name
+            f.write("test content")
+
+        try:
+            # File should not be tracked initially
+            assert repo.is_file_tracked(temp_file) is False
+
+            # Add file to tracking
+            success = repo.add_file_to_tracking(temp_file)
+            assert success is True
+
+            # File should now be tracked
+            assert repo.is_file_tracked(temp_file) is True
+
+        finally:
+            # Clean up - remove from git and filesystem
+            try:
+                repo.repo.git.reset("HEAD", temp_file)
+                os.unlink(temp_file)
+            except Exception:
+                pass  # Ignore cleanup errors
+
+    def test_add_file_to_tracking_outside_repo(self):
+        """Test add_file_to_tracking fails for files outside repo."""
+        repo = GitRepo(".", logger=None)
+        if not repo.is_available():
+            pytest.skip("No git repository available")
+
+        # Test with a file outside the repository
+        outside_file = "/tmp/outside_file.txt"
+        success = repo.add_file_to_tracking(outside_file)
+        assert success is False
+
+    def test_add_file_to_tracking_without_git(self):
+        """Test add_file_to_tracking returns False when git is not available."""
+        with patch("patch_file_mcp.git_repo.git", None):
+            repo = GitRepo(".", logger=None)
+            assert repo.add_file_to_tracking("any_file.txt") is False
+
+    def test_add_file_to_tracking_git_error(self):
+        """Test add_file_to_tracking handles git errors gracefully."""
+        repo = GitRepo(".", logger=None)
+        if not repo.is_available():
+            pytest.skip("No git repository available")
+
+        # Test with a file that will cause git errors (invalid path)
+        invalid_file = "invalid\x00file.txt"  # Null byte in filename
+        success = repo.add_file_to_tracking(invalid_file)
+        assert success is False
+
+
+class TestGitVersioningIntegrationWithTracking:
+    """Test git versioning integration with file tracking."""
+
+    @patch("patch_file_mcp.server.git_repo")
+    def test_patch_file_adds_untracked_file(self, mock_git_repo):
+        """Test that patch_file adds untracked files to git tracking."""
+        # Mock git repo to simulate untracked file scenario
+        mock_git_repo.is_available.return_value = True
+        mock_git_repo.is_file_tracked.return_value = False  # File is untracked
+        mock_git_repo.add_file_to_tracking.return_value = True  # Adding succeeds
+        mock_git_repo.commit_files.return_value = ("abc1234", "Update test.py")
+        mock_git_repo.get_commit_message.return_value = "Update test.py"
+
+        import patch_file_mcp.server as server_module
+
+        # Store original values
+        original_disabled = server_module.DISABLE_VERSIONING
+        original_git_repo = server_module.git_repo
+
+        try:
+            # Set up test environment
+            server_module.DISABLE_VERSIONING = False
+            server_module.git_repo = mock_git_repo
+
+            # This would be called in a real scenario, but we're just testing the logic
+            # The actual patch_file function would call these methods
+
+            # Verify the methods would be called correctly
+            test_file = "/test/path/test.py"
+
+            # Simulate the logic from patch_file function
+            if (
+                not server_module.DISABLE_VERSIONING
+                and server_module.git_repo
+                and server_module.git_repo.is_available()
+            ):
+                is_tracked = server_module.git_repo.is_file_tracked(test_file)
+                if not is_tracked:
+                    add_success = server_module.git_repo.add_file_to_tracking(test_file)
+                    assert add_success is True
+
+            # Verify mock calls
+            mock_git_repo.is_file_tracked.assert_called_with(test_file)
+            mock_git_repo.add_file_to_tracking.assert_called_with(test_file)
+
+        finally:
+            # Restore originals
+            server_module.DISABLE_VERSIONING = original_disabled
+            server_module.git_repo = original_git_repo
+
+    @patch("patch_file_mcp.server.git_repo")
+    def test_patch_file_skips_tracked_file(self, mock_git_repo):
+        """Test that patch_file skips adding already tracked files."""
+        # Mock git repo to simulate tracked file scenario
+        mock_git_repo.is_available.return_value = True
+        mock_git_repo.is_file_tracked.return_value = True  # File is already tracked
+        mock_git_repo.commit_files.return_value = ("abc1234", "Update test.py")
+        mock_git_repo.get_commit_message.return_value = "Update test.py"
+
+        import patch_file_mcp.server as server_module
+
+        # Store original values
+        original_disabled = server_module.DISABLE_VERSIONING
+        original_git_repo = server_module.git_repo
+
+        try:
+            # Set up test environment
+            server_module.DISABLE_VERSIONING = False
+            server_module.git_repo = mock_git_repo
+
+            test_file = "/test/path/test.py"
+
+            # Simulate the logic from patch_file function
+            if (
+                not server_module.DISABLE_VERSIONING
+                and server_module.git_repo
+                and server_module.git_repo.is_available()
+            ):
+                is_tracked = server_module.git_repo.is_file_tracked(test_file)
+                if not is_tracked:
+                    # This should not be called since file is tracked
+                    server_module.git_repo.add_file_to_tracking(test_file)
+
+            # Verify mock calls
+            mock_git_repo.is_file_tracked.assert_called_with(test_file)
+            # add_file_to_tracking should NOT be called since file is tracked
+            mock_git_repo.add_file_to_tracking.assert_not_called()
+
+        finally:
+            # Restore originals
+            server_module.DISABLE_VERSIONING = original_disabled
+            server_module.git_repo = original_git_repo

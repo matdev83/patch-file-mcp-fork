@@ -5,7 +5,6 @@ These tests verify that security measures are working correctly,
 including privilege checking and other security-related functionality.
 """
 
-import pytest
 import os
 from unittest.mock import patch
 
@@ -40,17 +39,28 @@ class TestSecurity:
         This test verifies that the privilege check correctly identifies
         Windows users with administrative privileges.
         """
-        if os.name != "nt":
-            pytest.skip("This test is Windows-specific")
-
         from patch_file_mcp.server import check_administrative_privileges
 
-        # Mock Windows API to return administrator status
-        with patch("ctypes.windll") as mock_windll:
-            mock_windll.shell32.IsUserAnAdmin.return_value = 1
+        if os.name == "nt":
+            # On Windows, test with actual Windows API
+            with patch("ctypes.windll") as mock_windll:
+                mock_windll.shell32.IsUserAnAdmin.return_value = 1
+                result = check_administrative_privileges()
+                assert result is True
+        else:
+            # On Unix systems, simulate Windows admin behavior by mocking sys.modules
+            from unittest.mock import MagicMock
 
-            result = check_administrative_privileges()
-            assert result is True
+            # Create a mock ctypes module
+            mock_ctypes = MagicMock()
+            mock_ctypes.windll = MagicMock()
+            mock_ctypes.windll.shell32 = MagicMock()
+            mock_ctypes.windll.shell32.IsUserAnAdmin.return_value = 1
+
+            # Patch sys.modules to return our mock ctypes when ctypes is imported
+            with patch.dict("sys.modules", {"ctypes": mock_ctypes}):
+                result = check_administrative_privileges()
+                assert result is True
 
     def test_check_administrative_privileges_with_privileges_unix(self):
         """
@@ -76,12 +86,18 @@ class TestSecurity:
         """
         from patch_file_mcp.server import check_administrative_privileges
 
-        # Mock ctypes to raise an exception
-        with patch("ctypes.windll") as mock_windll:
-            mock_windll.shell32.IsUserAnAdmin.side_effect = Exception("Test error")
-
-            result = check_administrative_privileges()
-            assert result is False  # Should default to no privileges on error
+        if os.name == "nt":
+            # Windows-specific test
+            with patch("ctypes.windll") as mock_windll:
+                mock_windll.shell32.IsUserAnAdmin.side_effect = Exception("Test error")
+                result = check_administrative_privileges()
+                assert result is False  # Should default to no privileges on error
+        else:
+            # Unix-like systems test
+            with patch("os.geteuid") as mock_geteuid:
+                mock_geteuid.side_effect = Exception("Test error")
+                result = check_administrative_privileges()
+                assert result is False  # Should default to no privileges on error
 
     def test_server_exits_with_admin_privileges(self, tmp_path, capsys):
         """
@@ -108,7 +124,6 @@ class TestSecurity:
             patch("sys.argv", test_argv),
             patch("sys.exit") as mock_exit,
         ):
-
             # Call main function
             try:
                 main()
@@ -162,7 +177,6 @@ class TestSecurity:
             patch("patch_file_mcp.server.mcp.run", return_value=None) as mock_run,
             patch("sys.exit") as mock_exit,
         ):
-
             # Call main function
             main()
 
@@ -186,29 +200,22 @@ class TestSecurity:
         """
         from patch_file_mcp.server import check_administrative_privileges
 
-        # Test Windows path
-        with (
-            patch("os.name", "nt"),
-            patch("ctypes.windll") as mock_windll,
-        ):
-
-            mock_windll.shell32.IsUserAnAdmin.return_value = 0
-            result = check_administrative_privileges()
-            assert result is False
-
-            mock_windll.shell32.IsUserAnAdmin.return_value = 1
-            result = check_administrative_privileges()
-            assert result is True
-
-        # Test Unix-like path
-        try:
-            with patch("os.name", "posix"), patch("os.geteuid", return_value=1000):
+        if os.name == "nt":
+            # Test Windows path (only on Windows)
+            with patch("ctypes.windll") as mock_windll:
+                mock_windll.shell32.IsUserAnAdmin.return_value = 0
                 result = check_administrative_privileges()
                 assert result is False
 
-            with patch("os.name", "posix"), patch("os.geteuid", return_value=0):
+                mock_windll.shell32.IsUserAnAdmin.return_value = 1
                 result = check_administrative_privileges()
                 assert result is True
-        except AttributeError:
-            # geteuid might not exist on some systems, skip this part
-            pass
+        else:
+            # Test Unix-like path (on Unix systems)
+            with patch("os.geteuid", return_value=1000):
+                result = check_administrative_privileges()
+                assert result is False
+
+            with patch("os.geteuid", return_value=0):
+                result = check_administrative_privileges()
+                assert result is True

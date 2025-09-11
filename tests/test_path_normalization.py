@@ -151,16 +151,25 @@ class TestPathNormalization:
 
     def test_normalize_path_windows_separator_handling(self):
         """Test Windows path separator handling."""
+        import os
         from patch_file_mcp.server import normalize_path
 
-        # Test with patch to force Windows behavior (which is the current platform)
-        with patch("os.name", "nt"):
-            # This should trigger the Windows path separator replacement
+        if os.name == "nt":
+            # Only test Windows paths on Windows
             windows_path = "C:/path/to/file.txt"
             normalized = normalize_path(windows_path)
-
-            # Should convert forward slashes to backslashes and work
             assert normalized.is_absolute()
+        else:
+            # On Unix systems, test with a valid Unix path
+            # Create the path structure
+            import tempfile
+
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                test_path = f"{tmp_dir}/test/file.txt"
+                Path(test_path).parent.mkdir(parents=True, exist_ok=True)
+                Path(test_path).write_text("test")
+                normalized = normalize_path(test_path)
+                assert normalized.is_absolute()
 
     def test_normalize_path_resolution_os_error(self):
         """Test OSError during path resolution."""

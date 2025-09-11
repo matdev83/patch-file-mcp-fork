@@ -32,8 +32,14 @@ class TestPatchFile:
         test_file = tmp_path / "test.py"
         test_file.write_text("def hello():\n    print('Hello')\n")
 
-        # Mock the allowed directories
-        with patch("patch_file_mcp.server.allowed_directories", [str(tmp_path)]):
+        # Mock the allowed directories and virtual environment
+        with (
+            patch("patch_file_mcp.server.allowed_directories", [str(tmp_path)]),
+            patch(
+                "patch_file_mcp.server.find_venv_directory",
+                return_value="/fake/venv/bin/python",
+            ),
+        ):
             # Create patch content
             patch_content = """<<<<<<< SEARCH
 def hello():
@@ -129,8 +135,14 @@ def hello():
         test_file = tmp_path / "test.py"
         test_file.write_text("def hello():\n    print('Hello')\n")
 
-        # Mock the allowed directories
-        with patch("patch_file_mcp.server.allowed_directories", [str(tmp_path)]):
+        # Mock the allowed directories and virtual environment
+        with (
+            patch("patch_file_mcp.server.allowed_directories", [str(tmp_path)]),
+            patch(
+                "patch_file_mcp.server.find_venv_directory",
+                return_value="/fake/venv/bin/python",
+            ),
+        ):
             # Create patch content
             patch_content = """<<<<<<< SEARCH
 def hello():
@@ -607,19 +619,18 @@ class TestPatchFileErrorConditions:
 
     def test_patch_file_path_validation_error(self, tmp_path):
         """Test patch_file with path validation error."""
-        # Mock normalize_path to raise ValueError
-        with patch("patch_file_mcp.server.normalize_path") as mock_normalize:
-            mock_normalize.side_effect = ValueError("Path validation failed")
-
-            with patch("patch_file_mcp.server.allowed_directories", [str(tmp_path)]):
-                patch_content = """<<<<<<< SEARCH
+        # Test with a file that's not in allowed directories
+        with patch("patch_file_mcp.server.allowed_directories", [str(tmp_path)]):
+            patch_content = """<<<<<<< SEARCH
 test
 =======
 modified
 >>>>>>> REPLACE"""
 
-                with pytest.raises(ValueError, match="Invalid or relative path"):
-                    patch_file("/invalid/path", patch_content)
+            # On Windows, /invalid/path is not considered absolute, so it raises ValueError
+            # On Unix-like systems, it would be considered absolute and raise PermissionError
+            with pytest.raises((PermissionError, ValueError)):
+                patch_file("/invalid/path", patch_content)
 
     def test_patch_file_file_reading_error(self, tmp_path):
         """Test patch_file with file reading error."""
@@ -1322,8 +1333,14 @@ def hello():
         file_path = tmp_path / "test.py"
         file_path.write_text("def hello():\n    return 'world'")
 
-        # Mock allowed directories
-        with patch("patch_file_mcp.server.allowed_directories", [str(tmp_path)]):
+        # Mock allowed directories and virtual environment
+        with (
+            patch("patch_file_mcp.server.allowed_directories", [str(tmp_path)]),
+            patch(
+                "patch_file_mcp.server.find_venv_directory",
+                return_value="/fake/venv/bin/python",
+            ),
+        ):
             # Build up 3 failures to trigger suppression
             for i in range(3):
                 update_mypy_failure_count(str(file_path), False)

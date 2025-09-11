@@ -41,11 +41,11 @@ class TestIntegration:
         """Test successful command execution."""
         if os.name == "nt":  # Windows
             success, stdout, stderr, returncode = run_command_with_timeout(
-                'echo "test"', shell=True
+                ["cmd", "/c", "echo", "test"]
             )
         else:  # Unix-like
             success, stdout, stderr, returncode = run_command_with_timeout(
-                'echo "test"'
+                ["echo", "test"]
             )
 
         assert success is True

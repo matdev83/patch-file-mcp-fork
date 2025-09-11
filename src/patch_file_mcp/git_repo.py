@@ -263,6 +263,88 @@ class GitRepo:
                 self.logger.error(f"Failed to commit files: {e}")
             return None
 
+    def is_file_tracked(self, file_path: str) -> bool:
+        """
+        Check if a file is tracked by git.
+
+        Args:
+            file_path: Path to the file to check
+
+        Returns:
+            bool: True if file is tracked, False otherwise
+        """
+        if not self.is_available():
+            return False
+
+        try:
+            if self.repo is None:
+                return False
+
+            # Convert to relative path from repo root
+            abs_path = Path(file_path).resolve()
+            if self.root is None:
+                return False
+
+            try:
+                rel_path = abs_path.relative_to(self.root)
+            except ValueError:
+                # File is not within repo
+                return False
+
+            # Check if file is in the git index (tracked)
+            try:
+                # This will raise an exception if the file is not tracked
+                self.repo.git.ls_files("--error-unmatch", str(rel_path))
+                return True
+            except ANY_GIT_ERROR:
+                return False
+
+        except ANY_GIT_ERROR:
+            return False
+
+    def add_file_to_tracking(self, file_path: str) -> bool:
+        """
+        Add a file to git tracking (git add).
+
+        Args:
+            file_path: Path to the file to add to tracking
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        if not self.is_available():
+            return False
+
+        try:
+            # Convert to relative path from repo root
+            abs_path = Path(file_path).resolve()
+            if self.root is None:
+                return False
+
+            try:
+                rel_path = abs_path.relative_to(self.root)
+            except ValueError:
+                # File is not within repo
+                if self.logger:
+                    self.logger.warning(
+                        f"File {file_path} is not within git repository {self.root}"
+                    )
+                return False
+
+            # Add the file to git tracking
+            if self.repo is None:
+                return False
+
+            self.repo.git.add(str(rel_path))
+            if self.logger:
+                self.logger.info(f"Added file to git tracking: {rel_path}")
+            return True
+
+        except ANY_GIT_ERROR as e:
+            if self.logger:
+                self.logger.error(f"Failed to add file to git tracking: {e}")
+            return False
+
     def get_commit_message(self, file_paths: List[str]) -> str:
         """
         Generate a commit message for the given files.
