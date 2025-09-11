@@ -205,7 +205,9 @@ def garbage_collect_failed_edit_history() -> None:
         len(entries) for entries in FAILED_EDITS_HISTORY.values()
     )
 
-    for file_path, attempts in FAILED_EDITS_HISTORY.items():
+    # Iterate over a copy of the keys to allow modification during iteration
+    for file_path in list(FAILED_EDITS_HISTORY.keys()):
+        attempts = FAILED_EDITS_HISTORY.get(file_path, [])
         # Keep only attempts from the last hour
         recent_attempts = [
             attempt for attempt in attempts if attempt["datetime"] >= one_hour_ago
@@ -1109,6 +1111,26 @@ def run_python_qa_pipeline(file_path, python_exe):
         qa_results["warnings"].append("QA disabled by server configuration")
         return qa_results
 
+    # Handle None or empty python_exe before proceeding
+    if not python_exe or not isinstance(python_exe, str) or not python_exe.strip():
+        qa_results["ruff_status"] = "failed"
+        qa_results["black_status"] = "failed"
+        qa_results["mypy_status"] = "failed"
+        qa_results["errors"].append("Invalid Python executable path provided for QA.")
+        return qa_results
+
+    # Minimal, non-interactive environment
+    qa_env = os.environ.copy()
+    qa_env.setdefault("PYTHONIOENCODING", "utf-8")
+    qa_env.setdefault("RUFF_LOG_LEVEL", "error")
+
+    # Prefer venv binaries when available to avoid module resolution quirks
+    py = Path(python_exe)
+    scripts_dir = py.parent
+    ruff_bin = scripts_dir / ("ruff.exe" if os.name == "nt" else "ruff")
+    black_bin = scripts_dir / ("black.exe" if os.name == "nt" else "black")
+    mypy_bin = scripts_dir / ("mypy.exe" if os.name == "nt" else "mypy")
+
     while iteration < effective_iterations:
         # Wall-time guard to avoid client timeouts
         if time.monotonic() - start_time > QA_WALL_TIME:
@@ -1126,18 +1148,6 @@ def run_python_qa_pipeline(file_path, python_exe):
             qa_results["mypy_status"] = "failed"
             qa_results["errors"].append("Invalid Python executable path")
             return qa_results
-
-        # Prefer venv binaries when available to avoid module resolution quirks
-        py = Path(python_exe)
-        scripts_dir = py.parent
-        ruff_bin = scripts_dir / ("ruff.exe" if os.name == "nt" else "ruff")
-        black_bin = scripts_dir / ("black.exe" if os.name == "nt" else "black")
-        mypy_bin = scripts_dir / ("mypy.exe" if os.name == "nt" else "mypy")
-
-        # Minimal, non-interactive environment
-        qa_env = os.environ.copy()
-        qa_env.setdefault("PYTHONIOENCODING", "utf-8")
-        qa_env.setdefault("RUFF_LOG_LEVEL", "error")
 
         # Track modification time to detect Black changes
         try:
@@ -1912,6 +1922,32 @@ def patch_file(
             if logger:
                 logger.debug(f"Attempting to commit successful changes to {file_path}")
 
+            # Check if file is tracked by git, and add it if not
+            is_tracked = git_repo.is_file_tracked(file_path)
+            if logger:
+                logger.debug(
+                    f"File {file_path} is {'already tracked' if is_tracked else 'not tracked'} by git"
+                )
+
+            if not is_tracked:
+                # File is not tracked, add it to git tracking
+                add_success = git_repo.add_file_to_tracking(file_path)
+                if add_success:
+                    if logger:
+                        logger.info(
+                            f"Successfully added untracked file to git: {file_path}"
+                        )
+                    patch_result += (
+                        f"\n\n📝 Added file to git tracking: {Path(file_path).name}"
+                    )
+                else:
+                    if logger:
+                        logger.warning(
+                            f"Failed to add untracked file to git: {file_path}"
+                        )
+                    # Continue with commit attempt even if adding to tracking failed
+                    # The file might still be committable if it was already staged
+
             # Generate commit message
             commit_message = git_repo.get_commit_message([file_path])
 
@@ -1972,9 +2008,9 @@ def patch_file(
         ):
             failure_stage = "file_existence"
         elif (
-            "search-replace blocks" in error_msg.lower()
-            or "patch markers" in error_msg.lower()
-            or "Invalid patch format" in error_msg
+            ("search-replace blocks" in error_msg.lower())
+            or ("patch markers" in error_msg.lower())
+            or ("Invalid patch format" in error_msg)
         ):
             failure_stage = "patch_parsing"
         elif (
